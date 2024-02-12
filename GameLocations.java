@@ -1,4 +1,4 @@
-public class meadowReiber{
+public class GameLocations{
     public static void main(String[] args){
         System.out.println("meadow is super cool");
     }
