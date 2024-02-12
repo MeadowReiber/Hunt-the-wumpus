@@ -1,5 +1,9 @@
+//Meadow Reiber
 public class GameLocations{
-    public static void main(String[] args){
-        System.out.println("meadow is super cool");
+    //fields and properties----------------------
+    //constructor--------------------------------
+    public GameLocations(){
+        //testintestintesting
     }
+    //methods------------------------------------
 }
