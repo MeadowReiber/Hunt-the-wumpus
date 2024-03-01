@@ -1,3 +1,4 @@
+// Casandra Reyes
 public class GraphicalInterface {
-    //casandra reyes
+
 }
