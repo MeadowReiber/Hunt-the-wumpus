@@ -3,7 +3,7 @@ public class GameLocations{
     //fields and properties----------------------
     //constructor--------------------------------
     public GameLocations(){
-        //testintestintesting
+
     }
     //methods------------------------------------
 }
