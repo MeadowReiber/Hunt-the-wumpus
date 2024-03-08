@@ -1,4 +1,4 @@
-package HighScore;
+package Sound;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -6,20 +6,20 @@ import java.awt.event.ActionListener;
 // This file is an example of how a test UI might work.
 // It is calling the mock cave object, but does not interact at all with the mock wumpus game code.
 
-class CaveTest {
-    private static HighScore myHighScore;
+class SoundTest {
+    private static Sound mySound;
 
     public static void TestConstructor() {
-        myHighScore = new HighScore();
+        mySound = new Sound();
         System.out.println("Constructor called");
     }
 
-    public static String TestHighScoreDoStuff(String textInput) {
+    public static String TestSoundDoStuff(String textInput) {
         // Convert the input text to an int
         int param = Integer.parseInt(textInput);
 
         // Call the function in the cave object
-        int result = myHighScore.DoStuff(param);
+        int result = mySound.DoStuff(param);
         System.out.println("DoStuff called with " + param + " and returned " + result);
 
         // Convert the result to a string to be added to the label
@@ -77,7 +77,7 @@ class CaveTest {
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     // Read the input from the text field, write the results to the label
-                    String result = TestHighScoreDoStuff(textField.getText());
+                    String result = TestSoundDoStuff(textField.getText());
                     label.setText(result);
                 }
             });
