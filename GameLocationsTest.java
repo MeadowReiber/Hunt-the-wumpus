@@ -8,7 +8,7 @@ class GameLocationsTest {
     private static GameLocations myGL;
 
     public static void TestConstructor() {
-        myGL = new GameLocations();
+        myGL = new GameLocations(new Player());
         System.out.println("Constructor called");
     }
 

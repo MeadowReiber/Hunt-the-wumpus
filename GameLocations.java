@@ -1,5 +1,5 @@
 //Meadow Reiber
-impement java.util.Random;
+import java.util.Random;
 public class GameLocations{
     //fields and properties----------------------
     private int batRoom;
@@ -21,6 +21,7 @@ public class GameLocations{
       this.batRoom = rnd.nextInt(30);
       this.batRoom = rnd.nextInt(30);
     }
+
     public void moveHazard(){
       
     }
@@ -29,10 +30,13 @@ public class GameLocations{
         return "hint";
     }
   public String giveWarning(){
-      return "warning";
+    if(this.playerPos == 4){}
+    
+    return "warning";
   }
+
   public boolean shootArrow(int direction){
-    if(this.player.getArrowInventory() > 0){
+    if(this.player.getArrows() > 0){
       this.player.shootArrow();
       // method from cave that returns the room in the correct direction
       //if(/*the room*/ == this.wumpusRoom) return true;

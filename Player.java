@@ -14,7 +14,7 @@ public class Player {
       this.name = scanMan.next();
   }
   //methods------------------------------------
-  public int getArrowInvetory(){
+  public int getArrows(){
     return this.arrows;
   }
   public void shootArrow(){
