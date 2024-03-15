@@ -1,4 +1,5 @@
 //Meadow Reiber
+import java.util.Scanner;
 public class Player {
   //fields and properties----------------------
   private int arrows;
@@ -6,19 +7,25 @@ public class Player {
 
   private int turns;
 
+  private String name;
+  private Scanner scanMan = new Scanner(System.in);
   //constructor--------------------------------
   public Player(){
-      
+      this.name = scanMan.next();
   }
   //methods------------------------------------
-  public void takeTurn(){
-    this.turns++;
-  }
   public int getArrowInvetory(){
     return this.arrows;
   }
   public void shootArrow(){
-    this.arrows -=;
+    this.arrows --;
+  }
+  public String getName(){
+    return this.name;
+  }
+
+  public void takeTurn(){
+    this.turns++;
   }
   public int calculateScore(boolean wumpusDead){
     int score = 100 - this.turns + this.goldCoins + (5 * this.arrows);
