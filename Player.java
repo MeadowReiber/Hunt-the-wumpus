@@ -11,4 +11,7 @@ public class Player {
     public int getArrowInvetory(){
       return this.arrowInventory;
     }
+    public void shootArrow(){
+      this.arrowInventory -=;
+    }
 }
