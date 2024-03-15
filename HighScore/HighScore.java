@@ -1,21 +1,21 @@
 package HighScore;
 //Cypher Davis
 import java.io.File;
-import java.io.FileWriter;
 
 public class HighScore {
   //variables
-  private File f;
+  
   //constructors
   public HighScore(){
     
   }
   //methods
-  public void createFile(String fileName){
-    f = new File(fileName);
+  public File createFile(String fileName){
+    File f = new File(fileName);
+    return f;
   }
 
-  public void addToFile(Player p, int highScore){
+  public void addToFile(Player plop){
     
   }
 
