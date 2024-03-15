@@ -16,7 +16,7 @@ public class GameLocations{
         this.batCave = 2;
     }
     public void moveHazard(){
-
+      
     }
     public void movePlayer(){}
     public String giveHint(){
