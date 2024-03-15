@@ -1,5 +1,15 @@
 package Sound;
 //Cypher Davis
 public class Sound {
-//constructors
+  //variables
+
+  
+  //constructors
+  public Sound(){
+    
+  }
+
+  //methods
+
+  
 }
