@@ -20,6 +20,12 @@ public class GraphicalInterface extends JButton implements ActionListener{
     ////////////
     //Methods
     ////////////
+  @Override
+  public void actionPerformed(ActionEvent e){
+    //other.setText("?");
+    button.setText(button.getText() + "chat");
+    System.out.println( "chat" );
+  }
     public void displayRoom(){
         //displays the hexagonal room in the form of 6 buttons with exits
     }
