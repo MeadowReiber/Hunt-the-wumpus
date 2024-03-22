@@ -18,6 +18,7 @@ public class GameLocations{
       this.map = theCave;
     }
     //methods------------------------------------
+    //giving the hazards new/original locations
     private void startGame(){
       Random rnd = new Random();  
       this.batPos = rnd.nextInt(30);
@@ -26,7 +27,6 @@ public class GameLocations{
 
       //set the player to a position
     }
-
     public void movePit(){
       Random rnd = new Random();
       this.pitPos = rnd.nextInt(30);
@@ -39,19 +39,14 @@ public class GameLocations{
        Random rnd = new Random();
        this.wumpusPos = rnd.nextInt(30);
     }
-    public void movePlayer(){
-
-    }
-    public String giveHint(){
-        return "hint";
-    }
-    public String giveWarning(){
-    if(this.playerPos == 4){}
     
-    return "warning";
-  }
-
-  public boolean shootArrow(int direction){
+    
+    
+    public void movePlayer(int direction){
+      // this.playerPos = this.map.getCave(this.playerPos, direction);
+      // returns the cave in the direction:   original cave, direction of new cave
+    }
+    public boolean shootArrow(int direction){
     if(this.player.getArrows() > 0){
       this.player.shootArrow();
       // method from cave that returns the room in the correct direction
@@ -59,5 +54,14 @@ public class GameLocations{
     }
     else System.out.println("out of arrows");
     return false;
+  }
+
+    public String giveHint(){
+        return "hint";
+    }
+    public String giveWarning(){
+    if(this.playerPos == 4){}
+    
+    return "warning";
   }
 }
