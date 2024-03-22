@@ -1,28 +1,27 @@
-package HighScore;
-
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.io.File;
+
 // This file is an example of how a test UI might work.
 // It is calling the mock cave object, but does not interact at all with the mock wumpus game code.
 
-class CaveTest {
-    private static HighScore myHighScore;
+class GameLocationsTest {
+    private static GameLocations myGL;
 
     public static void TestConstructor() {
-        myHighScore = new HighScore();
+        myGL = new GameLocations(new Player());
         System.out.println("Constructor called");
     }
 
-    public static File TestHighScoreDoStuff() {
+    public static String TestGiveHint(String textInput) {
         // Convert the input text to an int
-        
-        String fileName = "HighScores.csv";
-        // Call the function in the cave object
-        File f = myHighScore.createFile(fileName);
-        System.out.println("createFile called with  and returned ");
+        int param = Integer.parseInt(textInput);
 
-        return f;
+        // Call the function in the cave object
+        String result = myGL.giveHint();
+        System.out.println("giveHint called with " + param + " and returned " + result);
+
+        // Convert the result to a string to be added to the label
+        return "Result: " + result;
     }
 
     public static void main(String args[])
@@ -40,7 +39,7 @@ class CaveTest {
         {
             yPos += itemSpacing;  // Space from top of window
 
-            JButton button = new JButton("Test Constructor: highScore");
+            JButton button = new JButton("Test Constructor");
             button.setBounds(itemSpacing, yPos, 150, rowHeight);
 
             button.addActionListener(new ActionListener() {
@@ -63,7 +62,7 @@ class CaveTest {
             textField.setBounds(xPos, yPos, 50, rowHeight);
             xPos += 50;  // Text field width
 
-            JButton button = new JButton("Test createFile");
+            JButton button = new JButton("Test giveHint");
             xPos += itemSpacing;  // Space between items
             button.setBounds(xPos, yPos, 150, rowHeight);
             xPos += 150;  // Button width
@@ -76,8 +75,7 @@ class CaveTest {
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     // Read the input from the text field, write the results to the label
-                    File f = TestHighScoreDoStuff();
-                    String result = f.toString();
+                    String result = TestGiveHint(textField.getText());
                     label.setText(result);
                 }
             });

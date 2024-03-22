@@ -1,4 +1,4 @@
-package Cave;
+package Sound;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -6,20 +6,20 @@ import java.awt.event.ActionListener;
 // This file is an example of how a test UI might work.
 // It is calling the mock cave object, but does not interact at all with the mock wumpus game code.
 
-class CaveTest {
-    private static Cave myCave;
+class SoundTest {
+    private static Sound mySound;
 
     public static void TestConstructor() {
-        myCave = new Cave();
+        mySound = new Sound();
         System.out.println("Constructor called");
     }
 
-    public static String TestCaveDoStuff(String textInput) {
+    public static String TestSoundDoStuff(String textInput) {
         // Convert the input text to an int
         int param = Integer.parseInt(textInput);
 
         // Call the function in the cave object
-        int result = myCave.DoStuff(param);
+        int result = mySound.DoStuff(param);
         System.out.println("DoStuff called with " + param + " and returned " + result);
 
         // Convert the result to a string to be added to the label
@@ -77,7 +77,7 @@ class CaveTest {
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     // Read the input from the text field, write the results to the label
-                    String result = TestCaveDoStuff(textField.getText());
+                    String result = TestSoundDoStuff(textField.getText());
                     label.setText(result);
                 }
             });
