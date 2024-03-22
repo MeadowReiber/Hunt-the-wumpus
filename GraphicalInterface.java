@@ -1,14 +1,20 @@
 //Casandra Reyes
-public class GraphicalInterface {
+
+import javax.swing.JFrame;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.event.*;
+
+public class GraphicalInterface extends JButton implements ActionListener{
     ////////////
     //Properties
     ////////////
-
+    private JButton button;
     ////////////
     //Constructor
     ////////////
     public GraphicalInterface(){
-
+        super("testing button");
     }
 
     ////////////
@@ -30,5 +36,7 @@ public class GraphicalInterface {
     }
     public void displayActions(){
         //calls player?
+        //shows actions player can take
     }
 }
+
