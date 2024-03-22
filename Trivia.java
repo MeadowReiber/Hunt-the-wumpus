@@ -1,18 +1,31 @@
 
 //crystal B 
 import java.io.File;
+import java.io.FileWriter;
 
 public class Trivia{
 
 
-    public static void main(String[] args){
+String answer;
+String Question;
+
+public Triva(){
 
 
-        // use a file for trivia , need to make methods for quesitons, answers
+ file f = new FileWriter();
+}
 
-    File file = new File("C:\\Users\\Joe\\image.jpg");
+
+public void Givequestions(){
 
 
-    }
+}
+
+ 
+public void GiveAnswer(){
+
+
+}
+
 
 }
