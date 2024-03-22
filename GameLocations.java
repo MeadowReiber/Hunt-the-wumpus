@@ -2,6 +2,8 @@
 import java.util.Random;
 public class GameLocations{
     //fields and properties----------------------
+    private Cave 
+    
     private int batRoom;
     private int pitRoom;
     private int wumpusRoom;
