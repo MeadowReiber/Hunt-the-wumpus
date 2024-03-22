@@ -43,8 +43,8 @@ public class GameLocations{
     
     
     public void movePlayer(int direction){
-      // this.playerPos = this.map.getCave(this.playerPos, direction);
-      // returns the cave in the direction:   original cave, direction of new cave
+      // this.playerPos = this.map.getRoom(this.playerPos, direction);
+      // returns the room in the direction:   original room, direction of new room
     }
     public boolean shootArrow(int direction){
     if(this.player.getArrows() > 0){
