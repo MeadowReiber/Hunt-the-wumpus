@@ -10,7 +10,15 @@ public class GameControl{
     public void buyArrow(){
         //called by ui --> trivia --> player to update inventory
     }
-    
+    public void displayScore(){
+        //called by ui --> player to get score --> ui
+    }
+    public void displayInventory(){
+        //called by ui --> player to get inventory --> ui
+    }
+    public void displayActions(){
+        //called by ui --> player to display actions possible --> ui
+    }
 
 
 }
