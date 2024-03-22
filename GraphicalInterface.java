@@ -8,7 +8,7 @@ public class GraphicalInterface {
     //Constructor
     ////////////
     public GraphicalInterface(){
-        
+
     }
 
     ////////////
