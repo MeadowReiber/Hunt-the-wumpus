@@ -2,36 +2,50 @@
 import java.util.Random;
 public class GameLocations{
     //fields and properties----------------------
-    private Cave 
+    private Cave map;
     
-    private int batRoom;
-    private int pitRoom;
-    private int wumpusRoom;
+    private int batPos;
+    private int pitPos;
+    private int wumpusPos;
 
     private int playerPos;
     private Player player;
 
     //constructor--------------------------------
-    public GameLocations(Player player){
+    public GameLocations(Player player, Cave theCave){
       this.startGame();
       this.player = player;
+      this.map = theCave;
     }
     //methods------------------------------------
-    public void startGame(){
+    private void startGame(){
       Random rnd = new Random();  
-      this.batRoom = rnd.nextInt(30);
-      this.batRoom = rnd.nextInt(30);
-      this.batRoom = rnd.nextInt(30);
+      this.batPos = rnd.nextInt(30);
+      this.pitPos = rnd.nextInt(30);
+      this.wumpusPos = rnd.nextInt(30);
+
+      //set the player to a position
     }
 
-    public void moveHazard(){
-      
+    public void movePit(){
+      Random rnd = new Random();
+      this.pitPos = rnd.nextInt(30);
     }
-    public void movePlayer(){}
+    public void moveBat(){
+      Random rnd = new Random();  
+      this.batPos = rnd.nextInt(30);
+    }
+    public void moveWumpus(){
+       Random rnd = new Random();
+       this.wumpusPos = rnd.nextInt(30);
+    }
+    public void movePlayer(){
+
+    }
     public String giveHint(){
         return "hint";
     }
-  public String giveWarning(){
+    public String giveWarning(){
     if(this.playerPos == 4){}
     
     return "warning";
