@@ -61,7 +61,8 @@ public class GameLocations{
     }
     public String giveWarning(){
     if(this.playerPos == 4){}
-    
+      
     return "warning";
-  }
+    }
+    //intearcting with hazards
 }
