@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 // This file is an example of how a test UI might work.
 // It is calling the mock cave object, but does not interact at all with the mock wumpus game code.
 
-class GameLocationsTest {
-    private static GameLocations myGL;
+class PlayerTest {
+    private static Player myPlayer;
 
     public static void TestConstructor() {
-        myGL = new GameLocations(new Player(), new Cave());
+        myPlayer = new Player();
         System.out.println("Constructor called");
     }
 
@@ -17,8 +17,8 @@ class GameLocationsTest {
         int param = Integer.parseInt(textInput);
 
         // Call the function in the cave object
-        String result = myGL.giveHint();
-        System.out.println("giveHint called with " + param + " and returned " + result);
+        String result = myPlayer.getName();
+        System.out.println("getName called with " + param + " and returned " + result);
 
         // Convert the result to a string to be added to the label
         return "Result: " + result;
