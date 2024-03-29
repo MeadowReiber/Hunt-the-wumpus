@@ -9,9 +9,17 @@ public class Player {
 
   private String name;
   private Scanner scanMan = new Scanner(System.in);
+  
+  //for filewriting purposes
+  private int highScore;
   //constructor--------------------------------
   public Player(){
       this.name = scanMan.next();
+  }
+  //recreating player for file writing
+  public Player(String name, int highScore){
+    this.name = name;
+    this.highScore = highScore;
   }
   //methods------------------------------------
   public int getArrows(){
@@ -19,6 +27,9 @@ public class Player {
   }
   public void shootArrow(){
     this.arrows --;
+  }
+  public int getHighScore(){
+    return this.highScore;
   }
   public String getName(){
     return this.name;
@@ -36,3 +47,4 @@ public class Player {
     return score;
   }
 }
+//maybe add a method to calculate high schore

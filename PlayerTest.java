@@ -1,26 +1,24 @@
-package Sound;
-
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 // This file is an example of how a test UI might work.
 // It is calling the mock cave object, but does not interact at all with the mock wumpus game code.
 
-class SoundTest {
-    private static Sound mySound;
+class PlayerTest {
+    private static Player myPlayer;
 
     public static void TestConstructor() {
-        mySound = new Sound();
+        myPlayer = new Player();
         System.out.println("Constructor called");
     }
 
-    public static String TestSoundDoStuff(String textInput) {
+    public static String TestGiveHint(String textInput) {
         // Convert the input text to an int
         int param = Integer.parseInt(textInput);
 
         // Call the function in the cave object
-        int result = mySound.DoStuff(param);
-        System.out.println("DoStuff called with " + param + " and returned " + result);
+        String result = myPlayer.getName();
+        System.out.println("getName called with " + param + " and returned " + result);
 
         // Convert the result to a string to be added to the label
         return "Result: " + result;
@@ -64,7 +62,7 @@ class SoundTest {
             textField.setBounds(xPos, yPos, 50, rowHeight);
             xPos += 50;  // Text field width
 
-            JButton button = new JButton("Test DoStuff");
+            JButton button = new JButton("Test giveHint");
             xPos += itemSpacing;  // Space between items
             button.setBounds(xPos, yPos, 150, rowHeight);
             xPos += 150;  // Button width
@@ -77,7 +75,7 @@ class SoundTest {
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     // Read the input from the text field, write the results to the label
-                    String result = TestSoundDoStuff(textField.getText());
+                    String result = TestGiveHint(textField.getText());
                     label.setText(result);
                 }
             });
