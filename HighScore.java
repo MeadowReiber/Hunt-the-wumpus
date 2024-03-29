@@ -1,9 +1,11 @@
-package HighScore;
+
 //Cypher Davis
 //wumpus
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.lang.Integer;
 
 public class HighScore {
   //variables
@@ -12,8 +14,12 @@ public class HighScore {
   //constructors
   public HighScore(){
     this.user = new Scanner(System.in);
-    File f createFile("players.csv");
-    this.reader = new Scanner(f);
+    File f = createFile("players.csv");
+    try { 
+      this.reader = new Scanner(f);
+    } catch (FileNotFoundException e) {
+      System.out.println("well thats concerning");
+    }
 
     
   }
@@ -32,23 +38,31 @@ public class HighScore {
   public int getFileLength(){
     int length = 0;
 
-    try{
-      while(reader.hasNextLine(){
-        scanner.nextLine();
-        length++;
-      })
-    }catch(FileNotFoundException e){
-      System.out.println("oopsies theres a mistake somewhere");
+    
+    while(reader.hasNextLine()){
+      user.nextLine();
+      length++;
     }
+    
     return length;
   }
 
   public Player[] createArray(Scanner reader, int length, String name){
+    Player[] players = new Player[length - 1];
+    user.nextLine();
 
+    for(int i = 0; i < players.length; i++){
+      String[] vars = reader.nextLine().split(",");
+      int score = Integer.valueOf(vars[1]).intValue();
+      Player p = new Player(vars[0], score );
+      players[i] = p;
+    }
+    
+    return players;
   }
 
   public String[] turnIntoString(Player[] players, String name, int highScore){
-
+    return new String[] {"lol"};//FIX THIS LATER
   }
 
   public void writeToFile(String[] str, Player p){
