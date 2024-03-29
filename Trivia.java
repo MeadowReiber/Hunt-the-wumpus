@@ -25,8 +25,13 @@ public class Trivia{
         String line;
         while ((line = reader.readLine()) != null) {
           // do something with line .. split 
+         // Custom input string
+        String str = "triviaquestions.txt";
+        String[] Questions = str.split("triviaquestions.txt", 6);
+
         }
-        System.out.println("Chat log loaded successfully.");
+        //how to make the file doc, into somthing i can use a mthod on .split
+        System.out.println("split successful.");
         return;
 
       } catch (IOException e) {
@@ -36,7 +41,7 @@ public class Trivia{
 
     public TriviaQuestion GetQuestion(){
 
-
+// you will get a question from the tivaquestion
     }
 
     
@@ -47,6 +52,7 @@ public class Trivia{
     public String Hints(){
 
     // will return hints
+    //reutrn boolean, if answer if right/wrong
     }
 
 }
