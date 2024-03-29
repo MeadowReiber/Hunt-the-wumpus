@@ -1,31 +1,36 @@
 
 //crystal B 
-import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
 
 public class Trivia{
 
+    
+    String answer;
+    String Question;
 
-String answer;
-String Question;
+    public Trivia(){
+        try{
+            FileWriter write = New FileWriter();
+            write.write("What color is the sky,blue");
+            
+            write.close();
+        }
+        catch(Exception e){
 
-public Triva(){
+        }
+    }
 
-
- file f = new FileWriter();
-}
-
-
-public void Givequestions(){
-
-
-}
-
- 
-public void GiveAnswer(){
+    public void Givequestions(){
 
 
-}
+    }
 
+    
+    public void GiveAnswer(){
+
+
+    }
 
 }
