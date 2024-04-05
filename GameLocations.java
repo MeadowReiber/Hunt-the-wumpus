@@ -37,7 +37,7 @@ public class GameLocations{
     }
     public void moveWumpus(){
        Random rnd = new Random();
-       this.wumpusPos = rnd.nextInt(30);
+       this.wumpusPos = rnd.nextInt(30); 
     }
     
     
@@ -61,8 +61,7 @@ public class GameLocations{
     }
     public String giveWarning(){
     if(this.playerPos == 4){}
-      
+    
     return "warning";
-    }
-    //intearcting with hazards
+  }
 }
