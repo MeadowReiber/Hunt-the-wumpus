@@ -4,17 +4,20 @@
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.lang.Integer;
+import java.lang.StringBuilder;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class HighScore {
   //variables
   private Scanner user;
   private Scanner reader;
+  private File f;
   //constructors
   public HighScore(){
     this.user = new Scanner(System.in);
-    File f = createFile("players.csv");
+    this.f = createFile("players.csv");
     try { 
       this.reader = new Scanner(f);
     } catch (FileNotFoundException e) {
@@ -33,6 +36,7 @@ public class HighScore {
 
   public void sortFile(){
     //????? i dont know if this is necesary ?????????
+    //yes it is your dumb
   }
 
   public int getFileLength(){
@@ -62,11 +66,38 @@ public class HighScore {
   }
 
   public String[] turnIntoString(Player[] players, String name, int highScore){
-    return new String[] {"lol"};//FIX THIS LATER
+    String finalString[] = new String[players.length];
+
+    for(int i = 0; i < players.length; i++){
+      String[] shortArray = {name,String.valueOf(highScore)};
+      String result = "";
+
+      if(shortArray.length > 0){
+        StringBuilder sb = new StringBuilder( );
+
+        for(String s : shortArray){
+          sb.append(s).append(",");
+        }
+        result = sb.deleteCharAt(sb.length() - 1).toString();
+      }
+      finalString[i] = result;
+    }
+    return finalString;
   }
 
   public void writeToFile(String[] str, Player p){
+    try{
+      FileWriter writer = new FileWriter(this.f);
+      writer.write("name,highscore");
 
+      for(int i = 0; i < str.length; i++){
+        writer.write(str[i] + "\n");
+      }
+      writer.close();
+      System.out.println();
+    }catch (IOException e){
+      System.out.println("oopsies i made a mistake");
+    }
   }
 
   //score methods
@@ -79,6 +110,8 @@ public class HighScore {
 // turn into array of strings
 // delete file info
 // write array to the file
+
+//create delete filecontent method
 
 
 }
