@@ -27,42 +27,56 @@ public class GameLocations{
 
       //set the player to a position
     }
-    public void movePit(){
+    private void movePit(){
       Random rnd = new Random();
       this.pitPos = rnd.nextInt(30);
     }
-    public void moveBat(){
+    private void moveBat(){
       Random rnd = new Random();  
       this.batPos = rnd.nextInt(30);
     }
-    public void moveWumpus(){
+    private void moveWumpus(){
        Random rnd = new Random();
-       this.wumpusPos = rnd.nextInt(30);
+       this.wumpusPos = rnd.nextInt(30); 
     }
-    
-    
-    
-    public void movePlayer(int direction){
-      // this.playerPos = this.map.getRoom(this.playerPos, direction);
-      // returns the room in the direction:   original room, direction of new room
+    private void encounterBats(){
+      this.moveBat();
     }
-    public boolean shootArrow(int direction){
-    if(this.player.getArrows() > 0){
-      this.player.shootArrow();
-      // method from cave that returns the room in the correct direction
-      //if(/*the room*/ == this.wumpusRoom) return true;
+    private void encounterPit(){
+      this.movePit();
     }
-    else System.out.println("out of arrows");
-    return false;
+    private void encouterWumpus(){
+      this.moveWumpus();
+    }
+  
+
+    public boolean shootArrow(int shotRoom){
+      if(this.player.getArrows() > 0){
+        this.player.shootArrow();
+        if(shotRoom == this.wumpusPos){
+          return true;
+        }
+        else return false;
+      } 
+      else System.out.println("out of arrows");
+      return false;
   }
 
+
+
+
+
+  public void movePlayer(int newRoom){
+    if(newRoom == this.batPos) this.encounterBats();
+    this.playerPos = newRoom;
+    }
+  // hints/warnings (not done)
     public String giveHint(){
         return "hint";
     }
     public String giveWarning(){
     if(this.playerPos == 4){}
-      
+    
     return "warning";
     }
-    //intearcting with hazards
 }
