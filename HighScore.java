@@ -34,9 +34,16 @@ public class HighScore {
     return f;
   }
 
-  public void sortFile(){
-    //????? i dont know if this is necesary ?????????
-    //yes it is your dumb
+  public Player[] sortFile(Player[] players, Player p){
+    for(int i = 0; i < players.length; i++){
+      if(p.getHighScore() > player[i].getHighScore){
+        for(int j = players.length - 1; j > i){
+          players[j] = players[j-1];
+        }
+        players[i] = p;
+      }
+    }
+    return players;
   }
 
   public int getFileLength(){
@@ -87,7 +94,7 @@ public class HighScore {
 
   public void writeToFile(String[] str, Player p){
     try{
-      FileWriter writer = new FileWriter(this.f);
+      FileWriter writer = new FileWriter(this.f,false);
       writer.write("name,highscore");
 
       for(int i = 0; i < str.length; i++){
@@ -111,7 +118,7 @@ public class HighScore {
 // delete file info
 // write array to the file
 
-//create delete filecontent method
+//check all methods ESPECIALLY sortfile
 
 
 }
