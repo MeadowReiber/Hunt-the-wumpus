@@ -29,11 +29,11 @@ public class Trivia{
       }
   }
 
-    public TriviaQuestion GetQuestion(){
-
-// you will get a question from the tivaquestion
-    }
-
+  public TriviaQuestion GetQuestion() {
+    // Get a random question from TriviaQuestions
+    int randomIndex = (int) (Math.random() * TriviaQuestions.size());
+    return TriviaQuestions.get(randomIndex);
+}
     
     public void GiveAnswer(){
 
