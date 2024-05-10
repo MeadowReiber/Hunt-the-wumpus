@@ -1,0 +1,2 @@
+What color is the sky,blue,red,yellow,black,1
+What is the capital of Washington state,olympia,seattle,canada,1
