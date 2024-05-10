@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Trivia{
   String hint;
@@ -30,8 +31,12 @@ public class Trivia{
   }
 
     public TriviaQuestion GetQuestion(){
-
     
+     Random newQuestion = new Random();
+    
+
+    return null;
+     
 // you will get a question from the tivaquestion
     }
 
