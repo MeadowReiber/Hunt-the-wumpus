@@ -1,5 +1,6 @@
 //Meadow Reiber
 import java.util.Random;
+import java.util.ArrayList;
 public class GameLocations{
     //fields and properties----------------------
     private Cave map;
@@ -26,6 +27,7 @@ public class GameLocations{
       this.wumpusPos = rnd.nextInt(30);
 
       //set the player to a position
+      this.playerPos = 0;
     }
     private void movePit(){
       Random rnd = new Random();
@@ -39,13 +41,19 @@ public class GameLocations{
        Random rnd = new Random();
        this.wumpusPos = rnd.nextInt(30); 
     }
-    private void encounterBats(){
-      this.moveBat();
+    
+    
+    public boolean encounterBats(){
+      if(this.playerPos == this.batPos){
+        this.playerPos = 
+        this.moveBat();
+        return true;
+      }
     }
-    private void encounterPit(){
+    public boolean encounterPit(){
       this.movePit();
     }
-    private void encouterWumpus(){
+    public boolean encouterWumpus(){
       this.moveWumpus();
     }
   
@@ -65,18 +73,36 @@ public class GameLocations{
 
 
 
-
+  //precondition: newRoom is a valid move
   public void movePlayer(int newRoom){
     if(newRoom == this.batPos) this.encounterBats();
+    else if(newRoom == this.pitPos) this.encounterPit();
+    else if(newRoom == this.wumpusPos){
+      this.encouterWumpus();
+    };
     this.playerPos = newRoom;
-    }
+  }
+
+    
   // hints/warnings (not done)
     public String giveHint(){
         return "hint";
     }
-    public String giveWarning(){
-    if(this.playerPos == 4){}
+    public ArrayList<String> giveWarning(){
+      ArrayList<int> rooms = map.getAdjacentRooms(this.playerPos);
+      ArrayList<String> warnings = new ArrayList<String>();
+      for(int adjacent : rooms){
+        if(adjacent == this.batPos){
+          warnings.add("I hear flapping");
+        }
+        if(adjacent == this.pitPos){
+          warnings.add("I feel a breeze");
+        }
+        if(adjacent == this.wumpusPos){
+          warnings.add("I smell a wumpus");
+        }
+      }
     
-    return "warning";
+      return warnings;
     }
 }
