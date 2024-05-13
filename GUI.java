@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -26,7 +28,7 @@ public class GUI extends JFrame{
     setTitle(title);
     setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     setSize(640, 480);
-    setLayout(new FlowLayout());
+    setLayout(new GridBagLayout());
 
     setResizable(true);
     setLocationRelativeTo(null);
@@ -37,13 +39,13 @@ public class GUI extends JFrame{
   }
 
     public void displayRoom(){
-        int xcord = 0;
-        int ycord = 0;
-        int i = 0; int j = 0;
-//        for(int i = 0; i < 2; i++){
-//            for(int j = 0; j < 3; j++){
+        for(int i = 0; i < 2; i++){
+            for(int j = 0; j < 3; j++){
                 JButton button = new JButton();
-                button.setBounds(xcord, ycord, 100, 100);
+                GridBagConstraints constraints = new GridBagConstraints();
+
+                constraints.gridx = j;
+                constraints.gridy = i;
         
                 String imagePath = System.getProperty("user.dir") + "\\images\\" + "forestbackground.png";
                 System.out.println("Image path: " + imagePath);
@@ -53,16 +55,17 @@ public class GUI extends JFrame{
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
                         // Put code here for what happens when the user clicks the button
+                        gameControl.Walk(j, i);
                     }
                 });   
 
-                this.getContentPane().add(button);
-                xcord += 100;
-//            }
-            ycord +=100;
-            xcord = 0;
-//        }
-
+                this.getContentPane().add(button,constraints);
+                
+            }
+        }
+        this.getContentPane().invalidate();
+        this.getContentPane().validate();
+        this.getContentPane().repaint();
     }
     public int displayScore(){
         //called by game control?
