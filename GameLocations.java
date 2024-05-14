@@ -52,9 +52,11 @@ public class GameLocations{
     }
     public boolean encounterPit(){
       this.movePit();
+      return false;
     }
     public boolean encouterWumpus(){
       this.moveWumpus();
+      return false;
     }
   
 
