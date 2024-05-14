@@ -92,7 +92,7 @@ public class GameLocations{
         return "hint";
     }
     public ArrayList<String> giveWarning(){
-      ArrayList<int> rooms = map.getAdjacentRooms(this.playerPos);
+      ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);
       ArrayList<String> warnings = new ArrayList<String>();
       for(int adjacent : rooms){
         if(adjacent == this.batPos){
