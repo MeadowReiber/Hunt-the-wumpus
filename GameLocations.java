@@ -45,10 +45,11 @@ public class GameLocations{
     
     public boolean encounterBats(){
       if(this.playerPos == this.batPos){
-        this.playerPos = 
+        this.playerPos = 0;
         this.moveBat();
         return true;
       }
+      return false;
     }
     public boolean encounterPit(){
       this.movePit();
