@@ -45,16 +45,19 @@ public class GameLocations{
     
     public boolean encounterBats(){
       if(this.playerPos == this.batPos){
-        this.playerPos = 
+        this.playerPos = 0;
         this.moveBat();
         return true;
       }
+      return false;
     }
     public boolean encounterPit(){
       this.movePit();
+      return false;
     }
     public boolean encouterWumpus(){
       this.moveWumpus();
+      return false;
     }
   
 
@@ -89,7 +92,7 @@ public class GameLocations{
         return "hint";
     }
     public ArrayList<String> giveWarning(){
-      ArrayList<int> rooms = map.getAdjacentRooms(this.playerPos);
+      ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);
       ArrayList<String> warnings = new ArrayList<String>();
       for(int adjacent : rooms){
         if(adjacent == this.batPos){
