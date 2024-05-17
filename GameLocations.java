@@ -30,46 +30,45 @@ public class GameLocations{
       this.playerPos = 0;
     }
     private void movePit(){
-      Random rnd = new Random();
-      this.pitPos = rnd.nextInt(30);
+      this.batPos = this.newRoom();
     }
     private void moveBat(){
-      Random rnd = new Random();  
-      this.batPos = rnd.nextInt(30);
+      this.batPos = this.newRoom();
     }
     private void moveWumpus(){
-      int newRoom = (int)(Math.random()*30) + 1;
-      while(!this.validTeleport(newRoom)){
-        newRoom = (int)(Math.random()*30) + 1;
-      }
-      this.wumpusPos = newRoom;
+      this.wumpusPos = this.newRoom();
     }
-    private boolean validTeleport(int pos){
-      if(pos == this.batPos || pos == this.pitPos || pos == this.wumpusPos || pos == this.playerPos){
-        return false;
+    private int newRoom(){
+      int pos = (int)(Math.random()*30) + 1;
+      while(pos == this.batPos || pos == this.pitPos || pos == this.wumpusPos || pos == this.playerPos){
+        pos = (int)(Math.random()*30) + 1;
       }
-      return true;
+      return pos;
     }
 
     
     public boolean encounterBats(){
       if(this.playerPos == this.batPos){
-        int newRoom = (int)(Math.random()*30) + 1;
-        while(!this.validTeleport(newRoom)){
-          newRoom = (int)(Math.random()*30) + 1;
-        }
-        this.movePlayer(newRoom);
+        this.playerPos = newRoom();
         this.moveBat();
         return true;
       }
       return false;
     }
     public boolean encounterPit(){
-      this.movePit();
+      if(this.playerPos == this.pitPos){
+        this.playerPos = newRoom();
+        this.moveBat();
+        return true;
+      }
       return false;
     }
     public boolean encouterWumpus(){
-      this.moveWumpus();
+      if(this.playerPos == this.wumpusPos){
+        return true;
+        this.moveWumpus();
+        //more about wumpus movement
+      }
       return false;
     }
   
