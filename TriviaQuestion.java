@@ -6,4 +6,5 @@ public class TriviaQuestion {
       Question = question;
       Answers = answers;
     }
+
 }
