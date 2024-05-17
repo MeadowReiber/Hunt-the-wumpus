@@ -29,6 +29,9 @@ public class Hints{
         TriviaQuestions.add(question);
       }
     }
-        
+        public void givehints(){
+
+          //int RandomHints = (int)(Math.random)* Hints());
+        }
 
 }
