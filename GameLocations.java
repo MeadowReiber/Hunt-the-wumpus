@@ -38,14 +38,27 @@ public class GameLocations{
       this.batPos = rnd.nextInt(30);
     }
     private void moveWumpus(){
-       Random rnd = new Random();
-       this.wumpusPos = rnd.nextInt(30); 
+      int newRoom = (int)(Math.random()*30) + 1;
+      while(!this.validTeleport(newRoom)){
+        newRoom = (int)(Math.random()*30) + 1;
+      }
+      this.wumpusPos = newRoom;
     }
-    
+    private boolean validTeleport(int pos){
+      if(pos == this.batPos || pos == this.pitPos || pos == this.wumpusPos || pos == this.playerPos){
+        return false;
+      }
+      return true;
+    }
+
     
     public boolean encounterBats(){
       if(this.playerPos == this.batPos){
-        this.playerPos = 0;
+        int newRoom = (int)(Math.random()*30) + 1;
+        while(!this.validTeleport(newRoom)){
+          newRoom = (int)(Math.random()*30) + 1;
+        }
+        this.movePlayer(newRoom);
         this.moveBat();
         return true;
       }
@@ -78,11 +91,6 @@ public class GameLocations{
 
   //precondition: newRoom is a valid move
   public void movePlayer(int newRoom){
-    if(newRoom == this.batPos) this.encounterBats();
-    else if(newRoom == this.pitPos) this.encounterPit();
-    else if(newRoom == this.wumpusPos){
-      this.encouterWumpus();
-    };
     this.playerPos = newRoom;
   }
 
