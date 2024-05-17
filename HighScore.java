@@ -14,6 +14,7 @@ public class HighScore {
   private Scanner user;
   private Scanner reader;
   private File f;
+  private Player[] players;
   //constructors
   public HighScore(){
     this.user = new Scanner(System.in);
@@ -23,6 +24,7 @@ public class HighScore {
     } catch (FileNotFoundException e) {
       System.out.println("well thats concerning");
     }
+    this.players = createArray();
 
     
   }
@@ -34,9 +36,16 @@ public class HighScore {
     return f;
   }
 
-  public void sortFile(){
-    //????? i dont know if this is necesary ?????????
-    //yes it is your dumb
+  public Player[] addPlayer(Player p){
+    for(int i = 0; i < players.length; i++){
+      if(p.getHighScore() > players[i].getHighScore()){
+        for(int j = players.length - 1; j > i; j--){
+          players[j] = players[j-1];
+        }
+        players[i] = p;
+      }
+    }
+    return players;
   }
 
   public int getFileLength(){
@@ -51,8 +60,8 @@ public class HighScore {
     return length;
   }
 
-  public Player[] createArray(Scanner reader, int length, String name){
-    Player[] players = new Player[length - 1];
+  public Player[] createArray(){
+    Player[] players = new Player[getFileLength() - 1];
     user.nextLine();
 
     for(int i = 0; i < players.length; i++){
@@ -65,11 +74,11 @@ public class HighScore {
     return players;
   }
 
-  public String[] turnIntoString(Player[] players, String name, int highScore){
+  public String[] turnIntoString(){
     String finalString[] = new String[players.length];
 
     for(int i = 0; i < players.length; i++){
-      String[] shortArray = {name,String.valueOf(highScore)};
+      String[] shortArray = {players[i].getName(),String.valueOf(players[i].getHighScore())};
       String result = "";
 
       if(shortArray.length > 0){
@@ -87,7 +96,7 @@ public class HighScore {
 
   public void writeToFile(String[] str, Player p){
     try{
-      FileWriter writer = new FileWriter(this.f);
+      FileWriter writer = new FileWriter(this.f,false);
       writer.write("name,highscore");
 
       for(int i = 0; i < str.length; i++){
@@ -101,17 +110,17 @@ public class HighScore {
   }
 
   //score methods
-  public void displayScore(){
-    
+  public String[] displayScore(){
+    return turnIntoString();
   }
 
-// get array of highscore(player)
+// get array of highscore(player)l
 // if players int is high enough then replace them in the array and fix it
 // turn into array of strings
 // delete file info
 // write array to the file
 
-//create delete filecontent method
+//check all methods ESPECIALLY sortfile
 
 
 }
