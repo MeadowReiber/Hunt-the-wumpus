@@ -15,6 +15,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GUI extends JFrame{
+    private GridBagConstraints gbc;
 
     // Load the icon, scaled to the given size
     private static ImageIcon loadIcon(String iconFilePath, int width, int height) {
@@ -30,13 +31,15 @@ public class GUI extends JFrame{
     setTitle(title);
     setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     setSize(640, 480);
+
     setLayout(new GridBagLayout());
+    gbc = new GridBagConstraints();
 
     setResizable(true);
     setLocationRelativeTo(null);
     setVisible(true);
 
-    setMargins(new Insets(0,0,0,0));
+    //setMargins(new Insets(0,0,0,0));
 
     startGame();
     //displayRoom();
@@ -58,8 +61,6 @@ public class GUI extends JFrame{
             for(int x = 0; x < 3; x++){
 
                 JButton button = new JButton();
-
-                GridBagConstraints gbc = new GridBagConstraints();
                 gbc.gridx = x;
                 gbc.gridy = y;
         
@@ -85,17 +86,15 @@ public class GUI extends JFrame{
         this.getContentPane().validate();
         this.getContentPane().repaint();
     }
+
     public void startGame(){
-        
+
         JLabel htw = new JLabel("HUNT THE WUMPUS");
-        Font font = new Font("SansSerif", 8, 80);
+        Font font = new Font("SansSerif", 5, 50);
         GridBagConstraints gbc = new GridBagConstraints();
-        GridBagLayout gbl = new GridBagLayout();
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+
  
-
         htw.setFont(font);
 
         JButton start = new JButton("START");
@@ -106,23 +105,37 @@ public class GUI extends JFrame{
                 System.out.println("Game has started.");
                 displayRoom();
                 remove(start);
+                remove(htw);
                 revalidate();
                 repaint();
             }
         });
 
-        add(start, gbl);
-        add(htw, gbl);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        add(htw, gbc);
 
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        add(start, gbc);
+
+        
 
     }
+
     public int displayScore(){
         //called by game control?
         return 8; //not sure if it is an int or double
     }
     public void displayInventory(){
         //called by game control
-        JLabel text = new JLabel("display score here");
+        JButton inventory = new JButton();
+        inventory.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                System.out.println("INVENTORY OPEN");
+                JLabel arrows = new JLabel("Arrows: " + Player.getArrows());
+            }
+        });   
 
     }
     public String displayHints(){
