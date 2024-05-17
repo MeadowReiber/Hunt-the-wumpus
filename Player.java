@@ -47,4 +47,4 @@ public class Player {
     return score;
   }
 }
-//maybe add a method to calculate high schore
+//maybe add a method to calculate high score
