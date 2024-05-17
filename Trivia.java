@@ -32,10 +32,10 @@ public class Trivia{
 
     public TriviaQuestion GetQuestion(){
     
-     Random newQuestion = new Random();
+    int RandomIndex = (int)(Math.random() * TriviaQuestions.size());
     
 
-    return null;
+    return RandomIndex;
      
 // you will get a question from the tivaquestion
     }
@@ -46,12 +46,6 @@ public class Trivia{
 
     }
    
-    /* 
-    public String Hints(){
-      System.out.println("hint:"+ hint);
-    // will return hints
-    //reutrn boolean, if answer if right/wrong
-    }
-    */
+   
 
 }
