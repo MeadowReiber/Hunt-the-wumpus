@@ -3,6 +3,9 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
+import GameControl.GameControl;
+
 import java.awt.*;
 
 import javax.swing.ImageIcon;
@@ -33,8 +36,10 @@ public class GUI extends JFrame{
     setLocationRelativeTo(null);
     setVisible(true);
 
-    //startScreen();
-    displayRoom();
+    setMargins(new Insets(0,0,0,0));
+
+    startGame();
+    //displayRoom();
 
     
   }
@@ -49,13 +54,14 @@ public class GUI extends JFrame{
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
         
         int imagecount = 0;
-        for(int i = 0; i < 2; i++){
-            for(int j = 0; j < 3; j++){
-                JButton button = new JButton();
-                GridBagConstraints gbc = new GridBagConstraints();
+        for(int y = 0; y < 2; y++){
+            for(int x = 0; x < 3; x++){
 
-                gbc.gridx = j;
-                gbc.gridy = i;
+                JButton button = new JButton();
+
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = x;
+                gbc.gridy = y;
         
                 String imagePath = System.getProperty("user.dir") + "\\images\\" + "forestbackground.png";
                 System.out.println("Image path: " + imagePath);
@@ -65,8 +71,8 @@ public class GUI extends JFrame{
             
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        // Put code here for what happens when the user clicks the button
-                        //gameControl.walk(j, i);
+                        GameControl.walk(y, x);
+                        ////// gameControl class add this walk method, x and y are the direction where the player is moving 
                         System.out.println("BUTTONCLICKED");
                     }
                 });   
@@ -78,56 +84,8 @@ public class GUI extends JFrame{
         this.getContentPane().invalidate();
         this.getContentPane().validate();
         this.getContentPane().repaint();
-        
-//////change to this code below
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-
-        JButton nw = new JButton();
-        String imagePathnw = System.getProperty("user.dir") + "\\images\\" + "1.png";
-                System.out.println("Image path: " + imagePathnw);
-
-                nw.setIcon(loadIcon(imagePathnw, 200, 200));
-                nw.setSize(200,200);
-                nw.addActionListener(new ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        // Put code here for what happens when the user clicks the button
-                        //gameControl.walk(j, i);
-                        System.out.println("-----moved north west");
-                    }
-                });   
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        this.getContentPane().add(nw, gbc);
-
-        this.getContentPane().invalidate();
-        this.getContentPane().validate();
-        this.getContentPane().repaint();
-
-/* 
-        JButton n = new JButton();
-        String imagePathn = System.getProperty("user.dir") + "\\images\\" + "2.png";
-                System.out.println("Image path: " + imagePathn);
-
-                nw.setIcon(loadIcon(imagePathn, 200, 200));
-                nw.setSize(200,200);
-                nw.addActionListener(new ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        // Put code here for what happens when the user clicks the button
-                        //gameControl.walk(j, i);
-                        System.out.println("-----moved north");
-                    }
-                });   
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        this.getContentPane().add(nw, gbc);
-
-        this.getContentPane().invalidate();
-        this.getContentPane().validate();
-        this.getContentPane().repaint();
-*/
     }
-    public void startScreen(){
+    public void startGame(){
         
         JLabel htw = new JLabel("HUNT THE WUMPUS");
         Font font = new Font("SansSerif", 8, 80);
@@ -171,8 +129,10 @@ public class GUI extends JFrame{
         return "I smell a wumpus";
     }
     public void displayActions(){
-        //calls player?
-        //shows actions player can take
+        
+    }
+    public void gameOver(){
+        System.out.println("GAME OVER!");
     }
   }
 
