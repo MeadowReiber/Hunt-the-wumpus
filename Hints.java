@@ -17,14 +17,14 @@ public class Hints{
 
   public Hints() throws FileNotFoundException{
       String filePath = "hint.txt";      
-      Hints[] quest = new Hints[3];
+      Hints[] quest = new Hints[1];
       int count2 =0;
       File file2 = new File(filePath);
       Scanner scanner2 = new Scanner(file2);
 
       while(scanner2.hasNextLine()){
         String line = scanner2.nextLine();            
-        String[] questionSource = line.split(",", 6);
+        String[] questionSource = line.split(",", 0);
         TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4) );
         TriviaQuestions.add(question);
       }
@@ -34,6 +34,6 @@ public class Hints{
           //int RandomHints = (int)(Math.random)* Hints());
         }
 
-    //learn to paird the hints to the
+    //learn to paird the hints to the random questions
 
 }
