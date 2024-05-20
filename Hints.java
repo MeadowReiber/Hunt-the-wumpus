@@ -34,4 +34,6 @@ public class Hints{
           //int RandomHints = (int)(Math.random)* Hints());
         }
 
+    //learn to paird the hints to the
+
 }
