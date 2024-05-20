@@ -5,30 +5,24 @@ public class GameLocations{
     //fields and properties----------------------
     private Cave map;
     
-    private int batPos;
-    private int pitPos;
-    private int wumpusPos;
+    private int batPos = 0;
+    private int pitPos = 0;
+    private int wumpusPos = 0;
 
-    private int playerPos;
+    private int playerPos = 0;
     private Player player;
 
     //constructor--------------------------------
     public GameLocations(Player player, Cave theCave){
-      this.startGame();
-      this.player = player;
-      this.map = theCave;
+      this.playerPos = this.newRoom();
+      this.moveBat();
+      this.movePit();
+      this.moveWumpus();
     }
-    //methods------------------------------------
-    //giving the hazards new/original locations
-    private void startGame(){
-      Random rnd = new Random();  
-      this.batPos = rnd.nextInt(30);
-      this.pitPos = rnd.nextInt(30);
-      this.wumpusPos = rnd.nextInt(30);
 
-      //set the player to a position
-      this.playerPos = 0;
-    }
+
+    //methods------------------------------------
+    //moves the hazards to random romo determined by new room
     private void movePit(){
       this.batPos = this.newRoom();
     }
@@ -40,6 +34,7 @@ public class GameLocations{
       int possible = newRooms.size();
       this.wumpusPos = newRooms.get((int)(Math.random() * possible) +1);
     }
+    //returns the int of a random room that does not overlap positions with anything
     private int newRoom(){
       int pos = (int)(Math.random()*30) + 1;
       while(pos == this.batPos || pos == this.pitPos || pos == this.wumpusPos || pos == this.playerPos){
@@ -48,7 +43,7 @@ public class GameLocations{
       return pos;
     }
 
-    
+    //returns true if an encounter happens, and moves the correct things
     public boolean encounterBats(){
       if(this.playerPos == this.batPos){
         this.playerPos = newRoom();
