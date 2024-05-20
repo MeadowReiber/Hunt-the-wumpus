@@ -77,15 +77,11 @@ public class GameLocations{
       else return false;    
     }
 
+    //precondition: newRoom is a valid move. moves the player to the new room
+    public void movePlayer(int newRoom){
+      this.playerPos = newRoom;
+    }
 
-
-
-  //precondition: newRoom is a valid move
-  public void movePlayer(int newRoom){
-    this.playerPos = newRoom;
-  }
-
-    
   // hints/warnings (not done)
     public String giveHint(){
         return "hint";
