@@ -58,7 +58,7 @@ public class GameLocations{
     public boolean encounterPit(){
       if(this.playerPos == this.pitPos){
         this.playerPos = newRoom();
-        this.moveBat();
+        this.movePit();
         return true;
       }
       return false;
