@@ -68,18 +68,14 @@ public class GameLocations{
       return false;
     }
   
-
+    //precondition: player has arrows. returns true if the wumpus is shot
     public boolean shootArrow(int shotRoom){
-      if(this.player.getArrows() > 0){
-        this.player.shootArrow();
-        if(shotRoom == this.wumpusPos){
-          return true;
-        }
-        else return false;
-      } 
-      else System.out.println("out of arrows");
-      return false;
-  }
+      this.player.shootArrow();
+      if(shotRoom == this.wumpusPos){
+        return true;
+      }
+      else return false;    
+    }
 
 
 
