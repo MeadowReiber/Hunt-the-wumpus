@@ -36,7 +36,9 @@ public class GameLocations{
       this.batPos = this.newRoom();
     }
     private void moveWumpus(){
-      this.wumpusPos = this.newRoom();
+      ArrayList<Integer> newRooms = map.getWumpusRooms(this.wumpusPos);
+      int possible = newRooms.size();
+      this.wumpusPos = newRooms.get((int)(Math.random() * possible) +1);
     }
     private int newRoom(){
       int pos = (int)(Math.random()*30) + 1;
@@ -67,7 +69,6 @@ public class GameLocations{
       if(this.playerPos == this.wumpusPos){
         return true;
         this.moveWumpus();
-        //more about wumpus movement
       }
       return false;
     }
