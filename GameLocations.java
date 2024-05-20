@@ -67,8 +67,8 @@ public class GameLocations{
     }
     public boolean encouterWumpus(){
       if(this.playerPos == this.wumpusPos){
-        return true;
         this.moveWumpus();
+        return true;
       }
       return false;
     }
