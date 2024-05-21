@@ -4,8 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import GameControl.GameControl;
-
 import java.awt.*;
 
 import javax.swing.ImageIcon;
