@@ -5,30 +5,24 @@ public class GameLocations{
     //fields and properties----------------------
     private Cave map;
     
-    private int batPos;
-    private int pitPos;
-    private int wumpusPos;
+    private int batPos = 0;
+    private int pitPos = 0;
+    private int wumpusPos = 0;
 
-    private int playerPos;
+    private int playerPos = 0;
     private Player player;
 
     //constructor--------------------------------
     public GameLocations(Player player, Cave theCave){
-      this.startGame();
-      this.player = player;
-      this.map = theCave;
+      this.playerPos = this.newRoom();
+      this.moveBat();
+      this.movePit();
+      this.moveWumpus();
     }
-    //methods------------------------------------
-    //giving the hazards new/original locations
-    private void startGame(){
-      Random rnd = new Random();  
-      this.batPos = rnd.nextInt(30);
-      this.pitPos = rnd.nextInt(30);
-      this.wumpusPos = rnd.nextInt(30);
 
-      //set the player to a position
-      this.playerPos = 0;
-    }
+
+    //methods------------------------------------
+    //moves the hazards to random romo determined by new room
     private void movePit(){
       this.batPos = this.newRoom();
     }
@@ -36,8 +30,11 @@ public class GameLocations{
       this.batPos = this.newRoom();
     }
     private void moveWumpus(){
-      this.wumpusPos = this.newRoom();
+      ArrayList<Integer> newRooms = map.getWumpusRooms(this.wumpusPos);
+      int possible = newRooms.size();
+      this.wumpusPos = newRooms.get((int)(Math.random() * possible) +1);
     }
+    //returns the int of a random room that does not overlap positions with anything
     private int newRoom(){
       int pos = (int)(Math.random()*30) + 1;
       while(pos == this.batPos || pos == this.pitPos || pos == this.wumpusPos || pos == this.playerPos){
@@ -46,7 +43,7 @@ public class GameLocations{
       return pos;
     }
 
-    
+    //returns true if an encounter happens, and moves the correct things
     public boolean encounterBats(){
       if(this.playerPos == this.batPos){
         this.playerPos = newRoom();
@@ -65,35 +62,26 @@ public class GameLocations{
     }
     public boolean encouterWumpus(){
       if(this.playerPos == this.wumpusPos){
-        return true;
         this.moveWumpus();
-        //more about wumpus movement
+        return true;
       }
       return false;
     }
   
-
+    //precondition: player has arrows. returns true if the wumpus is shot
     public boolean shootArrow(int shotRoom){
-      if(this.player.getArrows() > 0){
-        this.player.shootArrow();
-        if(shotRoom == this.wumpusPos){
-          return true;
-        }
-        else return false;
-      } 
-      else System.out.println("out of arrows");
-      return false;
-  }
+      this.player.shootArrow();
+      if(shotRoom == this.wumpusPos){
+        return true;
+      }
+      else return false;    
+    }
 
+    //precondition: newRoom is a valid move. moves the player to the new room
+    public void movePlayer(int newRoom){
+      this.playerPos = newRoom;
+    }
 
-
-
-  //precondition: newRoom is a valid move
-  public void movePlayer(int newRoom){
-    this.playerPos = newRoom;
-  }
-
-    
   // hints/warnings (not done)
     public String giveHint(){
         return "hint";
