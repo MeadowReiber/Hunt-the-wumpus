@@ -16,7 +16,8 @@ public class Hints{
   ArrayList<TriviaQuestion> TriviaQuestions;
 
   public Hints() throws FileNotFoundException{
-      String filePath = "hint.txt";      
+      String filePath = "hint.txt";
+      //what does this do again      
       Hints[] quest = new Hints[1];
       int count2 =0;
       File file2 = new File(filePath);
@@ -30,6 +31,7 @@ public class Hints{
       }
     }
         public void givehints(){
+          
 
           //int RandomHints = (int)(Math.random)* Hints());
         }

@@ -30,12 +30,12 @@ public class Trivia{
   }
 
     public TriviaQuestion GetQuestion(){
-    
+    // return a random question from the file
+    //create a list of questions
     int RandomIndex = (int)(Math.random() * TriviaQuestions.size());
     
-
     
-    return null;
+    return TriviaQuestion.RandomIndex;
      
 // you will get a question from the tivaquestion
     }
