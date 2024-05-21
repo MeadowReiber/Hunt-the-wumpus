@@ -32,8 +32,11 @@ public class GameControl{
     public void buyArrow(){
         //called by ui --> trivia --> player to update inventory
     }
-    public void displayInventory(){
-        
+    public int[] displayInventory(){
+        int arrows = player.getArrows();
+        int coins = player.getCoins();
+        int[] inventory = {arrows, coins};
+        return inventory;
         //called by ui --> player to get inventory --> ui
     }
     public void displayActions(){
