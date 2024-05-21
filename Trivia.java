@@ -26,6 +26,7 @@ public class Trivia{
         String[] questionSource = line.split(",", 6);
         TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4) );
         TriviaQuestions.add(question);
+        scanner.close();
       }
   }
 
@@ -34,8 +35,8 @@ public class Trivia{
     //create a list of questions
     int RandomIndex = (int)(Math.random() * TriviaQuestions.size());
     
-    
-    return TriviaQuestion.RandomIndex;
+    System.out.println(RandomIndex);
+    return null;
      
 // you will get a question from the tivaquestion
     }
