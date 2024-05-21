@@ -3,6 +3,8 @@ import java.util.Random;
 import java.util.ArrayList;
 public class GameLocations{
     //fields and properties----------------------
+    private String[] hints;
+    
     private Cave map;
     
     private int batPos = 0;
@@ -18,6 +20,11 @@ public class GameLocations{
       this.moveBat();
       this.movePit();
       this.moveWumpus();
+
+      this.hints = new String[3];
+      //fill the hints method
+      //fill the hints method
+      //fill the hints method
     }
 
 
@@ -82,7 +89,6 @@ public class GameLocations{
       this.playerPos = newRoom;
     }
 
-  // hints/warnings (not done)
     public String giveHint(){
         return "hint";
     }
