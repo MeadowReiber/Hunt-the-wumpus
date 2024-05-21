@@ -15,6 +15,15 @@ public class GameControl{
         //called by ui --> player to get score --> ui
     }
     public Boolean shoot(int room){
+        if(player.getArrows() > 0){
+            //checks if there r arrows
+            loc.shootArrow(room);
+            //shootarrow will return true for shot, false for not shot
+        }
+        else{
+            return false;
+            //if no arrows, then did not shoot
+        }
     }
     public Boolean moveForward(int roomNumber){
         //called by ui --> cave checks for open rooms --> return if can move
