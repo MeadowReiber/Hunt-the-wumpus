@@ -7,8 +7,10 @@ import java.awt.event.*;
 public class GameControl{
     Player player = new Player();
     
-    public void displayScore(){
-        player.calculateScore();
+    public int displayScore(){
+        //ask meadow which class holds the boolean for wumpus dead or alive?
+        int currentScore = player.calculateScore();
+        return currentScore;
         //called by ui --> player to get score --> ui
     }
     public Boolean moveForward(int roomNumber){
