@@ -6,12 +6,15 @@ import javax.swing.JButton;
 import java.awt.event.*;
 public class GameControl{
     Player player = new Player();
-    
+    Cave cave = new Cave();
+    GameLocations loc = new GameLocations(player, cave);
     public int displayScore(){
         //ask meadow which class holds the boolean for wumpus dead or alive?
         int currentScore = player.calculateScore();
         return currentScore;
         //called by ui --> player to get score --> ui
+    }
+    public Boolean shoot(int room){
     }
     public Boolean moveForward(int roomNumber){
         //called by ui --> cave checks for open rooms --> return if can move
