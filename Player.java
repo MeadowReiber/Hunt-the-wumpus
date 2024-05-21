@@ -25,6 +25,9 @@ public class Player {
   public int getArrows(){
     return this.arrows;
   }
+  public int getCoins(){
+    return this.goldCoins;
+  }
   public void shootArrow(){
     this.arrows --;
   }

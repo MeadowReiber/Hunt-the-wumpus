@@ -86,18 +86,18 @@ public class GameLocations{
     public String giveHint(){
         return "hint";
     }
-    public ArrayList<String> giveWarning(){
+    public ArrayList<String> giveWarnings(){
       ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);
       ArrayList<String> warnings = new ArrayList<String>();
       for(int adjacent : rooms){
         if(adjacent == this.batPos){
-          warnings.add("I hear flapping");
+          warnings.add("You hear flapping");
         }
         if(adjacent == this.pitPos){
-          warnings.add("I feel a breeze");
+          warnings.add("You feel a breeze");
         }
         if(adjacent == this.wumpusPos){
-          warnings.add("I smell a wumpus");
+          warnings.add("You smell a wumpus");
         }
       }
     
