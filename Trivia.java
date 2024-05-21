@@ -1,13 +1,12 @@
 
 //crystal B 
-import java.io.FileWriter;
-import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Scanner;
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,7 +17,7 @@ public class Trivia{
   public Trivia() throws FileNotFoundException{
       String filePath = "triviaquestions.txt";      
       Trivia[] qq = new Trivia[3];
-      int count =0;
+      //int count =0;
       File file = new File(filePath);
       Scanner scanner = new Scanner(file);
 
@@ -31,18 +30,19 @@ public class Trivia{
   }
 
     public TriviaQuestion GetQuestion(){
-    
+    // return a random question from the file
+    //create a list of questions
     int RandomIndex = (int)(Math.random() * TriviaQuestions.size());
     
-
-    return RandomIndex;
+    
+    return TriviaQuestion.RandomIndex;
      
 // you will get a question from the tivaquestion
     }
 
     
     public void GiveAnswer(){
-
+      //how to get correct answers from the triva file
 
     }
    

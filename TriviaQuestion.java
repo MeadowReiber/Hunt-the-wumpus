@@ -1,5 +1,6 @@
 public class TriviaQuestion {
-     String[] Answers;
+     public static final TriviaQuestion RandomIndex = null;
+    String[] Answers;
     String Question;
 
     public TriviaQuestion(String question,String[] answers){
