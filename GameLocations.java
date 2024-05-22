@@ -87,6 +87,7 @@ public class GameLocations{
     //precondition: newRoom is a valid move. moves the player to the new room
     public void movePlayer(int newRoom){
       this.playerPos = newRoom;
+      //about getting coins if its a new room
     }
 
     public String giveHint(){

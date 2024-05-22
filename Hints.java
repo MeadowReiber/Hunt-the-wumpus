@@ -28,6 +28,7 @@ public class Hints{
         String[] questionSource = line.split(",", 0);
         TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4) );
         TriviaQuestions.add(question);
+        scanner2.close();
       }
     }
         public void givehints(){
