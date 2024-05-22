@@ -1,4 +1,5 @@
 // Casandra Reyes
+// Test - editting at home
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +14,13 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class GUI extends JFrame{
+
+    //---------PROPERTIES
+    
+    private JPanel room;
+    private JPanel actions;
+    private JPanel inventory;
+    private JPanel message;
 
     private JLabel score;
     private JLabel arrows;
@@ -29,32 +37,64 @@ public class GUI extends JFrame{
         return new ImageIcon(resizedImage);
     }
 
-    public GUI(String title){
-    System.out.println(title);
-    mainFont = new Font("SansSerif", 5, 20);
-    this.gc = new GameControl();
-
-    setTitle(title);
-    setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-    setSize(640, 480);
-
-    setLayout(new GridBagLayout());
-    this.gbc = new GridBagConstraints();
-    gbc.weightx = 1.0;
-    gbc.weighty = 1.0;
-    gbc.fill = GridBagConstraints.BOTH;
-
-    setResizable(true);
-    setLocationRelativeTo(null);
-    setVisible(true);
-
-    //setMargins(new Insets(0,0,0,0));
-
-    startScreen();
+    //---------CONSTRUCTOR
     
-  }
+    public GUI(String title){
+        initializeFrame(title);
+        
+        this.mainFont = new Font("SansSerif", 5, 20);
+        this.gc = new GameControl();
+    
+        this.room = new JPanel();
+        this.actions = new JPanel();
+        this.inventory = new JPanel();
+        this.message = new JPanel();
+    
+        this.room.setLayout(new GridLayout(2, 3));
+        
+        add(room, BorderLayout.CENTER);
+        //need to change size of the room panel to not fill up entire screen cuz of layout
+        add(initializePanel(actions), BorderLayout.NORTH);
+        add(initializePanel(inventory), BorderLayout.SOUTH);
+        displayRoom(room);
+        displayActions(actions);
+        
+        //add(initializePanel(message), BorderLayout.SOUTH);
+        //startScreen();
+    
+    }
+    
+    //---------METHODS
+    
+    public void initializeFrame(String t){
+        setTitle(t);
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        setSize(960, 540);
+    
+        setLayout(new BorderLayout());
+        
+        /*this.gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;*/
 
-    public void displayRoom(){
+        //readd gridbag if needed
+    
+        setResizable(true);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+
+    public JPanel initializePanel(JPanel p){
+        p.setLayout(new FLowLayout(FlowLayout.CENTER, 10, 5));
+        p.setBackground(Color.BLUE);
+        return p;
+    }
+
+    
+    public void displayRoom(JPanel jp){
+        
         ArrayList<String> imagePaths= new ArrayList<String>();
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "2.png");
@@ -64,19 +104,15 @@ public class GUI extends JFrame{
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
         
         int imagecount = 0;
-        for(int y = 0; y < 2; y++){
-            for(int x = 0; x < 3; x++){
-
-                JButton button = new JButton();
-                this.gbc.gridx = x;
-                this.gbc.gridy = y;
         
-                String imagePath = System.getProperty("user.dir") + "\\images\\" + "forestbackground.png";
-                System.out.println("Image path: " + imagePath);
-
+        for(int y = 0; y < p.getLayout().getRows(); y++){
+            for(int x = 0; x < p.getLayout().getColumns(); x++){
+                //String imagePath = System.getProperty("user.dir") + "\\images\\" + "forestbackground.png";
+                //System.out.println("Image path: " + imagePath);
+                
+                JButton button = new JButton();
                 button.setIcon(loadIcon(imagePaths.get(imagecount), 200, 200));
-                button.setSize(200,200);
-            
+                //button.setSize(200,200); //try removing when running
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
                         //g.walk(y, x);
@@ -85,59 +121,51 @@ public class GUI extends JFrame{
                     }
                 });   
 
-                this.getContentPane().add(button,gbc);
+                jp.add(button);
                 imagecount++;
             }
         }
-        this.getContentPane().invalidate();
-        this.getContentPane().validate();
-        this.getContentPane().repaint();
+        jp.invalidate();
+        jp.validate();
+        jp.repaint();
+        //try removing and running
     }
 
-
-    public void displayButtons(){
-        JButton inventory = new JButton("Inventory");
-        inventory.setSize(300,300);
-        inventory.addActionListener(new ActionListener() {
+    
+    public void displayActions(JPanel jp){
+        JButton shootArrow = new JButton("Shoot");
+        shoot.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
-                //start game
-                System.out.println("inventory opened");
+                //player arrows decrease and display on south panel named inventory
             }
         });
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        add(inventory,gbc);
-
-        JButton hints = new JButton("Get Hint");
-        hints.setSize(300,300);
-        hints.addActionListener(new ActionListener() {
+        JButton buyArrows = new JButton("Buy Arrows");
+        buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
-                //start game
-                System.out.println("get a hint");
+                //player arrows increases and coins decrease and display on screen on south panel named inventory
             }
         });
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        add(hints,gbc);
-
-        JButton takeAction = new JButton("Take Action");
-        takeAction.setSize(300,300);
-        takeAction.addActionListener(new ActionListener() {
+        JButton buyHint = new JButton("Buy Hint");
+        buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
-                //start game
-                System.out.println("get a hint");
+                //player coins decrease and display on screen on south panel named inventory
             }
         });
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        add(takeAction,gbc);
-        
 
-        
+        jp.add(shootArrow);
+        jp.add(buyArrows);
+        jp.add(buyHint);
     }
+    
 
-    public void displayInventory(){
-        int[] items = this.gc.getInventory();
+    public void displayInventory(Player p){
+        this.inventory.removeAll();
+        
+        JLabel arrows = new JLabel("ARROWS: " + p.getArrows());
+        JLabel coins = new JLabel("COINS: " + p.getCoins());
+
+        this.inventory.add(arrows);
+        this.inventory.add(coins);
     }
 
 
