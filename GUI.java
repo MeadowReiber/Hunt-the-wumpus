@@ -161,7 +161,7 @@ public class GUI extends JFrame{
     }
     
 
-    public void displayInventory(JPanel inventory, Player p){
+    public void displayInventory(Player p){
         this.inventory.removeAll();
         
         JLabel arrows = new JLabel("ARROWS: " + 3);
@@ -192,12 +192,12 @@ public class GUI extends JFrame{
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //start game
                 System.out.println("Game has started.");
-                displayRoom();
-                displayButtons();
-                remove(start);
-                remove(htw);
-                revalidate();
-                repaint();
+                //displayRoom();
+                //displayButtons();
+                //remove(start);
+                //remove(htw);
+                //revalidate();
+                //repaint();
             }
         });
 
