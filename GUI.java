@@ -4,7 +4,7 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
+import javax.swing.JPanel;import java.awt.FlowLayout;
 import java.awt.*;
 
 import javax.swing.ImageIcon;
@@ -43,13 +43,12 @@ public class GUI extends JFrame{
         initializeFrame(title);
         
         this.mainFont = new Font("SansSerif", 5, 20);
-        this.gc = new GameControl();
+        //this.gc = new GameControl();
     
         this.room = new JPanel();
         this.actions = new JPanel();
         this.inventory = new JPanel();
         this.message = new JPanel();
-    
         this.room.setLayout(new GridLayout(2, 3));
         
         add(room, BorderLayout.CENTER);
@@ -58,6 +57,7 @@ public class GUI extends JFrame{
         add(initializePanel(inventory), BorderLayout.SOUTH);
         displayRoom(room);
         displayActions(actions);
+        displayInventory(inventory, new Player());
         
         //add(initializePanel(message), BorderLayout.SOUTH);
         //startScreen();
@@ -87,7 +87,8 @@ public class GUI extends JFrame{
 
 
     public JPanel initializePanel(JPanel p){
-        p.setLayout(new FLowLayout(FlowLayout.CENTER, 10, 5));
+        p.setVisible(true);
+        p.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         p.setBackground(Color.BLUE);
         return p;
     }
@@ -105,8 +106,8 @@ public class GUI extends JFrame{
         
         int imagecount = 0;
         
-        for(int y = 0; y < p.getLayout().getRows(); y++){
-            for(int x = 0; x < p.getLayout().getColumns(); x++){
+        for(int y = 0; y < 2; y++){
+            for(int x = 0; x < 3; x++){
                 //String imagePath = System.getProperty("user.dir") + "\\images\\" + "forestbackground.png";
                 //System.out.println("Image path: " + imagePath);
                 
@@ -134,7 +135,7 @@ public class GUI extends JFrame{
     
     public void displayActions(JPanel jp){
         JButton shootArrow = new JButton("Shoot");
-        shoot.addActionListener(new ActionListener() {
+        shootArrow.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows decrease and display on south panel named inventory
             }
@@ -158,15 +159,22 @@ public class GUI extends JFrame{
     }
     
 
-    public void displayInventory(Player p){
+    public void displayInventory(JPanel inventory, Player p){
         this.inventory.removeAll();
         
-        JLabel arrows = new JLabel("ARROWS: " + p.getArrows());
-        JLabel coins = new JLabel("COINS: " + p.getCoins());
+        JLabel arrows = new JLabel("ARROWS: " + 3);
+        JLabel coins = new JLabel("COINS: " + 3);
+        JButton b = new JButton("test");
+        b.setSize(400, 400);
+        this.inventory.add(b);
+
+        arrows.setFont(this.mainFont);
+        coins.setFont(this.mainFont);
 
         this.inventory.add(arrows);
         this.inventory.add(coins);
     }
+
 
 
     public void startScreen(){
@@ -235,9 +243,10 @@ public class GUI extends JFrame{
     }
     public static void main(String[] args){
         System.out.println("this is my file");
-        Player p = new Player("cas", 2);
+        //Player p = new Player("cas", 2);
+        //GameControl gc = new GameControl();
         GUI gui = new GUI("HUNT THE WUMPUS");
-        gui.displayActions(p);
+        //gui.displayActions(p);
     }
   }
 
