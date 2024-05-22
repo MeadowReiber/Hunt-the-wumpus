@@ -11,8 +11,8 @@ public class GameControl{
     GUI display = new GUI("game");
     public int displayScore(int room){
         //ask meadow which class holds the boolean for wumpus dead or alive?
-        int currentScore = player.calculateScore(shoot(room));
-        return currentScore;
+        //int currentScore = player.calculateScore(shoot(room));
+        //return currentScore;
         //called by ui --> player to get score --> ui
     }
     public void shoot(int room){
