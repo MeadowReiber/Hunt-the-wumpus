@@ -9,7 +9,7 @@ public class GameControl{
     Cave cave = new Cave();
     GameLocations loc = new GameLocations(player, cave);
     GUI display = new GUI("game");
-    public int displayScore(int room){
+    public void displayScore(int room){
         //ask meadow which class holds the boolean for wumpus dead or alive?
         //int currentScore = player.calculateScore(shoot(room));
         //return currentScore;
@@ -43,7 +43,7 @@ public class GameControl{
         int currentArrows = player.getArrows();
         if (currentCoins > 0){
             currentCoins--;
-            currentArrows++;
+            currentArrows = currentArrows+1;
             //call casandras method to display coins
             //call casandras method to display arrows
         }
