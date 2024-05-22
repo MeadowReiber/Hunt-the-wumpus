@@ -93,8 +93,12 @@ public class GUI extends JFrame{
         return p;
     }
 
-    
     public void displayRoom(JPanel jp){
+
+    }
+    
+    //old method
+    public void displayRoomXXXX(JPanel jp){
         
         ArrayList<String> imagePaths= new ArrayList<String>();
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
