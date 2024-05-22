@@ -13,7 +13,7 @@ import java.util.Random;
 public class Trivia{
   String hint;
   ArrayList<TriviaQuestion> TriviaQuestions;
-
+  
   public Trivia() throws FileNotFoundException{
       String filePath = "triviaquestions.txt";      
       Trivia[] qq = new Trivia[3];
@@ -33,20 +33,22 @@ public class Trivia{
     public TriviaQuestion GetQuestion(){
     // return a random question from the file
     //create a list of questions
-    int RandomIndex = (int)(Math.random() * TriviaQuestions.size());
-    
-    System.out.println(RandomIndex);
-    return null;
+    Random random = new Random();
+    int RandomIndex = random.nextInt(TriviaQuestions.size());
+    TriviaQuestion ranQuestions = TriviaQuestions.get(RandomIndex);
+
+    System.out.println("Question:" + ranQuestions.Question);
+    System.out.println("choose the correct answer");
+
+
+    for(int i = 0; i  < ranQuestions.Answers.length; i++){
+      System.out.println((i + 1) + "." + ranQuestions.Answers[i]);
+    }
+    return ranQuestions;
      
 // you will get a question from the tivaquestion
     }
 
-    
-    public void GiveAnswer(){
-      //how to get correct answers from the triva file
 
-    }
-   
-   
 
 }
