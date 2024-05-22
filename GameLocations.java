@@ -29,6 +29,11 @@ public class GameLocations{
 
 
     //methods------------------------------------
+    public int getPlayerPos(){
+      return this.playerPos;
+    }
+    
+    
     //moves the hazards to random romo determined by new room
     private void movePit(){
       this.batPos = this.newRoom();
