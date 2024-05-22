@@ -57,7 +57,7 @@ public class GUI extends JFrame{
         add(initializePanel(inventory), BorderLayout.SOUTH);
         displayRoom(room);
         displayActions(actions);
-        displayInventory(inventory, new Player());
+        //displayInventory(inventory, new Player());
         
         //add(initializePanel(message), BorderLayout.SOUTH);
         //startScreen();
