@@ -1,5 +1,5 @@
 // Casandra Reyes
-// Test - editting at home
+// Test - editting at home 2
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -54,26 +54,31 @@ public class GUI extends JFrame{
         //this.gc = new GameControl();
     
         this.room = new JPanel();
-        this.actions = new JPanel();
-        this.inventory = new JPanel();
-        this.message = new JPanel();
-        this.startScreen = new JPanel();
-        this.room.setLayout(null);
-
-        add(initializePanel(startScreen), BorderLayout.CENTER);
         add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
-        add(initializePanel(actions), BorderLayout.EAST);
-        add(initializePanel(inventory), BorderLayout.SOUTH);
-        add(initializePanel(message), BorderLayout.WEST);
-        add(initializePanel(topBar), BorderLayout.NORTH);
-
-        displayStartScreen(startScreen);
         displayRoom(room);
+        
+        this.actions = new JPanel();
+        add(initializePanel(actions), BorderLayout.EAST);
         displayActions(actions);
-        displayTopBar(topBar);
+        
+        this.inventory = new JPanel();
+        add(initializePanel(inventory), BorderLayout.SOUTH);
         displayInventory(new Player());
         
-        //add(initializePanel(message), BorderLayout.SOUTH);
+        this.message = new JPanel();
+        add(initializePanel(message), BorderLayout.WEST);
+        namePanel(message, "CONSOLE"); //if components don't show up, try doing add(displayMessage(message)) and have the method return the panel editted
+        
+        this.startScreen = new JPanel();
+        add(initializePanel(startScreen), BorderLayout.CENTER);
+        displayStartScreen(startScreen);
+        this.room.setLayout(null);
+
+        this.topBar = new JPanel();
+        add(initializePanel(topBar), BorderLayout.NORTH);
+        displayTopBar(topBar);
+        
+        
         //startScreen();
     
     }
@@ -181,6 +186,26 @@ public class GUI extends JFrame{
         //try removing and running
     }
 
+    public void namePanel(JPanel jp, String panelTitle){
+        JLabel messagePanelTitle = new JLabel(panelTitle);
+        messagePanelTitle.setFont(mainFont);
+        jp.add(messagePanelTitle);
+    }
+
+    public void announcement(String message){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
+        this.message.removeAll();
+        displayMessage(message);
+        this.message.add(new JLabel(String message).setFont(mainFont));
+    }
+
+    public void askTriviaQuestion(String question, String optionA, String optionB, String optionC){
+        JPanel jp = new JPanel();
+        initializePanel(jp);
+        namePanel(jp, "TRIVIA");
+        //addText(question); make a method that takes a string and a panel and just adds the text into it
+        //make jbuttons titled with the options and the actionlistener when clicked will call the game control checkAnswer(takes in the title of jButton to see if it matches the correct trivia question answer); 
+        //after the game control checks if it is correct, game control should use the announcement method to announce whether the user is correct or not and reward them with the hint or the coins or something; also the game control is the one displaying the hints by using the announcement method and passing in the string or whatever message user needs to see.
+    }
     
     public void displayActions(JPanel jp){
         JButton shootArrow = new JButton("Shoot");
