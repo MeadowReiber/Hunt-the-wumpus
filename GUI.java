@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;import java.awt.FlowLayout;
 import java.awt.*;
 import java.awt.Color;
+import java.awt.TextField
 
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
@@ -48,7 +49,7 @@ public class GUI extends JFrame{
     public GUI(String title){
         initializeFrame(title);
         
-        this.mainFont = new Font("SansSerif", 5, 20);
+        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
         this.lightBeige = new Color(252, 244, 189);
         this.medGreen = new Color(168, 214, 124);
         //this.gc = new GameControl();
@@ -108,7 +109,7 @@ public class GUI extends JFrame{
     public JPanel initializePanel(JPanel p){
         p.setVisible(true);
         p.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        p.setBackground(Color.BLUE);
+        p.setBackground(medGreen);
         return p;
     }
 
@@ -184,6 +185,17 @@ public class GUI extends JFrame{
         jp.validate();
         jp.repaint();
         //try removing and running
+    }
+
+    public void typeName(Player p){
+        JTextField textField = new JTextField;
+        textField.setBounds(5, 5, 280, 50);
+        textField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                p.setName() = textField.getText();
+            }
+        });
+        add(textField);
     }
 
     public void namePanel(JPanel jp, String panelTitle){
