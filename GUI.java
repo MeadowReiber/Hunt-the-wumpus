@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;import java.awt.FlowLayout;
 import java.awt.*;
+import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
@@ -16,9 +17,11 @@ import java.util.ArrayList;
 public class GUI extends JFrame{
 
     //---------PROPERTIES
-    
+
+    private JPanel startScreen;
     private JPanel room;
     private JPanel actions;
+    private JPanel topBar;
     private JPanel inventory;
     private JPanel message;
 
@@ -26,6 +29,9 @@ public class GUI extends JFrame{
     private JLabel arrows;
     private GridBagConstraints gbc;
     private Font mainFont;
+    private Color lightBeige;
+    private Color medGreen;
+    
     private GameControl gc;
     private Player player;
 
@@ -43,21 +49,29 @@ public class GUI extends JFrame{
         initializeFrame(title);
         
         this.mainFont = new Font("SansSerif", 5, 20);
+        this.lightBeige = new Color(252, 244, 189);
+        this.medGreen = new Color(168, 214, 124);
         //this.gc = new GameControl();
     
         this.room = new JPanel();
         this.actions = new JPanel();
         this.inventory = new JPanel();
         this.message = new JPanel();
+        this.startScreen = new JPanel();
         this.room.setLayout(null);
-        
-        add(room, BorderLayout.CENTER);
-        //need to change size of the room panel to not fill up entire screen cuz of layout
-        add(initializePanel(actions), BorderLayout.NORTH);
+
+        add(initializePanel(startScreen), BorderLayout.CENTER);
+        add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
+        add(initializePanel(actions), BorderLayout.EAST);
         add(initializePanel(inventory), BorderLayout.SOUTH);
+        add(initializePanel(message), BorderLayout.WEST);
+        add(initializePanel(topBar), BorderLayout.NORTH);
+
+        displayStartScreen(startScreen);
         displayRoom(room);
         displayActions(actions);
-        //displayInventory(inventory, new Player());
+        displayTopBar(topBar);
+        displayInventory(new Player());
         
         //add(initializePanel(message), BorderLayout.SOUTH);
         //startScreen();
@@ -91,6 +105,16 @@ public class GUI extends JFrame{
         p.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         p.setBackground(Color.BLUE);
         return p;
+    }
+
+    public void displayStartScreen(JPanel jp){
+        JButton start = new JButton("HUNT THE WUMPUS CLICK TO PLAY"); //add image later
+        start.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                //player arrows decrease and display on south panel named inventory
+                //gc.startGame();
+            }
+        });
     }
 
     public void displayRoom(JPanel jp){
@@ -182,12 +206,46 @@ public class GUI extends JFrame{
         jp.add(buyArrows);
         jp.add(buyHint);
     }
+
+    public void displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
+        JLabel score = new JLabel("EXAMPLE SCORE: 1050");
+        jp.add(score);
+        
+        JButton gameOps = new JButton("GameOptions");
+        gameOps.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                JPanel menu = new JPanel();
+                menu.setLayout(new GridLayout(2,1));
+                
+                JButton closeMenu = new JButton("Close Menu");
+                closeMenu.addActionListener(new ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e){
+                        //player coins decrease and display on screen on south panel named inventory
+                        remove(menu);
+                    }
+                });
+                menu.add(closeMenu);
+                
+                JButton saveAndQuit = new JButton("Save and Quit");
+                saveAndQuit.addActionListener(new ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e){
+                        //quit and show high score
+                        //gc.endGame();
+                    }
+                });
+                menu.add(saveAndQuit);
+                add(menu, BorderLayout.CENTER);
+            }
+        });
+        jp.add(gameOps);
+        return jp;
+    }
     
 
     public void displayInventory(Player p){
         this.inventory.removeAll();
         
-        JLabel arrows = new JLabel("ARROWS: " + 3);
+        JLabel arrows = new JLabel("ARROWS: " + 3); //change later to p.getArrows() etc.
         JLabel coins = new JLabel("COINS: " + 3);
         JButton b = new JButton("test");
         b.setSize(400, 400);
@@ -199,8 +257,6 @@ public class GUI extends JFrame{
         this.inventory.add(arrows);
         this.inventory.add(coins);
     }
-
-
 
     public void startScreen(){
 
