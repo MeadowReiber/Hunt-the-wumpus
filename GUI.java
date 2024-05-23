@@ -49,7 +49,7 @@ public class GUI extends JFrame{
         this.actions = new JPanel();
         this.inventory = new JPanel();
         this.message = new JPanel();
-        this.room.setLayout(new GridLayout(2, 3));
+        this.room.setLayout(null);
         
         add(room, BorderLayout.CENTER);
         //need to change size of the room panel to not fill up entire screen cuz of layout
@@ -93,8 +93,33 @@ public class GUI extends JFrame{
         return p;
     }
 
-    
     public void displayRoom(JPanel jp){
+
+        ArrayList<String> imagePaths= new ArrayList<String>();
+        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "grassHex.png");
+        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "caveHex.png");
+        
+        JButton button = new JButton;
+        int size = 100;
+        int offsetX = 0;
+        int offsetY = 0;
+        button.setSize(size, size);
+
+        for(int x = 0; x < 6; x++){
+            offsetX += size;
+            offsetY = 0;
+            if(x % 2 = 0){
+                offsetY -= size;
+            }
+            for(int y = 0; y < 5; y++){
+                button.setBounds(offsetY, offsetX, size, size);
+                add(button);
+                offsetY -= size;
+            }
+        }
+    }
+    
+    public void displayRoomXXXX(JPanel jp){
         
         ArrayList<String> imagePaths= new ArrayList<String>();
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
