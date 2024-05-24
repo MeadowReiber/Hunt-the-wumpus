@@ -40,6 +40,12 @@ public class Player {
   public void loseCoin(){
     this.goldCoins--;
   }
+  public void addCoin(){
+    this.goldCoins++;
+  }
+  public void addArrow(){
+    this.arrows++;
+  }
 
   public void takeTurn(){
     this.turns++;

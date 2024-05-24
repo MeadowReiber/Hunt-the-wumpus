@@ -97,13 +97,14 @@ public class GameLocations{
 
     public String giveHint(){
       int hint = (int)(Math.random()*10);
+      ArrayList<String> secerets = new ArrayList<String>();
       if(hint < 3){
         return hints[hint];
       }
-
+      
       //random number to determine hints
       //  
-      return "" + ;
+      return "You are in room number " + this.playerPos;
     }
     public ArrayList<String> giveWarnings(){
       ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);
