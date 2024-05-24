@@ -1,11 +1,13 @@
 // Casandra Reyes
-// Test - editting at home
+// Test - editting at home 2
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;import java.awt.FlowLayout;
 import java.awt.*;
+import java.awt.Color;
+import java.awt.TextField
 
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
@@ -16,9 +18,11 @@ import java.util.ArrayList;
 public class GUI extends JFrame{
 
     //---------PROPERTIES
-    
+
+    private JPanel startScreen;
     private JPanel room;
     private JPanel actions;
+    private JPanel topBar;
     private JPanel inventory;
     private JPanel message;
 
@@ -26,6 +30,9 @@ public class GUI extends JFrame{
     private JLabel arrows;
     private GridBagConstraints gbc;
     private Font mainFont;
+    private Color lightBeige;
+    private Color medGreen;
+    
     private GameControl gc;
     private Player player;
 
@@ -42,24 +49,37 @@ public class GUI extends JFrame{
     public GUI(String title){
         initializeFrame(title);
         
-        this.mainFont = new Font("SansSerif", 5, 20);
+        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
+        this.lightBeige = new Color(252, 244, 189);
+        this.medGreen = new Color(168, 214, 124);
         //this.gc = new GameControl();
     
         this.room = new JPanel();
-        this.actions = new JPanel();
-        this.inventory = new JPanel();
-        this.message = new JPanel();
-        this.room.setLayout(new GridLayout(2, 3));
-        
-        add(room, BorderLayout.CENTER);
-        //need to change size of the room panel to not fill up entire screen cuz of layout
-        add(initializePanel(actions), BorderLayout.NORTH);
-        add(initializePanel(inventory), BorderLayout.SOUTH);
+        add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
         displayRoom(room);
-        displayActions(actions);
-        //displayInventory(inventory, new Player());
         
-        //add(initializePanel(message), BorderLayout.SOUTH);
+        this.actions = new JPanel();
+        add(initializePanel(actions), BorderLayout.EAST);
+        displayActions(actions);
+        
+        this.inventory = new JPanel();
+        add(initializePanel(inventory), BorderLayout.SOUTH);
+        displayInventory(new Player());
+        
+        this.message = new JPanel();
+        add(initializePanel(message), BorderLayout.WEST);
+        namePanel(message, "CONSOLE"); //if components don't show up, try doing add(displayMessage(message)) and have the method return the panel editted
+        
+        this.startScreen = new JPanel();
+        add(initializePanel(startScreen), BorderLayout.CENTER);
+        displayStartScreen(startScreen);
+        this.room.setLayout(null);
+
+        this.topBar = new JPanel();
+        add(initializePanel(topBar), BorderLayout.NORTH);
+        displayTopBar(topBar);
+        
+        
         //startScreen();
     
     }
@@ -89,15 +109,56 @@ public class GUI extends JFrame{
     public JPanel initializePanel(JPanel p){
         p.setVisible(true);
         p.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        p.setBackground(Color.BLUE);
+        p.setBackground(medGreen);
         return p;
+    }
+
+    public void displayStartScreen(JPanel jp){
+        JButton start = new JButton("HUNT THE WUMPUS CLICK TO PLAY"); //add image later
+        start.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                //player arrows decrease and display on south panel named inventory
+                //gc.startGame(); // in the game control class start game method will first call gui displayRules(); to show the instructions.
+            }
+        });
+    }
+
+    public void displayRules(){
+        JButton rules = new JButton("RULES");
+        add(rules);
+        rules.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                remove(rules);
+            }
+        });
     }
 
     public void displayRoom(JPanel jp){
 
+        ArrayList<String> imagePaths= new ArrayList<String>();
+        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "grassHex.png");
+        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "caveHex.png"); //add pics of cave room and other rooms make it so that the buttons are covered and uncovered on click
+        
+        JButton button = new JButton;
+        int size = 100;
+        int offsetX = 0;
+        int offsetY = 0;
+        button.setSize(size, size);
+
+        for(int x = 0; x < 6; x++){
+            offsetX += size;
+            offsetY = 0;
+            if(x % 2 = 0){
+                offsetY -= size;
+            }
+            for(int y = 0; y < 5; y++){
+                button.setBounds(offsetY, offsetX, size, size);
+                jp.add(button);
+                offsetY -= size;
+            }
+        }
     }
     
-    //old method
     public void displayRoomXXXX(JPanel jp){
         
         ArrayList<String> imagePaths= new ArrayList<String>();
@@ -136,6 +197,37 @@ public class GUI extends JFrame{
         //try removing and running
     }
 
+    public void typeName(Player p){
+        JTextField textField = new JTextField;
+        textField.setBounds(5, 5, 280, 50);
+        textField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                p.setName() = textField.getText();
+            }
+        });
+        add(textField);
+    }
+
+    public void namePanel(JPanel jp, String panelTitle){
+        JLabel messagePanelTitle = new JLabel(panelTitle);
+        messagePanelTitle.setFont(mainFont);
+        jp.add(messagePanelTitle);
+    }
+
+    public void announcement(String message){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
+        this.message.removeAll();
+        displayMessage(message);
+        this.message.add(new JLabel(String message).setFont(mainFont));
+    }
+
+    public void askTriviaQuestion(String question, String optionA, String optionB, String optionC){
+        JPanel jp = new JPanel();
+        initializePanel(jp);
+        namePanel(jp, "TRIVIA");
+        //addText(question); make a method that takes a string and a panel and just adds the text into it
+        //make jbuttons titled with the options and the actionlistener when clicked will call the game control checkAnswer(takes in the title of jButton to see if it matches the correct trivia question answer); 
+        //after the game control checks if it is correct, game control should use the announcement method to announce whether the user is correct or not and reward them with the hint or the coins or something; also the game control is the one displaying the hints by using the announcement method and passing in the string or whatever message user needs to see.
+    }
     
     public void displayActions(JPanel jp){
         JButton shootArrow = new JButton("Shoot");
@@ -161,12 +253,46 @@ public class GUI extends JFrame{
         jp.add(buyArrows);
         jp.add(buyHint);
     }
+
+    public void displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
+        JLabel score = new JLabel("EXAMPLE SCORE: 1050");
+        jp.add(score);
+        
+        JButton gameOps = new JButton("GameOptions");
+        gameOps.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                JPanel menu = new JPanel();
+                menu.setLayout(new GridLayout(2,1));
+                
+                JButton closeMenu = new JButton("Close Menu");
+                closeMenu.addActionListener(new ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e){
+                        //player coins decrease and display on screen on south panel named inventory
+                        remove(menu);
+                    }
+                });
+                menu.add(closeMenu);
+                
+                JButton saveAndQuit = new JButton("Save and Quit");
+                saveAndQuit.addActionListener(new ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e){
+                        //quit and show high score
+                        //gc.endGame();
+                    }
+                });
+                menu.add(saveAndQuit);
+                add(menu, BorderLayout.CENTER);
+            }
+        });
+        jp.add(gameOps);
+        return jp;
+    }
     
 
     public void displayInventory(Player p){
         this.inventory.removeAll();
         
-        JLabel arrows = new JLabel("ARROWS: " + 3);
+        JLabel arrows = new JLabel("ARROWS: " + 3); //change later to p.getArrows() etc.
         JLabel coins = new JLabel("COINS: " + 3);
         JButton b = new JButton("test");
         b.setSize(400, 400);
@@ -178,8 +304,6 @@ public class GUI extends JFrame{
         this.inventory.add(arrows);
         this.inventory.add(coins);
     }
-
-
 
     public void startScreen(){
 

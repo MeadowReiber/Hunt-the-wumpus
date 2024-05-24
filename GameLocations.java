@@ -22,13 +22,18 @@ public class GameLocations{
       this.moveWumpus();
 
       this.hints = new String[3];
-      //fill the hints method
-      //fill the hints method
-      //fill the hints method
+      this.hints[0] = "look at the beautiful BLUE sky";
+      this.hints[1] = "visiting the capital city: OLYMPIA";
+      this.hints[2] = "RED roses are my favorite";
     }
 
 
     //methods------------------------------------
+    public int getPlayerPos(){
+      return this.playerPos;
+    }
+    
+    
     //moves the hazards to random romo determined by new room
     private void movePit(){
       this.batPos = this.newRoom();
@@ -91,7 +96,9 @@ public class GameLocations{
     }
 
     public String giveHint(){
-        return "hint";
+      //random number to determine hints
+      //  
+      return "hint";
     }
     public ArrayList<String> giveWarnings(){
       ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);

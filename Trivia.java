@@ -16,18 +16,19 @@ public class Trivia{
   
   public Trivia() throws FileNotFoundException{
       String filePath = "triviaquestions.txt";      
-      Trivia[] qq = new Trivia[3];
+      TriviaQuestions = new ArrayList<>(); // initizalize arraylist
       //int count =0;
       File file = new File(filePath);
       Scanner scanner = new Scanner(file);
 
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();            
-        String[] questionSource = line.split(",", 6);
-        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4) );
+        String[] questionSource = line.split(",", 6);                                                        // for the correct answer
+        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4), questionSource[5] );
         TriviaQuestions.add(question);
-        scanner.close();
+      
       }
+      scanner.close();
   }
 
     public TriviaQuestion GetQuestion(){
@@ -47,6 +48,10 @@ public class Trivia{
     return ranQuestions;
      
 // you will get a question from the tivaquestion
+    }
+    public String getAnswers(TriviaQuestion question){
+
+      return question.answers[0];
     }
 
 
