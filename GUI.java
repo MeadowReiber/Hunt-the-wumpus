@@ -118,7 +118,17 @@ public class GUI extends JFrame{
         start.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows decrease and display on south panel named inventory
-                //gc.startGame();
+                //gc.startGame(); // in the game control class start game method will first call gui displayRules(); to show the instructions.
+            }
+        });
+    }
+
+    public void displayRules(){
+        JButton rules = new JButton("RULES");
+        add(rules);
+        rules.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                remove(rules);
             }
         });
     }
@@ -127,7 +137,7 @@ public class GUI extends JFrame{
 
         ArrayList<String> imagePaths= new ArrayList<String>();
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "grassHex.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "caveHex.png");
+        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "caveHex.png"); //add pics of cave room and other rooms make it so that the buttons are covered and uncovered on click
         
         JButton button = new JButton;
         int size = 100;
@@ -143,7 +153,7 @@ public class GUI extends JFrame{
             }
             for(int y = 0; y < 5; y++){
                 button.setBounds(offsetY, offsetX, size, size);
-                add(button);
+                jp.add(button);
                 offsetY -= size;
             }
         }
