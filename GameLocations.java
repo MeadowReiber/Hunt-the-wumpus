@@ -3,7 +3,7 @@ import java.util.Random;
 import java.util.ArrayList;
 public class GameLocations{
     //fields and properties----------------------
-    private String[] hints;
+    private ArrayList<String> hints;
     
     private Cave map;
     
@@ -21,10 +21,10 @@ public class GameLocations{
       this.movePit();
       this.moveWumpus();
 
-      this.hints = new String[3];
-      this.hints[0] = "look at the beautiful BLUE sky";
-      this.hints[1] = "visiting the capital city: OLYMPIA";
-      this.hints[2] = "RED roses are my favorite";
+      this.hints = new ArrayList<String>();
+      this.hints.add("look at the beautiful BLUE sky");
+      this.hints.add("visiting the capital city: OLYMPIA");
+      this.hints.add("RED roses are my favorite");
     }
 
 
@@ -95,16 +95,18 @@ public class GameLocations{
       //about getting coins if its a new room
     }
 
+    //returns a String that is the seceret/hint
     public String giveHint(){
       int hint = (int)(Math.random()*10);
-      ArrayList<String> secerets = new ArrayList<String>();
-      if(hint < 3){
-        return hints[hint];
+      ArrayList<String> secerets = this.hints;
+      secerets.add("You are in room number " + this.playerPos);
+      secerets.add("The bats are in room number " + this.batPos);
+      secerets.add("The pit is in room number " + this.pitPos);
+      if(hint < this.hints.size()){
+        this.hints.remove(hint);
       }
       
-      //random number to determine hints
-      //  
-      return "You are in room number " + this.playerPos;
+      return secerets.get(hint);
     }
     public ArrayList<String> giveWarnings(){
       ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);
