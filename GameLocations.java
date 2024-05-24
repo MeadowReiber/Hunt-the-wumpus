@@ -42,9 +42,8 @@ public class GameLocations{
       this.batPos = this.newRoom();
     }
     private void moveWumpus(){
-      ArrayList<Integer> newRooms = map.getWumpusRooms(this.wumpusPos);
-      int possible = newRooms.size();
-      this.wumpusPos = newRooms.get((int)(Math.random() * possible) +1);
+      int roomsAway = (int)(Math.random()*3) + 2;
+      //finish
     }
     //returns the int of a random room that does not overlap positions with anything
     private int newRoom(){
