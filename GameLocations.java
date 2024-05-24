@@ -96,6 +96,7 @@ public class GameLocations{
     }
 
     public String giveHint(){
+      int hint = (int)(Math.random()*10);
       //random number to determine hints
       //  
       return "hint";

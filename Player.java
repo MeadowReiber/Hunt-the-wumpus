@@ -37,6 +37,9 @@ public class Player {
   public String getName(){
     return this.name;
   }
+  public void loseCoin(){
+    this.goldCoins--;
+  }
 
   public void takeTurn(){
     this.turns++;
