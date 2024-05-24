@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class Cave {
-    private HashMap<Integer, Array<List>> roomConnections;
+    private HashMap<Integer, ArrayList<Integer>> roomConnections;
 
     public Cave() {
         roomConnections = new HashMap<>();
@@ -31,7 +31,7 @@ public class Cave {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 int room = Integer.parseInt(parts[0]);
-                Set<Integer> connections = roomConnections.get(room);
+                ArrayList<Integer> connections = roomConnections.get(room);
                 for (int i = 1; i < parts.length; i++) {
                     int connectedRoom = Integer.parseInt(parts[i]);
                     connections.add(connectedRoom);
@@ -54,7 +54,7 @@ public class Cave {
 
 
 
-    public Array<List> getAdjacentRooms(int room) {
+    public ArrayList<Integer> getAdjacentRooms(int room) {
     
         return roomConnections.getOrDefault(room, new ArrayList<>());
     }
