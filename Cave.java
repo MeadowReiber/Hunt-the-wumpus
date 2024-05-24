@@ -6,61 +6,97 @@
 // Keeps an internal data representation of the cave sufficient for representing connections for each room in the cave
 // Exposes appropriate methods and/or attributes for other objects and the main program of the Hunt The Wumpus game.
 
-
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.stage.Stage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class Cave {
-    private static final int hexagonSize = 50;
-    private static final int hexagonHeight = (int) (Math.sqrt(3) * hexagonSize);
-    private static final int hexagonWidth = (int) (2 * hexagonSize * Math.cos(Math.PI / 6));
-    private static final int gridWidth = 10;
-    private static final int gridHeight = 10;
-    private static final int moveIt = hexagonWidth / 4;
+    private HashMap<Integer, Array<List>> roomConnections;
 
-    public void showCaveWindow(Stage primaryStage, String caveName) {
-        Pane root = new Pane();
-        root.setPrefSize(gridWidth * hexagonWidth + moveIt, gridHeight * hexagonHeight);
-
-        // Draw hexagons directly on the pane
-        for (int row = 0; row < gridHeight; row++) {
-            int yMoveIt = row * hexagonHeight;
-            int xMoveIt = (row % 2 == 0) ? moveIt : 0;
-            for (int col = 0; col < gridWidth; col++) {
-                int x = col * hexagonWidth + xMoveIt;
-                int y = yMoveIt;
-
-                Color color = Color.WHITE;
-
-                if (col > 1 && col < 9 && row > 1 && row < 9) {
-                    color = Color.WHITE;
-                } else {
-                    color = Color.TURQUOISE;
-                }
-
-                // Create hexagonal shape
-                Polygon hexagon = new Polygon();
-                hexagon.getPoints().addAll(
-                        (double) (x + hexagonWidth / 4), (double) y,
-                        (double) (x + hexagonWidth / 4 * 3), (double) y,
-                        (double) (x + hexagonWidth), (double) (y + hexagonHeight / 2),
-                        (double) (x + hexagonWidth / 4 * 3), (double) (y + hexagonHeight),
-                        (double) (x + hexagonWidth / 4), (double) (y + hexagonHeight),
-                        (double) x, (double) (y + hexagonHeight / 2)
-                );
-                hexagon.setStroke(Color.BLACK);
-                hexagon.setFill(color);
-
-                root.getChildren().add(hexagon);
-            }
+    public Cave() {
+        roomConnections = new HashMap<>();
+      
+        // This initializes connections for all 30 rooms with empty sets
+        for (int i = 1; i <= 30; i++) {
+            roomConnections.put(i, new ArrayList<>());
         }
+    }
 
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Cave 1");
-        primaryStage.show();
+    public void readCaveData(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                int room = Integer.parseInt(parts[0]);
+                Set<Integer> connections = roomConnections.get(room);
+                for (int i = 1; i < parts.length; i++) {
+                    int connectedRoom = Integer.parseInt(parts[i]);
+                    connections.add(connectedRoom);
+                    roomConnections.get(connectedRoom).add(room);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the cave data file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing room numbers: " + e.getMessage());
+        }
+    }
+
+    public boolean isConnected(int roomA, int roomB) {
+        if (roomConnections.containsKey(roomA)) {
+            return roomConnections.get(roomA).contains(roomB);
+        }
+        return false;
+    }
+
+
+
+    public Array<List> getAdjacentRooms(int room) {
+    
+        return roomConnections.getOrDefault(room, new ArrayList<>());
+    }
+
+    public void displayCave() {
+        for (Integer room : roomConnections.keySet()) {
+            ArrayList<Integer> connections = roomConnections.get(room);
+            System.out.print("Room " + room + " connects to: ");
+            for (Integer connectedRoom : connections) {
+                System.out.print(connectedRoom + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    // Main method to check if this works
+    public static void main(String[] args) {
+        Cave cave = new Cave();
+
+        // You can read the data from a file as follows:
+        // cave.readCaveData("cave_data.txt");
+
+        // You can also manually connect some rooms 
+        cave.connectRooms(1, 2);
+        cave.connectRooms(1, 30);
+        cave.connectRooms(2, 3);
+        
+
+        // This displays the cave connections
+        cave.displayCave();
+
+        // This is how to check if two rooms are connected
+        System.out.println("Are rooms 1 and 2 connected? " + cave.isConnected(1, 2));
+
+        // This gets and display adjacent rooms for room 1
+        System.out.println("Rooms adjacent to room 1: " + cave.getAdjacentRooms(1));
+    }
+
+    private void connectRooms(int roomA, int roomB) {
+        // This private method is used only within this class to set up initial connections
+        roomConnections.get(roomA).add(roomB);
+        roomConnections.get(roomB).add(roomA);
     }
 }
+
