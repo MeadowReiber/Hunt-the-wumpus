@@ -35,6 +35,7 @@ public class GameLocations{
       this.hints.add("TOUCHDOWN!!! another SIX points");
       this.hints.add("people with AB- blood are my favorite");
       this.hints.add("I'm so excited to visit LONDON for the olympics (2012)");
+      this.hints.add("I loved harry potter so much, I always wanted to be a GRIFFINDORE");
     }
     
     public int getPlayerPos(){
