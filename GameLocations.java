@@ -23,16 +23,20 @@ public class GameLocations{
       this.coinsLeft = 100;
 
       this.hints = new ArrayList<String>();
-      this.hints.add("look at the beautiful BLUE sky");
-      this.hints.add("visiting the capital city: OLYMPIA");
-      this.hints.add("RED roses are my favorite");
-      this.hints.add("TOUCHDOWN!!! another 6 points");
-      this.hints.add("people with AB- blood are my favorite");
-      this.hints.add("I'm so excited to visit London for the olympics (2012)");
+      this.setHints();
     }
 
 
     //methods------------------------------------
+    private void setHints(){
+      this.hints.add("lok at the beautiful BLUE sky");
+      this.hints.add("visiting the capital city: OLYMPIA");
+      this.hints.add("RED roses are my favorite");
+      this.hints.add("TOUCHDOWN!!! another SIX points");
+      this.hints.add("people with AB- blood are my favorite");
+      this.hints.add("I'm so excited to visit LONDON for the olympics (2012)");
+    }
+    
     public int getPlayerPos(){
       return this.playerPos;
     }
@@ -110,7 +114,7 @@ public class GameLocations{
 
     //returns a String that is the seceret/hint
     public String giveHint(){
-      int hint = (int)(Math.random()*this.hints.size()) + 4;
+      int hint = (int)(Math.random()*this.hints.size()) + 3;
       ArrayList<String> secerets = this.hints;
       secerets.add("You are in room number " + this.playerPos);
       secerets.add("The bats are in room number " + this.batPos);
