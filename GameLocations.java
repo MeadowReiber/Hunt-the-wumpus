@@ -4,7 +4,8 @@ import java.util.ArrayList;
 public class GameLocations{
     //fields and properties----------------------
     private ArrayList<String> hints;
-    
+    private int coinsLeft;
+
     private Cave map;
     
     private int batPos = 0;
@@ -19,7 +20,8 @@ public class GameLocations{
       this.playerPos = this.newRoom();
       this.moveBat();
       this.movePit();
-      this.moveWumpus();
+      this.wumpusPos = this.newRoom();
+      this.coinsLeft = 100;
 
       this.hints = new ArrayList<String>();
       this.hints.add("look at the beautiful BLUE sky");
@@ -41,9 +43,16 @@ public class GameLocations{
     private void moveBat(){
       this.batPos = this.newRoom();
     }
-    private void moveWumpus(){
-      int roomsAway = (int)(Math.random()*3) + 2;
-      //finish
+    private void moveWumpus(int roomsLeft){
+      if(roomsLeft > 0){
+        ArrayList<Integer> adjacentRooms = map.getAdjacentRooms(this.wumpusPos);
+        for(int i = 0; i < adjacentRooms.size(); i++){
+          if(map.isConnected(i, this.wumpusPos)){
+            this.wumpusPos = i;
+            moveWumpus(roomsLeft-1);
+          }
+        }
+      }
     }
     //returns the int of a random room that does not overlap positions with anything
     private int newRoom(){
@@ -73,7 +82,8 @@ public class GameLocations{
     }
     public boolean encouterWumpus(){
       if(this.playerPos == this.wumpusPos){
-        this.moveWumpus();
+        int roomsAway = (int)(Math.random()*3) + 2;
+        this.moveWumpus(roomsAway);
         return true;
       }
       return false;
@@ -88,10 +98,13 @@ public class GameLocations{
       else return false;    
     }
 
-    //precondition: newRoom is a valid move. moves the player to the new room
+    //precondition: newRoom is a valid move. moves the player to the new room and adds coin
     public void movePlayer(int newRoom){
       this.playerPos = newRoom;
-      //about getting coins if its a new room
+      if(coinsLeft > 0){
+        this.player.addCoin();
+        this.coinsLeft--;
+      }
     }
 
     //returns a String that is the seceret/hint
