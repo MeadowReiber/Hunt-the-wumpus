@@ -1,10 +1,10 @@
 //Meadow Reiber
-import java.util.Random;
 import java.util.ArrayList;
 public class GameLocations{
     //fields and properties----------------------
-    private String[] hints;
-    
+    private ArrayList<String> hints;
+    private int coinsLeft;
+
     private Cave map;
     
     private int batPos = 0;
@@ -19,33 +19,49 @@ public class GameLocations{
       this.playerPos = this.newRoom();
       this.moveBat();
       this.movePit();
-      this.moveWumpus();
+      this.wumpusPos = this.newRoom();
+      this.coinsLeft = 100;
 
-      this.hints = new String[3];
-      this.hints[0] = "look at the beautiful BLUE sky";
-      this.hints[1] = "visiting the capital city: OLYMPIA";
-      this.hints[2] = "RED roses are my favorite";
+      this.hints = new ArrayList<String>();
+      this.setHints();
     }
 
 
     //methods------------------------------------
+    //adds hints connected to all the trivia questions
+    private void setHints(){
+      this.hints.add("lok at the beautiful BLUE sky");
+      this.hints.add("visiting the capital city: OLYMPIA");
+      this.hints.add("RED roses are my favorite");
+      this.hints.add("TOUCHDOWN!!! another SIX points");
+      this.hints.add("people with AB- blood are my favorite");
+      this.hints.add("I'm so excited to visit LONDON for the olympics (2012)");
+      this.hints.add("I loved harry potter so much, I always wanted to be a GRIFFINDORE");
+    }
+    
     public int getPlayerPos(){
       return this.playerPos;
     }
     
-    
-    //moves the hazards to random romo determined by new room
+    //moves the hazards to random room determined by new room
     private void movePit(){
       this.batPos = this.newRoom();
     }
     private void moveBat(){
       this.batPos = this.newRoom();
     }
-    private void moveWumpus(){
-      ArrayList<Integer> newRooms = map.getWumpusRooms(this.wumpusPos);
-      int possible = newRooms.size();
-      this.wumpusPos = newRooms.get((int)(Math.random() * possible) +1);
+    private void moveWumpus(int roomsLeft){
+      if(roomsLeft > 0){
+        ArrayList<Integer> adjacentRooms = map.getAdjacentRooms(this.wumpusPos);
+        for(int i = 0; i < adjacentRooms.size(); i++){
+          if(map.isConnected(adjacentRooms.get(i), this.wumpusPos)){
+            this.wumpusPos = adjacentRooms.get(i);
+            moveWumpus(roomsLeft-1);
+          }
+        }
+      }
     }
+    
     //returns the int of a random room that does not overlap positions with anything
     private int newRoom(){
       int pos = (int)(Math.random()*30) + 1;
@@ -74,7 +90,8 @@ public class GameLocations{
     }
     public boolean encouterWumpus(){
       if(this.playerPos == this.wumpusPos){
-        this.moveWumpus();
+        int roomsAway = (int)(Math.random()*3) + 2;
+        this.moveWumpus(roomsAway);
         return true;
       }
       return false;
@@ -89,17 +106,29 @@ public class GameLocations{
       else return false;    
     }
 
-    //precondition: newRoom is a valid move. moves the player to the new room
+    //precondition: newRoom is a valid move. moves the player to the new room and adds coin
     public void movePlayer(int newRoom){
       this.playerPos = newRoom;
-      //about getting coins if its a new room
+      if(coinsLeft > 0){
+        this.player.addCoin();
+        this.coinsLeft--;
+      }
     }
 
+    //returns a String that is the seceret/hint
     public String giveHint(){
-      //random number to determine hints
-      //  
-      return "hint";
+      int hint = (int)(Math.random()*this.hints.size()) + 3;
+      ArrayList<String> secerets = this.hints;
+      secerets.add("You are in room number " + this.playerPos);
+      secerets.add("The bats are in room number " + this.batPos);
+      secerets.add("The pit is in room number " + this.pitPos);
+      if(hint < this.hints.size()){
+        this.hints.remove(hint);
+      }
+      
+      return secerets.get(hint);
     }
+    //to be called when the player moves and returns the warnings about surrounding hazards
     public ArrayList<String> giveWarnings(){
       ArrayList<Integer> rooms = map.getAdjacentRooms(this.playerPos);
       ArrayList<String> warnings = new ArrayList<String>();

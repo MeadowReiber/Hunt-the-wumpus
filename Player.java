@@ -22,6 +22,7 @@ public class Player {
     this.highScore = highScore;
   }
   //methods------------------------------------
+  //getters and setters + some modified setters aka just adding/subtracting one
   public int getArrows(){
     return this.arrows;
   }
@@ -37,10 +38,22 @@ public class Player {
   public String getName(){
     return this.name;
   }
+  public void loseCoin(){
+    this.goldCoins--;
+  }
+  public void addCoin(){
+    this.goldCoins++;
+  }
+  public void addArrow(){
+    this.arrows++;
+  }
 
+  //increases turn
   public void takeTurn(){
     this.turns++;
   }
+
+  //returns the calculated score from the spec
   public int calculateScore(boolean wumpusDead){
     int score = 100 - this.turns + this.goldCoins + (5 * this.arrows);
     if(wumpusDead){
@@ -50,4 +63,3 @@ public class Player {
     return score;
   }
 }
-//maybe add a method to calculate high score
