@@ -52,13 +52,14 @@ public class GameLocations{
       if(roomsLeft > 0){
         ArrayList<Integer> adjacentRooms = map.getAdjacentRooms(this.wumpusPos);
         for(int i = 0; i < adjacentRooms.size(); i++){
-          if(map.isConnected(i, this.wumpusPos)){
-            this.wumpusPos = i;
+          if(map.isConnected(adjacentRooms.get(i), this.wumpusPos)){
+            this.wumpusPos = adjacentRooms.get(i);
             moveWumpus(roomsLeft-1);
           }
         }
       }
     }
+    
     //returns the int of a random room that does not overlap positions with anything
     private int newRoom(){
       int pos = (int)(Math.random()*30) + 1;
