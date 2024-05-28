@@ -24,9 +24,10 @@ public class Trivia{
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();            
         String[] questionSource = line.split(",", 6);                                                        // for the correct answer
-        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4) );
-        TriviaQuestion theanswers = new TriviaQuestion(questionSource[0],Arrays.copyOfRange( questionSource, 5,5));
+        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4),questionSource );
+        TriviaQuestion theanswers = new TriviaQuestion(questionSource[0],Arrays.copyOfRange( questionSource, 5,5), questionSource);
         TriviaQuestions.add(question);
+        TriviaQuestions.add(theanswers);
       
       }
       scanner.close();

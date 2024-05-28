@@ -33,7 +33,7 @@ public class GUI extends JFrame{
     private Color lightBeige;
     private Color medGreen;
     
-    private GameControl gc;
+    private GameControl gameControl;
     private Player player;
 
     // Load the icon, scaled to the given size
@@ -53,6 +53,44 @@ public class GUI extends JFrame{
         this.lightBeige = new Color(252, 244, 189);
         this.medGreen = new Color(168, 214, 124);
         //this.gc = new GameControl();
+    
+        this.room = new JPanel();
+        add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
+        displayRoom(room);
+        
+        this.actions = new JPanel();
+        add(initializePanel(actions), BorderLayout.EAST);
+        displayActions(actions);
+        
+        this.inventory = new JPanel();
+        add(initializePanel(inventory), BorderLayout.SOUTH);
+        displayInventory(new Player());
+        
+        this.message = new JPanel();
+        add(initializePanel(message), BorderLayout.WEST);
+        namePanel(message, "CONSOLE"); //if components don't show up, try doing add(displayMessage(message)) and have the method return the panel editted
+        
+        this.startScreen = new JPanel();
+        add(initializePanel(startScreen), BorderLayout.CENTER);
+        displayStartScreen(startScreen);
+        this.room.setLayout(null);
+
+        this.topBar = new JPanel();
+        add(initializePanel(topBar), BorderLayout.NORTH);
+        displayTopBar(topBar);
+        
+        
+        //startScreen();
+    
+    }
+
+    public GUI(String title, GameControl gc){
+        initializeFrame(title);
+        
+        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
+        this.lightBeige = new Color(252, 244, 189);
+        this.medGreen = new Color(168, 214, 124);
+        this.gameControl = gc;
     
         this.room = new JPanel();
         add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout

@@ -11,19 +11,27 @@ import java.io.IOException;
 
 public class HighScore {
   //variables
-  private Scanner user;
   private Scanner reader;
+  private Scanner lengthReader;
   private File f;
   private Player[] players;
+  private int ogFileLength;
   //constructors
   public HighScore(){
-    this.user = new Scanner(System.in);
     this.f = createFile("players.csv");
     try { 
       this.reader = new Scanner(f);
     } catch (FileNotFoundException e) {
       System.out.println("well thats concerning");
     }
+
+    try{
+      this.lengthReader = new Scanner(f);
+    }catch(FileNotFoundException e){
+      System.out.println("oopsies");
+    }
+    
+    this.ogFileLength = getFileLength();
     this.players = createArray();
 
     
@@ -33,27 +41,39 @@ public class HighScore {
   //file methods
   public File createFile(String fileName){
     File f = new File(fileName);
+    if(!f.exists()){
+      try{
+        f.createNewFile();
+      }catch(IOException io){
+        System.out.println("that sucks");
+      }
+    }
     return f;
   }
 
-  public Player[] addPlayer(Player p){
-    for(int i = 0; i < players.length; i++){
-      if(p.getHighScore() > players[i].getHighScore()){
-        for(int j = players.length - 1; j > i; j--){
-          players[j] = players[j-1];
+  public void addPlayer(Player p){
+    boolean added = false;
+    if(players.length == 1){
+      players[0] = p;
+    }else{
+      for(int i = 0; i < players.length; i++){
+        if(p.getHighScore() > players[i].getHighScore() && !added){
+          for(int j = players.length - 1; j > i; j--){
+            players[j] = players[j-1];
+          }
+          players[i] = p;
+          added = true;
         }
-        players[i] = p;
       }
     }
-    return players;
   }
 
   public int getFileLength(){
     int length = 0;
 
     
-    while(reader.hasNextLine()){
-      user.nextLine();
+    while(lengthReader.hasNextLine()){
+      lengthReader.nextLine();
       length++;
     }
     
@@ -61,16 +81,19 @@ public class HighScore {
   }
 
   public Player[] createArray(){
-    Player[] players = new Player[getFileLength() - 1];
-    user.nextLine();
+    if(ogFileLength <= 1){
+      return new Player[1];
+    }else{
+      Player[] players = new Player[ogFileLength - 1];
+      reader.nextLine();
 
-    for(int i = 0; i < players.length; i++){
-      String[] vars = reader.nextLine().split(",");
-      int score = Integer.valueOf(vars[1]).intValue();
-      Player p = new Player(vars[0], score );
-      players[i] = p;
+      for(int i = 0; i < players.length; i++){
+        String[] vars = reader.nextLine().split(",");
+        int score = Integer.valueOf(vars[1]).intValue();
+        Player p = new Player(vars[0], score );
+        players[i] = p;
+      }
     }
-    
     return players;
   }
 
@@ -94,13 +117,17 @@ public class HighScore {
     return finalString;
   }
 
-  public void writeToFile(String[] str, Player p){
+  public void writeToFile(String[] str){
     try{
       FileWriter writer = new FileWriter(this.f,false);
-      writer.write("name,highscore");
+      writer.write("name,highscore" + "\n");
 
       for(int i = 0; i < str.length; i++){
+       if(i == str.length - 1){
+        writer.write(str[i]);
+       }else{
         writer.write(str[i] + "\n");
+       }
       }
       writer.close();
       System.out.println();
@@ -109,10 +136,7 @@ public class HighScore {
     }
   }
 
-  //score methods
-  public String[] displayScore(){
-    return turnIntoString();
-  }
+  
 
 // get array of highscore(player)l
 // if players int is high enough then replace them in the array and fix it
