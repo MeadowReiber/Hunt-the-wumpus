@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class Cave {
     private HashMap<Integer, ArrayList<Integer>> roomConnections;
@@ -51,7 +50,6 @@ public class Cave {
         }
         return false;
     }
-
 
 
     public ArrayList<Integer> getAdjacentRooms(int room) {
