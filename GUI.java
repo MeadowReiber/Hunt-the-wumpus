@@ -1,13 +1,25 @@
 // Casandra Reyes
 // Test - editting at home 2
 
+///////////////////////////////////////////
+///// METHOD NAMES AND WHAT THEY DO:
+///////////////////////////////////////////
+
+// initializeFrame - sets color, layout etc. of the frame
+// initializePanel - sets color, layout etc. of the panel given
+
+// displayStartScreen - displays a Jpanel taking up the whole screen with a single start button
+// displayRoom - takes a panel and on it displays the 2 x 3 current room as buttons - player clicks what direction to go and buttons call a walk method in game control
+// displayActions - takes a panel and on it it displays actions for player to take - they can earn coins in rooms and spend on trivia questions to buy arrows and hints
+// displayInventory - takes a player and a panel and displays their arrows and coins as jlabels on the panel
+
+//
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import java.awt.*;
-
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -23,7 +35,7 @@ public class GUI extends JFrame{
     private JPanel actions;
     private JPanel topBar;
     private JPanel inventory;
-    private JPanel message;
+    private JPanel textPanel;
 
     private JLabel score;
     private JLabel arrows;
@@ -31,6 +43,7 @@ public class GUI extends JFrame{
     private Font mainFont;
     private Color lightBeige;
     private Color medGreen;
+    private ArrayList<String> imagePaths;
     
     private GameControl gameControl;
     private Player player;
@@ -46,40 +59,44 @@ public class GUI extends JFrame{
     //---------CONSTRUCTOR
     
     public GUI(String title){
+
+        this.imagePaths = new ArrayList<String>();
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "2.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "3.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "4.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "SHOOTARROW.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "GETHINT.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "BUYTRIVIA.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "4.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
+
         initializeFrame(title);
         
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);
         this.lightBeige = new Color(252, 244, 189);
         this.medGreen = new Color(168, 214, 124);
-        //this.gc = new GameControl();
+        //this.gameControl = gc;
     
         this.room = new JPanel();
-        add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
+        add(room, BorderLayout.CENTER);
         displayRoom(room);
         
         this.actions = new JPanel();
         add(initializePanel(actions), BorderLayout.EAST);
         displayActions(actions);
         
+        this.textPanel = new JPanel();
+        this.textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        add(initializePanel(textPanel), BorderLayout.NORTH);
+        showMessage("Hint example : a wumpus is near", this.textPanel);
+        
         this.inventory = new JPanel();
         add(initializePanel(inventory), BorderLayout.SOUTH);
         displayInventory(new Player());
-        
-        /*this.message = new JPanel();
-        add(initializePanel(message), BorderLayout.WEST);
-        namePanel(message, "CONSOLE"); //if components don't show up, try doing add(displayMessage(message)) and have the method return the panel editted
-        
-        this.startScreen = new JPanel();
-        //add(initializePanel(startScreen), BorderLayout.CENTER);
-        //displayStartScreen(startScreen);
-        this.room.setLayout(null);
-*/
-        this.topBar = new JPanel();
-        add(initializePanel(topBar), BorderLayout.NORTH);
-        displayTopBar(topBar);
-        
-        
-        //startScreen();
     
     }
 
@@ -99,13 +116,14 @@ public class GUI extends JFrame{
         add(initializePanel(actions), BorderLayout.EAST);
         displayActions(actions);
         
+        this.textPanel = new JPanel();
+        this.textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        add(initializePanel(textPanel), BorderLayout.WEST);
+        showMessage("title", this.textPanel);
+        
         this.inventory = new JPanel();
         add(initializePanel(inventory), BorderLayout.SOUTH);
         displayInventory(new Player());
-        
-        this.message = new JPanel();
-        add(initializePanel(message), BorderLayout.WEST);
-        namePanel(message, "CONSOLE"); //if components don't show up, try doing add(displayMessage(message)) and have the method return the panel editted
         
         this.startScreen = new JPanel();
         add(initializePanel(startScreen), BorderLayout.CENTER);
@@ -127,25 +145,23 @@ public class GUI extends JFrame{
         setTitle(t);
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize(960, 540);
-    
         setLayout(new BorderLayout());
-        
-        /*this.gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;*/
-
-        //readd gridbag if needed
-    
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+    public void shotWumpus(){
+
+    }
+
+    public void missedShot(){
+
     }
 
 
     public JPanel initializePanel(JPanel p){
         p.setVisible(true);
-        p.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         p.setBackground(medGreen);
         return p;
     }
@@ -170,7 +186,7 @@ public class GUI extends JFrame{
         });
     }
 
-    public void displayRoomxxxx(JPanel jp){
+    public void xxxxxx(JPanel jp){
         jp.setLayout(new GridLayout(2,3));
         //jp.setBackground(medGreen);
 
@@ -201,14 +217,9 @@ public class GUI extends JFrame{
     }
     
     public void displayRoom(JPanel jp){
+        jp.setLayout(new GridLayout(2, 3));
         
-        ArrayList<String> imagePaths= new ArrayList<String>();
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "2.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "3.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "4.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
+        
         
         int imagecount = 0;
         
@@ -218,11 +229,10 @@ public class GUI extends JFrame{
                 //System.out.println("Image path: " + imagePath);
                 
                 JButton button = new JButton();
-                button.setIcon(loadIcon(imagePaths.get(imagecount), 200, 200));
-                //button.setSize(200,200); //try removing when running
+                button.setIcon(loadIcon(imagePaths.get(imagecount), 300, 300));
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        //g.walk(y, x);
+                        gameControl.walk(x, y);
                         ////// gameControl class add this walk method, x and y are the direction where the player is moving 
                         System.out.println("BUTTONCLICKED");
                     }
@@ -249,22 +259,17 @@ public class GUI extends JFrame{
         add(textField);
     }*/
 
-    public void namePanel(JPanel jp, String panelTitle){
-        JLabel messagePanelTitle = new JLabel(panelTitle);
-        messagePanelTitle.setFont(mainFont);
-        jp.add(messagePanelTitle);
-    }
 
-    /*public void announcement(String message){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
-        this.message.removeAll();
-        displayMessage(message);
-        this.message.add(new JLabel(String message).setFont(mainFont));
-    }*/
+    public void showMessage(String text, JPanel jp){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
+        jp.removeAll();
+        JLabel message = new JLabel(text);
+        message.setFont(mainFont);
+        jp.add(message);
+    }
 
     public void askTriviaQuestion(String question, String optionA, String optionB, String optionC){
         JPanel jp = new JPanel();
         initializePanel(jp);
-        namePanel(jp, "TRIVIA");
         //addText(question); make a method that takes a string and a panel and just adds the text into it
         //make jbuttons titled with the options and the actionlistener when clicked will call the game control checkAnswer(takes in the title of jButton to see if it matches the correct trivia question answer); 
         //after the game control checks if it is correct, game control should use the announcement method to announce whether the user is correct or not and reward them with the hint or the coins or something; also the game control is the one displaying the hints by using the announcement method and passing in the string or whatever message user needs to see.
@@ -273,35 +278,42 @@ public class GUI extends JFrame{
     public void displayActions(JPanel jp){
 
         GridLayout GL = new GridLayout(3, 1);
-        jp.setLayout(GL);
-
-        ArrayList<String> actionImages = new ArrayList<String>();
-        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "SHOOTARROW.png");
-        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "GETHINT.png");
-        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "BUYTRIVIA.png");
-        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "4.png");
-        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
-        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
+        jp.setLayout(GL);        
 
         JButton shootArrow = new JButton();
-        shootArrow.setIcon(loadIcon(actionImages.get(0), 200, 200));
+        shootArrow.setIcon(loadIcon(this.imagePaths.get(6), 200, 200));
         shootArrow.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows decrease and display on south panel named inventory
+                System.out.println("shot an arrow");
             }
         });
         JButton buyArrows = new JButton();
-        buyArrows.setIcon(loadIcon(actionImages.get(1), 200, 200));
+        buyArrows.setIcon(loadIcon(this.imagePaths.get(7), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows increases and coins decrease and display on screen on south panel named inventory
+                //gameControl.shootArrow();
+                System.out.println("bought an arrow");
             }
         });
         JButton buyTrivia = new JButton();
-        buyTrivia.setIcon(loadIcon(actionImages.get(2), 200, 200));
+        buyTrivia.setIcon(loadIcon(this.imagePaths.get(8), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player coins decrease and display on screen on south panel named inventory
+                //gameControl.
+                System.out.println("bought a trivia question.");
+            }
+        });
+
+        JButton viewScore = new JButton();
+        viewScore.setIcon(loadIcon(this.imagePaths.get(8), 200, 200));
+        viewScore.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e){
+                //player coins decrease and display on screen on south panel named inventory
+                //gameControl.
+                System.out.println("viewed score.");
             }
         });
 
@@ -348,7 +360,8 @@ public class GUI extends JFrame{
     
 
     public void displayInventory(Player p){
-        this.inventory.removeAll();
+        //this.inventory.removeAll();
+
         
         JLabel arrows = new JLabel("ARROWS: " + 3); //change later to p.getArrows() etc.
         JLabel coins = new JLabel("COINS: " + 3);
@@ -358,7 +371,6 @@ public class GUI extends JFrame{
 
         this.inventory.add(arrows);
         this.inventory.add(coins);
-        add(inventory, BorderLayout.SOUTH);
         System.out.println("inventory displayed");
     }
 
@@ -433,6 +445,7 @@ public class GUI extends JFrame{
         //Player p = new Player("cas", 2);
         //GameControl gc = new GameControl();
         GUI gui = new GUI("HUNT THE WUMPUS");
+        gui.displayInventory(new Player());
         //gui.displayActions(p);
     }
   
