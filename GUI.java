@@ -4,10 +4,9 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;import java.awt.FlowLayout;
+import javax.swing.JPanel;
+
 import java.awt.*;
-import java.awt.Color;
-import java.awt.TextField
 
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
@@ -33,7 +32,7 @@ public class GUI extends JFrame{
     private Color lightBeige;
     private Color medGreen;
     
-    private GameControl gc;
+    private GameControl gameControl;
     private Player player;
 
     // Load the icon, scaled to the given size
@@ -53,6 +52,44 @@ public class GUI extends JFrame{
         this.lightBeige = new Color(252, 244, 189);
         this.medGreen = new Color(168, 214, 124);
         //this.gc = new GameControl();
+    
+        this.room = new JPanel();
+        add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
+        displayRoom(room);
+        
+        this.actions = new JPanel();
+        add(initializePanel(actions), BorderLayout.EAST);
+        displayActions(actions);
+        
+        this.inventory = new JPanel();
+        add(initializePanel(inventory), BorderLayout.SOUTH);
+        displayInventory(new Player());
+        
+        /*this.message = new JPanel();
+        add(initializePanel(message), BorderLayout.WEST);
+        namePanel(message, "CONSOLE"); //if components don't show up, try doing add(displayMessage(message)) and have the method return the panel editted
+        
+        this.startScreen = new JPanel();
+        //add(initializePanel(startScreen), BorderLayout.CENTER);
+        //displayStartScreen(startScreen);
+        this.room.setLayout(null);
+*/
+        this.topBar = new JPanel();
+        add(initializePanel(topBar), BorderLayout.NORTH);
+        displayTopBar(topBar);
+        
+        
+        //startScreen();
+    
+    }
+
+    public GUI(String title, GameControl gc){
+        initializeFrame(title);
+        
+        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
+        this.lightBeige = new Color(252, 244, 189);
+        this.medGreen = new Color(168, 214, 124);
+        this.gameControl = gc;
     
         this.room = new JPanel();
         add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
@@ -133,33 +170,37 @@ public class GUI extends JFrame{
         });
     }
 
-    public void displayRoom(JPanel jp){
+    public void displayRoomxxxx(JPanel jp){
+        jp.setLayout(new GridLayout(2,3));
+        //jp.setBackground(medGreen);
 
         ArrayList<String> imagePaths= new ArrayList<String>();
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "grassHex.png");
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "caveHex.png"); //add pics of cave room and other rooms make it so that the buttons are covered and uncovered on click
         
-        JButton button = new JButton;
         int size = 100;
-        int offsetX = 0;
-        int offsetY = 0;
-        button.setSize(size, size);
+        int offsetX = 5;
+        int offsetY = 5;
 
         for(int x = 0; x < 6; x++){
-            offsetX += size;
-            offsetY = 0;
-            if(x % 2 = 0){
-                offsetY -= size;
-            }
             for(int y = 0; y < 5; y++){
-                button.setBounds(offsetY, offsetX, size, size);
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(size, size));
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e){
+                        System.out.println("BUTON CLICKED");            }
+                });
+
+                jp.setBounds(offsetX, offsetY, size, size);
                 jp.add(button);
-                offsetY -= size;
+                offsetY -= size/2;
             }
+            offsetX += size;
         }
+        System.out.println("DISPLAYED ROOM");
     }
     
-    public void displayRoomXXXX(JPanel jp){
+    public void displayRoom(JPanel jp){
         
         ArrayList<String> imagePaths= new ArrayList<String>();
         imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
@@ -197,7 +238,7 @@ public class GUI extends JFrame{
         //try removing and running
     }
 
-    public void typeName(Player p){
+    /*public void typeName(Player p){
         JTextField textField = new JTextField;
         textField.setBounds(5, 5, 280, 50);
         textField.addActionListener(new ActionListener() {
@@ -206,7 +247,7 @@ public class GUI extends JFrame{
             }
         });
         add(textField);
-    }
+    }*/
 
     public void namePanel(JPanel jp, String panelTitle){
         JLabel messagePanelTitle = new JLabel(panelTitle);
@@ -214,11 +255,11 @@ public class GUI extends JFrame{
         jp.add(messagePanelTitle);
     }
 
-    public void announcement(String message){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
+    /*public void announcement(String message){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
         this.message.removeAll();
         displayMessage(message);
         this.message.add(new JLabel(String message).setFont(mainFont));
-    }
+    }*/
 
     public void askTriviaQuestion(String question, String optionA, String optionB, String optionC){
         JPanel jp = new JPanel();
@@ -230,19 +271,34 @@ public class GUI extends JFrame{
     }
     
     public void displayActions(JPanel jp){
-        JButton shootArrow = new JButton("Shoot");
+
+        GridLayout GL = new GridLayout(3, 1);
+        jp.setLayout(GL);
+
+        ArrayList<String> actionImages = new ArrayList<String>();
+        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "SHOOTARROW.png");
+        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "GETHINT.png");
+        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "BUYTRIVIA.png");
+        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "4.png");
+        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
+        actionImages.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
+
+        JButton shootArrow = new JButton();
+        shootArrow.setIcon(loadIcon(actionImages.get(0), 200, 200));
         shootArrow.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows decrease and display on south panel named inventory
             }
         });
-        JButton buyArrows = new JButton("Buy Arrows");
+        JButton buyArrows = new JButton();
+        buyArrows.setIcon(loadIcon(actionImages.get(1), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows increases and coins decrease and display on screen on south panel named inventory
             }
         });
-        JButton buyHint = new JButton("Buy Hint");
+        JButton buyTrivia = new JButton();
+        buyTrivia.setIcon(loadIcon(actionImages.get(2), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player coins decrease and display on screen on south panel named inventory
@@ -251,11 +307,13 @@ public class GUI extends JFrame{
 
         jp.add(shootArrow);
         jp.add(buyArrows);
-        jp.add(buyHint);
+        jp.add(buyTrivia);
     }
 
-    public void displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
+    public JPanel displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
+        jp.setLayout(new GridLayout(1,2));
         JLabel score = new JLabel("EXAMPLE SCORE: 1050");
+        score.setFont(mainFont);
         jp.add(score);
         
         JButton gameOps = new JButton("GameOptions");
@@ -294,15 +352,14 @@ public class GUI extends JFrame{
         
         JLabel arrows = new JLabel("ARROWS: " + 3); //change later to p.getArrows() etc.
         JLabel coins = new JLabel("COINS: " + 3);
-        JButton b = new JButton("test");
-        b.setSize(400, 400);
-        this.inventory.add(b);
 
         arrows.setFont(this.mainFont);
         coins.setFont(this.mainFont);
 
         this.inventory.add(arrows);
         this.inventory.add(coins);
+        add(inventory, BorderLayout.SOUTH);
+        System.out.println("inventory displayed");
     }
 
     public void startScreen(){
@@ -341,6 +398,7 @@ public class GUI extends JFrame{
         //called by game control?
         return 8; //not sure if it is an int or double
     }
+    
     public void updateInventory(int arrows){
         //called by game control
         JLabel numArrows = new JLabel("Arrows: " + arrows);
@@ -366,6 +424,7 @@ public class GUI extends JFrame{
         gbc.gridy = 5;
         return shoot;
     }
+   
     public void gameOver(){
         System.out.println("GAME OVER!");
     }
@@ -376,5 +435,6 @@ public class GUI extends JFrame{
         GUI gui = new GUI("HUNT THE WUMPUS");
         //gui.displayActions(p);
     }
-  }
+  
+}
 

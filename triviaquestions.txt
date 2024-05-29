@@ -1,3 +1,8 @@
 What color is the sky,blue,red,yellow,black,1
 What is the capital of Washington state,olympia,seattle,canada,1
 What color is a red rose, pint,white,red,blue,2
+Which house was Harry Potter almost sorted into?, Hufflepuff,ravenclaw,Slytherin,Griffindore,3
+How many points are a touchdown worth?,3,5,1,6,4
+What is the rarest blood type?,AB-,C,O,B,1
+which city hosted the Summer Olympics in 2012,London,Seattle,Toronto, New York,1
+
