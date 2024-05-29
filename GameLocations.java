@@ -1,5 +1,9 @@
 //Meadow Reiber
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.IOException;
 public class GameLocations{
     //fields and properties----------------------
     private ArrayList<String> hints;
@@ -29,10 +33,8 @@ public class GameLocations{
 
     //methods------------------------------------
     //adds hints connected to all the trivia questions
-    private void setHints(){
-      for(int i = 0; i < 100; i++){
-
-      }
+    public void setHints() throws FileNotFoundException{
+      //update to match new questions
       this.hints.add("lok at the beautiful BLUE sky");
       this.hints.add("visiting the capital city: OLYMPIA");
       this.hints.add("RED roses are my favorite");
