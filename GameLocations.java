@@ -16,7 +16,7 @@ public class GameLocations{
 
     //constructor--------------------------------
     public GameLocations(Player player, Cave theCave){
-      this.playerPos = this.newRoom();
+      this.playerPos = 0;
       this.moveBat();
       this.movePit();
       this.wumpusPos = this.newRoom();
@@ -30,6 +30,9 @@ public class GameLocations{
     //methods------------------------------------
     //adds hints connected to all the trivia questions
     private void setHints(){
+      for(int i = 0; i < 100; i++){
+
+      }
       this.hints.add("lok at the beautiful BLUE sky");
       this.hints.add("visiting the capital city: OLYMPIA");
       this.hints.add("RED roses are my favorite");
@@ -82,8 +85,7 @@ public class GameLocations{
     }
     public boolean encounterPit(){
       if(this.playerPos == this.pitPos){
-        this.playerPos = newRoom();
-        this.movePit();
+        this.playerPos = 0;
         return true;
       }
       return false;
