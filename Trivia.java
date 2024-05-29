@@ -1,63 +1,51 @@
+import java.io.*;
+import java.util.*;
 
-//crystal B 
+public class Trivia {
+    private List<Question> questions = new ArrayList<>();
 
-import java.util.Arrays;
-import java.util.Scanner;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import java.util.ArrayList;
-import java.util.Random;
-
-public class Trivia{
-  String hint;
-  Scanner scanner;
-  ArrayList<TriviaQuestion> TriviaQuestions;
-  
-  public Trivia() throws FileNotFoundException{
-      String filePath = "triviaquestions.txt";      
-      TriviaQuestions = new ArrayList<>(); // initizalize arraylist
-      //int count =0;
-      File file = new File(filePath);
-      scanner = new Scanner(file);
-
-      while(scanner.hasNextLine()){
-        String line = scanner.nextLine();            
-        String[] questionSource = line.split(",", 6);                                                        // for the correct answer
-        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 5),questionSource[5] );
-        TriviaQuestions.add(question);
-      
-      
-      }
-      //scanner.close();
-  }
-
-    public TriviaQuestion GetQuestion(){
-    // return a random question from the file
-    //create a list of questions
-    //cannot repeat questions until all have been given/when game resets
-    
-    Random random = new Random();
-    int RandomIndex = random.nextInt(TriviaQuestions.size());
-    TriviaQuestion ranQuestions = TriviaQuestions.get(RandomIndex);
-
-    System.out.println("Question:" + ranQuestions.Question);
-    System.out.println("choose the correct answer");
-    
-    
-      //Scanner
-
-    for(int i = 0; i  < ranQuestions.Answers.length; i++){
-      System.out.println((i + 1) + "." + ranQuestions.Answers[i]);
-    }
-    return ranQuestions;
-     
-    }
-    public String getAnswers(TriviaQuestion theanswers){
-
-      return theanswers.Answers[0];
+    public Trivia(String filePath) {
+        loadQuestions(filePath);
     }
 
+    private void loadQuestions(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.contains("?")) {
+                    String question = line;
+                    String[] options = new String[4];
+                    for (int i = 0; i < 4; i++) {
+                        options[i] = br.readLine().substring(3).trim(); // Remove 'A) ', 'B) ', etc. and trim spaces
+                    }
+                    String answerLine = br.readLine().trim();
+                    char correctOption = answerLine.charAt(answerLine.indexOf(' ') + 1);
+                    questions.add(new Question(question, options, correctOption));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public Question getRandomQuestion(Set<Question> askedQuestions) {
+        List<Question> remainingQuestions = new ArrayList<>(questions);
+        remainingQuestions.removeAll(askedQuestions);
+        if (remainingQuestions.isEmpty()) {
+            return null; // All questions have been asked
+        }
+        Random rand = new Random();
+        return remainingQuestions.get(rand.nextInt(remainingQuestions.size()));
+    }
+
+    public static void main(String[] args) {
+        Trivia trivia = new Trivia("trivia_questions.txt");
+        Set<Question> askedQuestions = new HashSet<>();
+        Question q = trivia.getRandomQuestion(askedQuestions);
+        System.out.println(q.getQuestion());
+        for (String option : q.getOptions()) {
+            System.out.println(option);
+        }
+        System.out.println("Correct answer: " + q.getCorrectOption());
+    }
 }
