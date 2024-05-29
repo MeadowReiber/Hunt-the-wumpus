@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class Trivia{
   String hint;
+  Scanner scanner;
   ArrayList<TriviaQuestion> TriviaQuestions;
   
   public Trivia() throws FileNotFoundException{
@@ -19,18 +20,17 @@ public class Trivia{
       TriviaQuestions = new ArrayList<>(); // initizalize arraylist
       //int count =0;
       File file = new File(filePath);
-      Scanner scanner = new Scanner(file);
+      scanner = new Scanner(file);
 
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();            
         String[] questionSource = line.split(",", 6);                                                        // for the correct answer
-        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 4),questionSource );
-        TriviaQuestion theanswers = new TriviaQuestion(questionSource[0],Arrays.copyOfRange( questionSource, 5,5), questionSource);
+        TriviaQuestion question = new TriviaQuestion(questionSource[0],Arrays.copyOfRange(questionSource, 1, 5),questionSource[5] );
         TriviaQuestions.add(question);
-        TriviaQuestions.add(theanswers);
+      
       
       }
-      scanner.close();
+      //scanner.close();
   }
 
     public TriviaQuestion GetQuestion(){
@@ -49,13 +49,12 @@ public class Trivia{
       //Scanner
 
     for(int i = 0; i  < ranQuestions.Answers.length; i++){
-      System.out.println((i + 1) + ". " + ranQuestions.Answers[i]);
+      System.out.println((i + 1) + "." + ranQuestions.Answers[i]);
     }
     return ranQuestions;
      
     }
-    public String getAnswer(TriviaQuestion theanswers){
-
+    public String getAnswers(TriviaQuestion theanswers){
 
       return theanswers.Answers[0];
     }
