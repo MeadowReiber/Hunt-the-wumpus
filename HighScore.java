@@ -139,12 +139,13 @@ public class HighScore {
   
 
 // get array of highscore(player)l
-// if players int is high enough then replace them in the array and fix it
-// turn into array of strings
-// delete file info
-// write array to the file
 
-//check all methods ESPECIALLY sortfile
+//end of game methods to be called
+
+// addPlayer(Player p); the player from the game returns nothing
+// turnIntoString(); returns an array of Strings
+// writeToFile(String[] str); uses the same array of strings from the methods before and writes those to the file
+
 
 
 }
