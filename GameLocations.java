@@ -8,6 +8,8 @@ public class GameLocations{
     //fields and properties----------------------
     private ArrayList<String> hints;
     private int coinsLeft;
+    private File file;
+    private Scanner scanMan;
 
     private Cave map;
     
@@ -26,6 +28,20 @@ public class GameLocations{
       this.wumpusPos = this.newRoom();
       this.coinsLeft = 100;
 
+      //set file and scanner
+      this.file = new File("trivia_questions.txt");
+      if(!file.exists()){
+        try{
+          this.file.createNewFile();
+        }catch(IOException io){
+        }
+      }
+      try{
+        this.scanMan = new Scanner(file);
+      }
+      catch(FileNotFoundException e){
+      }
+
       this.hints = new ArrayList<String>();
       this.setHints();
     }
@@ -34,14 +50,12 @@ public class GameLocations{
     //methods------------------------------------
     //adds hints connected to all the trivia questions
     public void setHints(){
-      //update to match new questions
-      this.hints.add("lok at the beautiful BLUE sky");
-      this.hints.add("visiting the capital city: OLYMPIA");
-      this.hints.add("RED roses are my favorite");
-      this.hints.add("TOUCHDOWN!!! another SIX points");
-      this.hints.add("people with AB- blood are my favorite");
-      this.hints.add("I'm so excited to visit LONDON for the olympics (2012)");
-      this.hints.add("I loved harry potter so much, I always wanted to be a GRIFFINDORE");
+      while(scanMan.hasNextLine()){
+        String s = scanMan.nextLine();
+        if(s.startsWith("Answer: ")){
+          this.hints.add(s.substring(11));
+        }
+      }
     }
     
     public int getPlayerPos(){
