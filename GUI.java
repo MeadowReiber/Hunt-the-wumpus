@@ -44,6 +44,7 @@ public class GUI extends JFrame{
     private Color lightBeige;
     private Color medGreen;
     private ArrayList<String> imagePaths;
+    private Cave cave;
     
     private GameControl gameControl;
     private Player player;
@@ -70,7 +71,7 @@ public class GUI extends JFrame{
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "SHOOTARROW.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "GETHINT.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "BUYTRIVIA.png");
-        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "4.png");
+        this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "VIEWSCORES.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
 
@@ -100,7 +101,7 @@ public class GUI extends JFrame{
     
     }
 
-    public GUI(String title, GameControl gc){
+    public GUI(String title, GameControl gc, Cave cave){
         initializeFrame(title);
         
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);
@@ -152,6 +153,9 @@ public class GUI extends JFrame{
     }
     
     public void shotWumpus(){
+        removeAll();
+        setLayout(new GridLayout(1,1));
+        JButton won = new JButton();
 
     }
 
@@ -277,7 +281,8 @@ public class GUI extends JFrame{
     
     public void displayActions(JPanel jp){
 
-        GridLayout GL = new GridLayout(3, 1);
+        GridLayout GL = new GridLayout(4, 1);
+
         jp.setLayout(GL);        
 
         JButton shootArrow = new JButton();
@@ -285,10 +290,12 @@ public class GUI extends JFrame{
         shootArrow.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player arrows decrease and display on south panel named inventory
+                //gameControl.shoot(ABORT); 
                 System.out.println("shot an arrow");
             }
         });
         JButton buyArrows = new JButton();
+        buyArrows.setMargin(new Insets(0, 0, 0, 0));
         buyArrows.setIcon(loadIcon(this.imagePaths.get(7), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
@@ -308,7 +315,7 @@ public class GUI extends JFrame{
         });
 
         JButton viewScore = new JButton();
-        viewScore.setIcon(loadIcon(this.imagePaths.get(8), 200, 200));
+        viewScore.setIcon(loadIcon(this.imagePaths.get(9), 200, 100));
         viewScore.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player coins decrease and display on screen on south panel named inventory
@@ -320,6 +327,7 @@ public class GUI extends JFrame{
         jp.add(shootArrow);
         jp.add(buyArrows);
         jp.add(buyTrivia);
+        jp.add(viewScore);
     }
 
     public JPanel displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
@@ -360,9 +368,9 @@ public class GUI extends JFrame{
     
 
     public void displayInventory(Player p){
-        //this.inventory.removeAll();
-
         
+        this.inventory.removeAll();
+
         JLabel arrows = new JLabel("ARROWS: " + 3); //change later to p.getArrows() etc.
         JLabel coins = new JLabel("COINS: " + 3);
 
@@ -442,11 +450,7 @@ public class GUI extends JFrame{
     }
     public static void main(String[] args){
         System.out.println("this is my file");
-        //Player p = new Player("cas", 2);
-        //GameControl gc = new GameControl();
-        GUI gui = new GUI("HUNT THE WUMPUS");
-        gui.displayInventory(new Player());
-        //gui.displayActions(p);
+        GUI display = new GUI("game");
     }
   
 }
