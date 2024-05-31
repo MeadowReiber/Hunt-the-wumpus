@@ -33,7 +33,7 @@ public class GameLocations{
 
     //methods------------------------------------
     //adds hints connected to all the trivia questions
-    public void setHints() throws FileNotFoundException{
+    public void setHints(){
       //update to match new questions
       this.hints.add("lok at the beautiful BLUE sky");
       this.hints.add("visiting the capital city: OLYMPIA");
