@@ -1,0 +1,6 @@
+map: the cave system
+
+
+method for assigning rooms (int currentRoom):
+    ArrayList<Integer> adjacentRooms = map.getAdjacentRooms(currentRoom);
+    
