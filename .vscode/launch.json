@@ -6,30 +6,16 @@
     "configurations": [
         {
             "type": "java",
-            "name": "GUI",
+            "name": "main",
             "request": "launch",
-            "mainClass": "GUI",
-            "projectName": "Hunt-the-wumpus_d08696df"
-        },
-        {
-            "type": "java",
-            "name": "Room",
-            "request": "launch",
-            "mainClass": "Room",
-            "projectName": "Hunt-the-wumpus_d08696df"
+            "mainClass": "Main",
+            "projectName": "Hunt-the-wumpus"
         },
         {
             "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "org.bothell.cs.wumpus.Main",
-            "projectName": "wumpas"
         }
     ]
 }

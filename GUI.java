@@ -60,7 +60,18 @@ public class GUI extends JFrame{
     //---------CONSTRUCTOR
     
     public GUI(String title){
-
+        this.imagePaths = new ArrayList<String>();
+        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
+        this.lightBeige = new Color(252, 244, 189);
+        this.medGreen = new Color(168, 214, 124);
+        
+        //this.gameControl = gc;
+        this.room = new JPanel();
+        this.actions = new JPanel();
+        this.textPanel = new JPanel();
+        this.inventory = new JPanel();
+        
+        
         this.imagePaths = new ArrayList<String>();
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "2.png");
@@ -76,18 +87,8 @@ public class GUI extends JFrame{
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
         
         initializeFrame(title);
-        
-        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
-        this.lightBeige = new Color(252, 244, 189);
-        this.medGreen = new Color(168, 214, 124);
         add(new Room(), BorderLayout.CENTER);
-
-
-
-        
-        /* 
-        //this.gameControl = gc;
-    
+    /* 
         this.room = new JPanel();
         add(room, BorderLayout.CENTER);
         displayRoom(room);
@@ -107,45 +108,7 @@ public class GUI extends JFrame{
     */
     }
 
-    public GUI(String title, GameControl gc, Cave cave, int num){
-        initializeFrame(title);
-        
-        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
-        this.lightBeige = new Color(252, 244, 189);
-        this.medGreen = new Color(168, 214, 124);
-        this.gameControl = gc;
-    
-        /*this.room = new JPanel();
-        add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
-        displayRoom(room);
-        
-        this.actions = new JPanel();
-        add(initializePanel(actions), BorderLayout.EAST);
-        displayActions(actions);
-        
-        this.textPanel = new JPanel();
-        this.textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        add(initializePanel(textPanel), BorderLayout.WEST);
-        showMessage("title", this.textPanel);
-        
-        this.inventory = new JPanel();
-        add(initializePanel(inventory), BorderLayout.SOUTH);
-        displayInventory(new Player());
-        
-        this.startScreen = new JPanel();
-        add(initializePanel(startScreen), BorderLayout.CENTER);
-        displayStartScreen(startScreen);
-        this.room.setLayout(null);
-
-        this.topBar = new JPanel();
-        add(initializePanel(topBar), BorderLayout.NORTH);
-        displayTopBar(topBar);
-        
-        
-        //startScreen();
-    */
-    }
-    public GUI(String title, GameControl gc, Cave cave){
+    public GUI(String title, GameControl gc){
       
       this.imagePaths = new ArrayList<String>();
       this.mainFont = new Font("SansSerif", Font.BOLD, 20);
@@ -160,8 +123,6 @@ public class GUI extends JFrame{
 
       //displayRoom();
       add(new Room(), BorderLayout.CENTER);
-
-      
       
       initializeFrame(title);
       
@@ -484,7 +445,6 @@ public class GUI extends JFrame{
     public static void main(String[] args){
         System.out.println("this is my file");
         GUI display = new GUI("game");
-        display.add(new Room(), BorderLayout.CENTER);
     }
   
 }
