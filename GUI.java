@@ -39,7 +39,6 @@ public class GUI extends JFrame{
 
     private JLabel score;
     private JLabel arrows;
-    private GridBagConstraints gbc;
     private Font mainFont;
     private Color lightBeige;
     private Color medGreen;
