@@ -3,6 +3,10 @@
 //import javax.swing.JButton;
 //import java.awt.event.*;
 
+//talk abt on tues
+//new methods i need meadow to add + alter methods
+//new stuff i found from reading the game spec
+//ask how the trivia works (how should i call to display it and how do ik if they got a correct answer)
 
 public class GameControl{
     Player player = new Player();
