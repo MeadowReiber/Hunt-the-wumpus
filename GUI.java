@@ -30,6 +30,8 @@ public class GUI extends JFrame{
 
     //---------PROPERTIES
 
+    private ArrayList<Room> rooms;
+
     private JPanel startScreen;
     private JPanel room;
     private JPanel actions;
@@ -69,9 +71,9 @@ public class GUI extends JFrame{
         this.actions = new JPanel();
         this.textPanel = new JPanel();
         this.inventory = new JPanel();
-        
-        
+        this.rooms = new ArrayList<Room>();
         this.imagePaths = new ArrayList<String>();
+
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "2.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "3.png");
@@ -86,6 +88,7 @@ public class GUI extends JFrame{
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
         
         initializeFrame(title);
+        displayRoom();
         add(new Room(), BorderLayout.CENTER);
     /* 
         this.room = new JPanel();
@@ -214,8 +217,18 @@ public class GUI extends JFrame{
         }
         System.out.println("DISPLAYED ROOM");
     }
-    
     public void displayRoom(){
+        HexagonalLayout hexLayout = new HexagonalLayout();
+        room.setLayout(hexLayout);   
+        for(int y = 0; y < 5; y++){
+            for(int x = 0; x < 6; x++){
+                HexagonButton hexButton = new HexagonButton)()
+            }
+        }
+    }
+    
+    public void displayRoomXXXXX(){
+             
       GridLayout roomLayout = new GridLayout(2,3);
       int imagecount = 0;
 
