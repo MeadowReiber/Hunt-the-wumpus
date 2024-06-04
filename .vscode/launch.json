@@ -6,10 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "main",
+            "name": "Main",
             "request": "launch",
             "mainClass": "Main",
-            "projectName": "Hunt-the-wumpus"
+            "projectName": "Hunt-the-wumpus_ee3d2be2"
         },
         {
             "type": "java",

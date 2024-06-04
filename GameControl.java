@@ -12,8 +12,7 @@ public class GameControl{
     Player player = new Player();
     Cave cave = new Cave();
     GameLocations loc = new GameLocations(player, cave);
-    GUI display = new GUI("game", this);
-    Trivia trivia = new Trivia();
+    GUI display = new GUI("game");
     //public void displayScore(int room){
         //ask meadow which class holds the boolean for wumpus dead or alive?
         //int currentScore = player.calculateScore(shoot(room));
@@ -23,13 +22,10 @@ public class GameControl{
     public void shoot(int room){
         Boolean shot;
         if(player.getArrows() > 0){
-            //checks if there r arrows
             shot = loc.shootArrow(room);
-            //shootarrow will return true for shot, false for not shot
         }
         else{
             shot =  false;
-            //if no arrows, then did not shoot
         }
 
         if(shot == true){
@@ -58,19 +54,19 @@ public class GameControl{
 
     public void check(){
         if(loc.encounterBats()){
-            newLoc = player.getPlayerPos();
+            int newLoc = player.getPlayerPos();
             //call cas method to go to new room
         }
         if(loc.encounterPit()){
             //if coins are more than 0
             //run trivia to see if won (same as triviahint)
             //if won, player pos set to 0 (need meadow to make method + change encounterPit)
-            //use cas method to show new room
+            //use cas method to show new room (player.getPlayerPos)
             //if trivia lost, game end (call method to display end game)
 
             //if coins are less than 0, end game
         }
-        if(loc.encounterWumpus()){
+        if(loc.encouterWumpus()){
             //if coins are more than 0
             //run trivia (5 times, 3 correct) and see if won
             //if won, wumpus moves rooms (need meadow to make method + change encounter wumpus)
@@ -86,6 +82,7 @@ public class GameControl{
         if (player.getCoins()>0){
             int triviaCorrect = 0;
             player.loseCoin();
+
             //start trivia for 3 questions (for loop)
             //ask how to start trivia (?) would gui have it?
             //if trivia question correct (ask where is trivia correct method), triviaCorrect++
@@ -103,8 +100,9 @@ public class GameControl{
         if (player.getCoins()>0){
             int triviaCorrect = 0;
             player.loseCoin();
-            //start trivia for 3 questions (for loop)
-            //if trivia question correct, triviaCorrect++
+            if(trivia()){
+                loc.giveHint();
+            }
             //if triviaCorrect >= 2 -> loc.giveHint()
             //use casandras display to show player.getCoins()
             //announcement
@@ -112,6 +110,16 @@ public class GameControl{
         else{
             //display you dont have enough coins
         }
+    }
+
+    public boolean trivia(){
+        //runs trivia gui
+        //counts how many they get correct
+        //return true if 2/3 trivia correct
+        TriviaGUI triviaGUI = new TriviaGUI("trivia_question.txt", this);
+        triviaGUI.setVisible(true);
+        return true;
+
     }
 
     public void displayInventory(){

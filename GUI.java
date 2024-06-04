@@ -159,6 +159,13 @@ public class GUI extends JFrame{
         return p;
     }
 
+    // public void displayStartScore(JPanel jp){
+    //     JButton start = new JButton("HUNT THE WUMPUS");
+    //     start addActionListener(new ActionListener() {
+    //         public addActionListener(new Act)
+    //     }
+    // }
+
     public void displayStartScreen(JPanel jp){
         JButton start = new JButton("HUNT THE WUMPUS CLICK TO PLAY"); //add image later
         start.addActionListener(new ActionListener() {
