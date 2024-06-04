@@ -261,11 +261,11 @@ public class GUI extends JFrame{
     }*/
 
 
-    public void showMessage(String text, JPanel jp){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
-        jp.removeAll();
+    public void showMessage(String text){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
+        textPanel.removeAll();
         JLabel message = new JLabel(text);
         message.setFont(mainFont);
-        jp.add(message);
+        textPanel.add(message);
     }
 
     public void askTriviaQuestion(String question, String optionA, String optionB, String optionC){
