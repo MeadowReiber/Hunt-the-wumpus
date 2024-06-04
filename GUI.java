@@ -30,6 +30,8 @@ public class GUI extends JFrame{
 
     //---------PROPERTIES
 
+    private ArrayList<Room> rooms;
+
     private JPanel startScreen;
     private JPanel room;
     private JPanel actions;
@@ -39,7 +41,6 @@ public class GUI extends JFrame{
 
     private JLabel score;
     private JLabel arrows;
-    private GridBagConstraints gbc;
     private Font mainFont;
     private Color lightBeige;
     private Color medGreen;
@@ -70,9 +71,9 @@ public class GUI extends JFrame{
         this.actions = new JPanel();
         this.textPanel = new JPanel();
         this.inventory = new JPanel();
-        
-        
+        this.rooms = new ArrayList<Room>();
         this.imagePaths = new ArrayList<String>();
+
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "2.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "3.png");
@@ -87,6 +88,7 @@ public class GUI extends JFrame{
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
         
         initializeFrame(title);
+        displayRoom();
         add(new Room(), BorderLayout.CENTER);
     /* 
         this.room = new JPanel();
@@ -215,8 +217,18 @@ public class GUI extends JFrame{
         }
         System.out.println("DISPLAYED ROOM");
     }
-    
     public void displayRoom(){
+        HexagonalLayout hexLayout = new HexagonalLayout();
+        room.setLayout(hexLayout);   
+        for(int y = 0; y < 5; y++){
+            for(int x = 0; x < 6; x++){
+                HexagonButton hexButton = new HexagonButton)()
+            }
+        }
+    }
+    
+    public void displayRoomXXXXX(){
+             
       GridLayout roomLayout = new GridLayout(2,3);
       int imagecount = 0;
 
@@ -261,11 +273,11 @@ public class GUI extends JFrame{
     }*/
 
 
-    public void showMessage(String text, JPanel jp){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
-        jp.removeAll();
+    public void showMessage(String text){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
+        textPanel.removeAll();
         JLabel message = new JLabel(text);
         message.setFont(mainFont);
-        jp.add(message);
+        textPanel.add(message);
     }
 
     public void askTriviaQuestion(String question, String optionA, String optionB, String optionC){
