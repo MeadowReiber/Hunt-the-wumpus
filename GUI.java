@@ -74,12 +74,18 @@ public class GUI extends JFrame{
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "VIEWSCORES.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "5.png");
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "6.png");
-
+        
         initializeFrame(title);
         
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);
         this.lightBeige = new Color(252, 244, 189);
         this.medGreen = new Color(168, 214, 124);
+        add(new Room(), BorderLayout.CENTER);
+
+
+
+        
+        /* 
         //this.gameControl = gc;
     
         this.room = new JPanel();
@@ -98,10 +104,10 @@ public class GUI extends JFrame{
         this.inventory = new JPanel();
         add(initializePanel(inventory), BorderLayout.SOUTH);
         displayInventory(new Player());
-    
+    */
     }
 
-    public GUI(String title, GameControl gc, Cave cave){
+    public GUI(String title, GameControl gc, Cave cave, int num){
         initializeFrame(title);
         
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);
@@ -109,7 +115,7 @@ public class GUI extends JFrame{
         this.medGreen = new Color(168, 214, 124);
         this.gameControl = gc;
     
-        this.room = new JPanel();
+        /*this.room = new JPanel();
         add(room, BorderLayout.CENTER); //might need to change size of the room panel to not fill up entire screen cuz of layout
         displayRoom(room);
         
@@ -137,7 +143,28 @@ public class GUI extends JFrame{
         
         
         //startScreen();
-    
+    */
+    }
+    public GUI(String title, GameControl gc, Cave cave){
+      
+      this.imagePaths = new ArrayList<String>();
+      this.mainFont = new Font("SansSerif", Font.BOLD, 20);
+      this.lightBeige = new Color(252, 244, 189);
+      this.medGreen = new Color(168, 214, 124);
+      
+      this.gameControl = gc;
+      this.room = new JPanel();
+      this.actions = new JPanel();
+      this.textPanel = new JPanel();
+      this.inventory = new JPanel();
+
+      //displayRoom();
+      add(new Room(), BorderLayout.CENTER);
+
+      
+      
+      initializeFrame(title);
+      
     }
     
     //---------METHODS
@@ -162,6 +189,7 @@ public class GUI extends JFrame{
     public void missedShot(){
 
     }
+
 
 
     public JPanel initializePanel(JPanel p){
@@ -220,35 +248,36 @@ public class GUI extends JFrame{
         System.out.println("DISPLAYED ROOM");
     }
     
-    public void displayRoom(JPanel jp){
-        jp.setLayout(new GridLayout(2, 3));
-        
-        
-        
-        int imagecount = 0;
-        
+    public void displayRoom(){
+      GridLayout roomLayout = new GridLayout(2,3);
+      int imagecount = 0;
+
+      room.setLayout(roomLayout);
+      room.setBackground(medGreen);
+      room.setVisible(true);
+
         for(int y = 0; y < 2; y++){
             for(int x = 0; x < 3; x++){
                 //String imagePath = System.getProperty("user.dir") + "\\images\\" + "forestbackground.png";
                 //System.out.println("Image path: " + imagePath);
-                
+
                 JButton button = new JButton();
                 button.setIcon(loadIcon(imagePaths.get(imagecount), 300, 300));
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        gameControl.walk(x, y);
+                        ///gameControl.walk(x, y);
                         ////// gameControl class add this walk method, x and y are the direction where the player is moving 
                         System.out.println("BUTTONCLICKED");
                     }
                 });   
 
-                jp.add(button);
+                room.add(button, x, y);
                 imagecount++;
             }
         }
-        jp.invalidate();
-        jp.validate();
-        jp.repaint();
+        room .invalidate();
+        room.validate();
+        room.repaint();
         //try removing and running
     }
 
@@ -382,6 +411,10 @@ public class GUI extends JFrame{
         System.out.println("inventory displayed");
     }
 
+    public void showStartScreen(){
+    
+    }
+
     public void startScreen(){
 
         JLabel htw = new JLabel("HUNT THE WUMPUS");
@@ -451,6 +484,7 @@ public class GUI extends JFrame{
     public static void main(String[] args){
         System.out.println("this is my file");
         GUI display = new GUI("game");
+        display.add(new Room(), BorderLayout.CENTER);
     }
   
 }
