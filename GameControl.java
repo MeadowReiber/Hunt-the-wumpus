@@ -40,12 +40,21 @@ public class GameControl{
         }
     }
     public Boolean movePlayer(int roomNumber){
+        display.showMessage(roomNumber);
         if(cave.isConnected(loc.getPlayerPos(), roomNumber)){
             loc.movePlayer(roomNumber);
             int newLoc = loc.getPlayerPos();
             player.addCoin();
-            //call casandra's method to go to new room
+            //display newLoc
             //call casandras method to display loc.giveWarnings();
+            ArrayList<String> warnings = loc.giveWarnings();
+            String warn = "";
+            if(warnings.size() > 1){
+                for(int i = 0; i < warnings.size(); i++){
+                    warn = warn + " " + warnings.get(i);
+                }
+            }
+            display.showMessage(warn);
             check();
             
         }
@@ -55,24 +64,45 @@ public class GameControl{
     public void check(){
         if(loc.encounterBats()){
             int newLoc = player.getPlayerPos();
-            //call cas method to go to new room
+            //display player.getPlayerPos();
         }
         if(loc.encounterPit()){
-            //if coins are more than 0
-            //run trivia to see if won (same as triviahint)
+            if(player.getCoins() > 0){
+                if(trivia()){
+                    display.showMessage("you have avoided the pit... you are being sent to the start")
+                    //display player.getPlayerPos();
+                }
+                else{
+                    display.gameOver();
+                }
+            }
             //if won, player pos set to 0 (need meadow to make method + change encounterPit)
             //use cas method to show new room (player.getPlayerPos)
             //if trivia lost, game end (call method to display end game)
-
+            else{
+                display.gameOver();
+              
+            }
             //if coins are less than 0, end game
         }
         if(loc.encouterWumpus()){
+            if(player.getCoins() > 0){
+                if(trivia()){
+                    display.showMessage("wumpus has been wounded... wumpus moved rooms");
+                    //display player.getPlayerPosition();
+                }
+                else{
+                    display.gameOver();
+                }
+            }
             //if coins are more than 0
             //run trivia (5 times, 3 correct) and see if won
             //if won, wumpus moves rooms (need meadow to make method + change encounter wumpus)
             //use cas method to say "wumpus has been wounded... wumpus moved rooms"
             //if trivia lost, game end (call method to display end game)
-
+            else{
+                display.gameOver();
+            }
             //if coins are less than 0, end game
         }
     }
@@ -82,16 +112,14 @@ public class GameControl{
         if (player.getCoins()>0){
             int triviaCorrect = 0;
             player.loseCoin();
-
-            //start trivia for 3 questions (for loop)
-            //ask how to start trivia (?) would gui have it?
-            //if trivia question correct (ask where is trivia correct method), triviaCorrect++
-            //if triviaCorrect >= 2 -> player.addArrow();
-            //use casandras display to show player.getCoins();
-            //use casandras display to show player.getArrows();
-            //displayInventory
+            if(trivia()){
+                player.addArrow();
+                display.showMessage("your arrow inventory increased!");
+            }
+            display.displayInventory();
         }
         else{
+            display.showMessage("you dont have enough coins");
             //display "you dont have enough coins!"
         }
     }
@@ -101,13 +129,13 @@ public class GameControl{
             int triviaCorrect = 0;
             player.loseCoin();
             if(trivia()){
-                loc.giveHint();
+                String hint = loc.giveHint();
+                display.showMessage(hint);
             }
-            //if triviaCorrect >= 2 -> loc.giveHint()
-            //use casandras display to show player.getCoins()
-            //announcement
+            display.displayInventory(player);
         }
         else{
+            display.showMessage("you don't have enough coins!");
             //display you dont have enough coins
         }
     }
