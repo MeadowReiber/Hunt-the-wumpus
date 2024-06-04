@@ -9,6 +9,7 @@ public class GameControl{
     Cave cave = new Cave();
     GameLocations loc = new GameLocations(player, cave);
     GUI display = new GUI("game", this);
+    Trivia trivia = new Trivia();
     //public void displayScore(int room){
         //ask meadow which class holds the boolean for wumpus dead or alive?
         //int currentScore = player.calculateScore(shoot(room));
@@ -28,28 +29,52 @@ public class GameControl{
         }
 
         if(shot == true){
-            //call casandra's method to show it was shot
-            //shotWumpus
+            display.shootButton(player);
+            //displays shot + wumpus dead so game ends
         }
         else{
-            //call casandra's method to show not shot
-            //missedShot
+            if(player.getArrows() <= 0){
+                //displays wumpus eats player
+                //display game end
+            }
         }
     }
     public Boolean movePlayer(int roomNumber){
         if(cave.isConnected(loc.getPlayerPos(), roomNumber)){
             loc.movePlayer(roomNumber);
             int newLoc = loc.getPlayerPos();
-            for(int x = 0; x < 6; x++){
-                player.addCoin();
-            }
+            player.addCoin();
             //call casandra's method to go to new room
             //call casandras method to display loc.giveWarnings();
-            if(loc.encounterBats()){
-                
-            }
+            check();
+            
         }
         return true;
+    }
+
+    public void check(){
+        if(loc.encounterBats()){
+            newLoc = player.getPlayerPos();
+            //call cas method to go to new room
+        }
+        if(loc.encounterPit()){
+            //if coins are more than 0
+            //run trivia to see if won (same as triviahint)
+            //if won, player pos set to 0 (need meadow to make method + change encounterPit)
+            //use cas method to show new room
+            //if trivia lost, game end (call method to display end game)
+
+            //if coins are less than 0, end game
+        }
+        if(loc.encounterWumpus()){
+            //if coins are more than 0
+            //run trivia (5 times, 3 correct) and see if won
+            //if won, wumpus moves rooms (need meadow to make method + change encounter wumpus)
+            //use cas method to say "wumpus has been wounded... wumpus moved rooms"
+            //if trivia lost, game end (call method to display end game)
+
+            //if coins are less than 0, end game
+        }
     }
 
 
@@ -58,11 +83,15 @@ public class GameControl{
             int triviaCorrect = 0;
             player.loseCoin();
             //start trivia for 3 questions (for loop)
-            //if trivia question correct, triviaCorrect++
+            //ask how to start trivia (?) would gui have it?
+            //if trivia question correct (ask where is trivia correct method), triviaCorrect++
             //if triviaCorrect >= 2 -> player.addArrow();
             //use casandras display to show player.getCoins();
             //use casandras display to show player.getArrows();
             //displayInventory
+        }
+        else{
+            //display "you dont have enough coins!"
         }
     }
 
@@ -75,6 +104,9 @@ public class GameControl{
             //if triviaCorrect >= 2 -> loc.giveHint()
             //use casandras display to show player.getCoins()
             //announcement
+        }
+        else{
+            //display you dont have enough coins
         }
     }
 
