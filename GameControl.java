@@ -34,8 +34,8 @@ public class GameControl{
         }
         else{
             if(player.getArrows() <= 0){
-                //displays wumpus eats player
-                //display game end
+                display.showMessage("oh no... the wumpus eats the player");
+                display.gameOver();
             }
         }
     }
