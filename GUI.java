@@ -218,12 +218,11 @@ public class GUI extends JFrame{
         System.out.println("DISPLAYED ROOM");
     }
     public void displayRoom(){
-        HexagonalLayout hexLayout = new HexagonalLayout();
-        room.setLayout(hexLayout);   
-        for(int y = 0; y < 5; y++){
-            for(int x = 0; x < 6; x++){
-                HexagonButton hexButton = new HexagonButton)()
-            }
+        HexagonalLayout hexLayout = new HexagonalLayout(30);
+        room.setLayout(hexLayout);
+        room.setVisible(true);   
+        for(int i = 0; i < 30; i++){
+            HexagonButton hexButton = new HexagonButton("Hexagon Button", i);
         }
     }
     
@@ -288,13 +287,13 @@ public class GUI extends JFrame{
         //after the game control checks if it is correct, game control should use the announcement method to announce whether the user is correct or not and reward them with the hint or the coins or something; also the game control is the one displaying the hints by using the announcement method and passing in the string or whatever message user needs to see.
     }
     
-    public void displayActions(JPanel jp){
+    public void displayActions(){
 
         GridLayout GL = new GridLayout(4, 1);
 
-        jp.setLayout(GL);        
+        actions.setLayout(GL);        
 
-        JButton shootArrow = new JButton();
+        JButton shootArrow = new JButton("shoot");
         shootArrow.setIcon(loadIcon(this.imagePaths.get(6), 200, 200));
         shootArrow.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
@@ -303,7 +302,7 @@ public class GUI extends JFrame{
                 System.out.println("shot an arrow");
             }
         });
-        JButton buyArrows = new JButton();
+        JButton buyArrows = new JButton("buy arrows");
         buyArrows.setMargin(new Insets(0, 0, 0, 0));
         buyArrows.setIcon(loadIcon(this.imagePaths.get(7), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
@@ -313,7 +312,7 @@ public class GUI extends JFrame{
                 System.out.println("bought an arrow");
             }
         });
-        JButton buyTrivia = new JButton();
+        JButton buyHints = new JButton("buy hints");
         buyTrivia.setIcon(loadIcon(this.imagePaths.get(8), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
@@ -323,7 +322,7 @@ public class GUI extends JFrame{
             }
         });
 
-        JButton viewScore = new JButton();
+        JButton viewScore = new JButton("view scores");
         viewScore.setIcon(loadIcon(this.imagePaths.get(9), 200, 100));
         viewScore.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
@@ -333,17 +332,17 @@ public class GUI extends JFrame{
             }
         });
 
-        jp.add(shootArrow);
-        jp.add(buyArrows);
-        jp.add(buyTrivia);
-        jp.add(viewScore);
+        actions.add(shootArrow);
+        actions.add(buyArrows);
+        actions.add(buyHints);
+        actions.add(viewScore);
     }
 
-    public JPanel displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
-        jp.setLayout(new GridLayout(1,2));
+    public JPanel displayTopBar(){ //maybe change the layout of the top bar panel to grid layout or border layout
+        topBar.setLayout(new GridLayout(1,2));
         JLabel score = new JLabel("EXAMPLE SCORE: 1050");
         score.setFont(mainFont);
-        jp.add(score);
+        topBar.add(score);
         
         JButton gameOps = new JButton("GameOptions");
         gameOps.addActionListener(new ActionListener() {

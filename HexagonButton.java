@@ -12,9 +12,11 @@ import javax.swing.JButton;
 
 public class HexagonButton extends JButton {
     private Shape hexagon;
+    private int roomNumber;
 
-    public HexagonButton(String label) {
+    public HexagonButton(String label, int num) {
         super(label);
+        this.roomNumber = num;
         // Set the content area to be non-rectangular
         setContentAreaFilled(false);
         // Set focus painting to false for a cleaner look
@@ -22,6 +24,8 @@ public class HexagonButton extends JButton {
         // Set border painting to false
         setBorderPainted(false);
     }
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
