@@ -8,6 +8,8 @@
 //new stuff i found from reading the game spec
 //ask how the trivia works (how should i call to display it and how do ik if they got a correct answer)
 
+import java.util.ArrayList;
+
 public class GameControl{
     Player player = new Player();
     Cave cave = new Cave();
@@ -40,7 +42,7 @@ public class GameControl{
         }
     }
     public Boolean movePlayer(int roomNumber){
-        display.showMessage(roomNumber);
+        display.showMessage(""+roomNumber);
         if(cave.isConnected(loc.getPlayerPos(), roomNumber)){
             loc.movePlayer(roomNumber);
             int newLoc = loc.getPlayerPos();
@@ -69,7 +71,7 @@ public class GameControl{
         if(loc.encounterPit()){
             if(player.getCoins() > 0){
                 if(trivia()){
-                    display.showMessage("you have avoided the pit... you are being sent to the start")
+                    display.showMessage("you have avoided the pit... you are being sent to the start");
                     //display player.getPlayerPos();
                 }
                 else{
@@ -116,7 +118,7 @@ public class GameControl{
                 player.addArrow();
                 display.showMessage("your arrow inventory increased!");
             }
-            display.displayInventory();
+            display.displayInventory(this.player);
         }
         else{
             display.showMessage("you dont have enough coins");

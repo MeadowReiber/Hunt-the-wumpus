@@ -1,4 +1,4 @@
-import javax.swing.JButton;
+import javax.swing.*;
 
 public class Menu extends JPanel{
     private JButton quitGame;

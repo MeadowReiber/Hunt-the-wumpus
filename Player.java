@@ -6,6 +6,8 @@ public class Player {
   private int goldCoins;
 
   private int turns;
+  //TODO: Player pos is hardcoded to fix build
+  private int pos = 0;
 
   private String name;
   private Scanner scanMan = new Scanner(System.in);
@@ -22,7 +24,10 @@ public class Player {
     this.highScore = highScore;
   }
   //methods------------------------------------
-  //getters and setters + some modified setters aka just adding/subtracting one
+  //getters and setters + some modified setters aka just adding/subtracting one{
+  public int getPlayerPos(){
+    return pos;
+  }
   public int getArrows(){
     return this.arrows;
   }
