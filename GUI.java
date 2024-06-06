@@ -39,6 +39,8 @@ public class GUI extends JFrame{
     private JPanel inventory;
     private JPanel textPanel;
 
+    private GridBagConstraints gbc;
+
     private JLabel score;
     private JLabel arrows;
     private Font mainFont;
@@ -313,7 +315,7 @@ public class GUI extends JFrame{
             }
         });
         JButton buyHints = new JButton("buy hints");
-        buyTrivia.setIcon(loadIcon(this.imagePaths.get(8), 200, 200));
+        //buyTrivia.setIcon(loadIcon(this.imagePaths.get(8), 200, 200));
         buyArrows.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e){
                 //player coins decrease and display on screen on south panel named inventory
@@ -370,8 +372,8 @@ public class GUI extends JFrame{
                 add(menu, BorderLayout.CENTER);
             }
         });
-        jp.add(gameOps);
-        return jp;
+        room.add(gameOps);
+        return room;
     }
     
 
@@ -452,8 +454,8 @@ public class GUI extends JFrame{
                 updateInventory(p.getArrows());
             }
         });
-        gbc.gridx = 4;
-        gbc.gridy = 5;
+        //gbc.gridx = 4;
+        //gbc.gridy = 5;
         return shoot;
     }
    

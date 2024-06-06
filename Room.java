@@ -17,7 +17,7 @@ public class Room extends HexagonButton implements ActionListener{
 
     // constructer
     public Room(){
-        super("Button");
+        super("Button",0);
 
     }
     @Override

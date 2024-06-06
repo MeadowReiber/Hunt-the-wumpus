@@ -10,7 +10,7 @@
 
 import java.util.ArrayList;
 
-public class GameControl{
+public class GameControl extends GamePanel{
     Player player = new Player();
     Cave cave = new Cave();
     GameLocations loc = new GameLocations(player, cave);
@@ -65,7 +65,9 @@ public class GameControl{
         }
         return true;
     }
-
+    public void quitGame(){
+        
+    }
     public void check(){
         if(loc.encounterBats()){
             int newLoc = player.getPlayerPos();
