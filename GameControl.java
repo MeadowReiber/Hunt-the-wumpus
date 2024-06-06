@@ -40,7 +40,10 @@ public class GameControl{
                 display.gameOver();
             }
         }
+    }public GUI getGUI(){
+        return this.display;
     }
+
     public Boolean movePlayer(int roomNumber){
         display.showMessage(""+roomNumber);
         if(cave.isConnected(loc.getPlayerPos(), roomNumber)){
