@@ -236,7 +236,7 @@ public class GUI extends JFrame{
                 button.setIcon(loadIcon(imagePaths.get(imagecount), 300, 300));
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        gameControl.walk(x, y);
+                        //gameControl.walk(x, y);
                         ////// gameControl class add this walk method, x and y are the direction where the player is moving 
                         System.out.println("BUTTONCLICKED");
                     }

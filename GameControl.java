@@ -34,6 +34,10 @@ public class GameControl{
             //call casasndra's method
         }
     }
+    public void walk(int x, int y){
+
+    }
+    
     public Boolean moveForward(int roomNumber){
         //called by ui --> cave checks for open rooms --> return if can move
         return true;
@@ -50,7 +54,7 @@ public class GameControl{
         //called by ui --> trivia --> player to update inventory
     }
     public void displayInventory(){
-        GUI.displayInventory(player);
+        display.displayInventory(player);
         //called by ui --> player to get inventory --> ui
     }
     public void displayActions(){
