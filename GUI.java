@@ -38,9 +38,6 @@ public class GUI extends JFrame{
     private JPanel topBar;
     private JPanel inventory;
     private JPanel textPanel;
-
-    private GridBagConstraints gbc;
-
     private JLabel score;
     private JLabel arrows;
     private Font mainFont;
@@ -92,7 +89,7 @@ public class GUI extends JFrame{
         initializeFrame(title);
         displayRoom();
         add(new Room(), BorderLayout.CENTER);
-    /* 
+    
         this.room = new JPanel();
         add(room, BorderLayout.CENTER);
         displayRoom(room);
@@ -109,7 +106,7 @@ public class GUI extends JFrame{
         this.inventory = new JPanel();
         add(initializePanel(inventory), BorderLayout.SOUTH);
         displayInventory(new Player());
-    */
+    
     }
 
     public GUI(String title, GameControl gc){
@@ -125,7 +122,7 @@ public class GUI extends JFrame{
       this.textPanel = new JPanel();
       this.inventory = new JPanel();
 
-      //displayRoom();
+      displayRoom();
       add(new Room(), BorderLayout.CENTER);
       
       initializeFrame(title);
@@ -143,32 +140,12 @@ public class GUI extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
     }
-    
-    public void shotWumpus(){
-        removeAll();
-        setLayout(new GridLayout(1,1));
-        JButton won = new JButton();
-
-    }
-
-    public void missedShot(){
-
-    }
-
-
 
     public JPanel initializePanel(JPanel p){
         p.setVisible(true);
         p.setBackground(medGreen);
         return p;
     }
-
-    // public void displayStartScore(JPanel jp){
-    //     JButton start = new JButton("HUNT THE WUMPUS");
-    //     start addActionListener(new ActionListener() {
-    //         public addActionListener(new Act)
-    //     }
-    // }
 
     public void displayStartScreen(JPanel jp){
         JButton start = new JButton("HUNT THE WUMPUS CLICK TO PLAY"); //add image later
@@ -190,35 +167,6 @@ public class GUI extends JFrame{
         });
     }
 
-    public void xxxxxx(JPanel jp){
-        jp.setLayout(new GridLayout(2,3));
-        //jp.setBackground(medGreen);
-
-        ArrayList<String> imagePaths= new ArrayList<String>();
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "grassHex.png");
-        imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "caveHex.png"); //add pics of cave room and other rooms make it so that the buttons are covered and uncovered on click
-        
-        int size = 100;
-        int offsetX = 5;
-        int offsetY = 5;
-
-        for(int x = 0; x < 6; x++){
-            for(int y = 0; y < 5; y++){
-                JButton button = new JButton();
-                button.setPreferredSize(new Dimension(size, size));
-                button.addActionListener(new ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e){
-                        System.out.println("BUTON CLICKED");            }
-                });
-
-                jp.setBounds(offsetX, offsetY, size, size);
-                jp.add(button);
-                offsetY -= size/2;
-            }
-            offsetX += size;
-        }
-        System.out.println("DISPLAYED ROOM");
-    }
     public void displayRoom(){
         HexagonalLayout hexLayout = new HexagonalLayout(30);
         room.setLayout(hexLayout);
@@ -228,7 +176,7 @@ public class GUI extends JFrame{
         }
     }
     
-    public void displayRoomXXXXX(){
+    /*public void example(){
              
       GridLayout roomLayout = new GridLayout(2,3);
       int imagecount = 0;
@@ -259,20 +207,7 @@ public class GUI extends JFrame{
         room .invalidate();
         room.validate();
         room.repaint();
-        //try removing and running
-    }
-
-    /*public void typeName(Player p){
-        JTextField textField = new JTextField;
-        textField.setBounds(5, 5, 280, 50);
-        textField.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                p.setName() = textField.getText();
-            }
-        });
-        add(textField);
     }*/
-
 
     public void showMessage(String text){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
         textPanel.removeAll();
@@ -381,8 +316,8 @@ public class GUI extends JFrame{
         
         this.inventory.removeAll();
 
-        JLabel arrows = new JLabel("ARROWS: " + 3); //change later to p.getArrows() etc.
-        JLabel coins = new JLabel("COINS: " + 3);
+        JLabel arrows = new JLabel("ARROWS: " + p.getArrows());
+        JLabel coins = new JLabel("COINS: " + p.getCoins());
 
         arrows.setFont(this.mainFont);
         coins.setFont(this.mainFont);
@@ -392,76 +327,10 @@ public class GUI extends JFrame{
         System.out.println("inventory displayed");
     }
 
-    public void showStartScreen(){
-    
-    }
-
-    public void startScreen(){
-
-        JLabel htw = new JLabel("HUNT THE WUMPUS");
-        Font font = new Font("SansSerif", 5, 50);
- 
-        htw.setFont(font);
-
-        JButton start = new JButton("START");
-        start.setSize(600,100);
-        start.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                //start game
-                System.out.println("Game has started.");
-                //displayRoom();
-                //displayButtons();
-                //remove(start);
-                //remove(htw);
-                //revalidate();
-                //repaint();
-            }
-        });
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        add(htw, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        add(start, gbc);
-
-    }
-
     public int displayScore(){
-        //called by game control?
-        return 8; //not sure if it is an int or double
+        HighScorePanel highscores = new HighScorePanel();
     }
     
-    public void updateInventory(int arrows){
-        //called by game control
-        JLabel numArrows = new JLabel("Arrows: " + arrows);
-        numArrows.setFont(mainFont);
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        add(numArrows, gbc);
-    }
-    public String displayHints(){
-        return "I smell a wumpus";
-    }
-    public JButton shootButton(Player p){
-        JButton shoot = new JButton("SHOOT ARROW");
-        shoot.setSize(600,100);
-        shoot.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                //start game
-                p.shootArrow();
-                updateInventory(p.getArrows());
-            }
-        });
-        //gbc.gridx = 4;
-        //gbc.gridy = 5;
-        return shoot;
-    }
-   
-    public void gameOver(){
-        System.out.println("GAME OVER!");
-    }
     public static void main(String[] args){
         System.out.println("this is my file");
         GUI display = new GUI("game");
