@@ -14,13 +14,20 @@ public class GameControl extends GamePanel{
     Player player = new Player();
     Cave cave = new Cave();
     GameLocations loc = new GameLocations(player, cave);
-    GUI display = new GUI("game");
+    GUI display;
     //public void displayScore(int room){
         //ask meadow which class holds the boolean for wumpus dead or alive?
         //int currentScore = player.calculateScore(shoot(room));
         //return currentScore;
         //called by ui --> player to get score --> ui
     //}
+
+    public GameControl(){
+        this.display = new GUI("Diary-of-a-Wumpus-Kid", this);
+    }
+
+
+
     public void shoot(int room){
         Boolean shot;
         if(player.getArrows() > 0){

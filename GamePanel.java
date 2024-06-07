@@ -395,7 +395,7 @@ public class GamePanel extends JPanel implements KeyListener {
             return;
         }
 
-        //note: errors happened so I switched -> to ":"
+        //note: errors happened so I switched "->" to ":" which fixed the errors
         switch (key) {
             case KeyEvent.VK_UP: handleUpKey();
             case KeyEvent.VK_DOWN: movePlayerDown();
