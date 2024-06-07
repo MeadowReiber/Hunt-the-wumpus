@@ -395,12 +395,13 @@ public class GamePanel extends JPanel implements KeyListener {
             return;
         }
 
+        //note: errors happened so I switched -> to ":"
         switch (key) {
-            case KeyEvent.VK_UP -> handleUpKey();
-            case KeyEvent.VK_DOWN -> movePlayerDown();
-            case KeyEvent.VK_LEFT -> movePlayerLeft();
-            case KeyEvent.VK_RIGHT -> movePlayerRight();
-            case KeyEvent.VK_ENTER -> handleEnter();
+            case KeyEvent.VK_UP: handleUpKey();
+            case KeyEvent.VK_DOWN: movePlayerDown();
+            case KeyEvent.VK_LEFT: movePlayerLeft();
+            case KeyEvent.VK_RIGHT: movePlayerRight();
+            case KeyEvent.VK_ENTER: handleEnter();
         }
 
         if (!isCaveBackground) {
