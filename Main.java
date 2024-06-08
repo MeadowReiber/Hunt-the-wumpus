@@ -12,5 +12,6 @@ public class Main {
 
         startPanel.requestFocusInWindow();*/
         GameControl theControl = new GameControl();
+        GUI theGUI = new GUI("wumpus");
     }
 }

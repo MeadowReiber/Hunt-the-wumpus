@@ -11,22 +11,24 @@
 import java.util.ArrayList;
 
 public class GameControl extends GamePanel{
+    //FIELDS AND PROPERTIES--------------
     Player player = new Player();
     Cave cave = new Cave();
     GameLocations loc = new GameLocations(player, cave);
     GUI display;
+    
+    //CONSTRUCTOR------------------------
+    public GameControl(){
+        this.display = new GUI("Diary-of-a-Wumpus-Kid", this);
+    }
+
+    //METHODS----------------------------
     //public void displayScore(int room){
         //ask meadow which class holds the boolean for wumpus dead or alive?
         //int currentScore = player.calculateScore(shoot(room));
         //return currentScore;
         //called by ui --> player to get score --> ui
     //}
-
-    public GameControl(){
-        this.display = new GUI("Diary-of-a-Wumpus-Kid", this);
-    }
-
-
 
     public void shoot(int room){
         Boolean shot;
@@ -38,7 +40,8 @@ public class GameControl extends GamePanel{
         }
 
         if(shot == true){
-            display.shootButton(player);
+            display.shotWumpus();
+            //display.shootButton(player);
             //displays shot + wumpus dead so game ends
         }
         else{
@@ -47,28 +50,29 @@ public class GameControl extends GamePanel{
                 display.gameOver();
             }
         }
-    }public GUI getGUI(){
+    }
+    public GUI getGUI(){
         return this.display;
     }
 
     public Boolean movePlayer(int roomNumber){
-        display.showMessage(""+roomNumber);
+        display.showMessage("attempting to move to room "+roomNumber);
         if(cave.isConnected(loc.getPlayerPos(), roomNumber)){
             loc.movePlayer(roomNumber);
             int newLoc = loc.getPlayerPos();
-            player.addCoin();
             //display newLoc
             //call casandras method to display loc.giveWarnings();
             ArrayList<String> warnings = loc.giveWarnings();
             String warn = "";
-            if(warnings.size() > 1){
-                for(int i = 0; i < warnings.size(); i++){
-                    warn = warn + " " + warnings.get(i);
-                }
+            for(int i = 0; i < warnings.size(); i++){
+                warn = warn + " " + warnings.get(i);
             }
             display.showMessage(warn);
             check();
             
+        }
+        else{
+            display.showMessage("the rooms are disconnected");
         }
         return true;
     }
@@ -77,8 +81,8 @@ public class GameControl extends GamePanel{
     }
     public void check(){
         if(loc.encounterBats()){
-            int newLoc = player.getPlayerPos();
-            //display player.getPlayerPos();
+            display.showMessage("bats carry you away");
+            //update position in GUI
         }
         if(loc.encounterPit()){
             if(player.getCoins() > 0){
@@ -95,7 +99,6 @@ public class GameControl extends GamePanel{
             //if trivia lost, game end (call method to display end game)
             else{
                 display.gameOver();
-              
             }
             //if coins are less than 0, end game
         }
