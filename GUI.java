@@ -33,6 +33,7 @@ public class GUI extends JFrame{
     private JPanel startScreen;
     private JPanel room;
     private JPanel actions;
+    private JPanel roomPanel;
     private JPanel topBar;
     private JPanel inventory;
     private JPanel textPanel;
@@ -58,8 +59,16 @@ public class GUI extends JFrame{
     }
 
     //---------CONSTRUCTOR
-    
+
     public GUI(String title){
+        this.roomPanel = new JPanel();
+        roomPanel.setLayout(new HexagonalLayout(30));
+
+        initializeFrame(title);
+        roomDisplay();
+    }
+    
+    public GUI(String title, Boolean t){
 
         this.imagePaths = new ArrayList<String>();
         this.imagePaths.add(System.getProperty("user.dir") + "\\images\\" + "1.png");
@@ -128,12 +137,12 @@ public class GUI extends JFrame{
         
         this.startScreen = new JPanel();
         add(initializePanel(startScreen), BorderLayout.CENTER);
-        displayStartScreen(startScreen);
+    
         this.room.setLayout(null);
 
         this.topBar = new JPanel();
         add(initializePanel(topBar), BorderLayout.NORTH);
-        displayTopBar(topBar);
+ 
         
         
         //startScreen();
@@ -152,6 +161,13 @@ public class GUI extends JFrame{
         setVisible(true);
     }
     
+    public void roomDisplay(){
+        roomPanel.setLayout(new HexagonalLayout(30));
+        for(int i = 0; i < 30; i++){
+            roomPanel.add(new Room());
+        }
+    }
+
     public void shotWumpus(){
         removeAll();
         setLayout(new GridLayout(1,1));
@@ -168,26 +184,6 @@ public class GUI extends JFrame{
         p.setVisible(true);
         p.setBackground(medGreen);
         return p;
-    }
-
-    public void displayStartScreen(JPanel jp){
-        JButton start = new JButton("HUNT THE WUMPUS CLICK TO PLAY"); //add image later
-        start.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                //player arrows decrease and display on south panel named inventory
-                //gc.startGame(); // in the game control class start game method will first call gui displayRules(); to show the instructions.
-            }
-        });
-    }
-
-    public void displayRules(){
-        JButton rules = new JButton("RULES");
-        add(rules);
-        rules.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                remove(rules);
-            }
-        });
     }
 
     public void xxxxxx(JPanel jp){
@@ -251,18 +247,6 @@ public class GUI extends JFrame{
         jp.repaint();
         //try removing and running
     }
-
-    /*public void typeName(Player p){
-        JTextField textField = new JTextField;
-        textField.setBounds(5, 5, 280, 50);
-        textField.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                p.setName() = textField.getText();
-            }
-        });
-        add(textField);
-    }*/
-
 
     public void showMessage(String text, JPanel jp){ //if wumpus is shot, player dies, player is carried by bats or falls into a bottomless pit, etc, game control calls this method and passes in the string to display on player screen
         jp.removeAll();
@@ -329,43 +313,6 @@ public class GUI extends JFrame{
         jp.add(buyTrivia);
         jp.add(viewScore);
     }
-
-    public JPanel displayTopBar(JPanel jp){ //maybe change the layout of the top bar panel to grid layout or border layout
-        jp.setLayout(new GridLayout(1,2));
-        JLabel score = new JLabel("EXAMPLE SCORE: 1050");
-        score.setFont(mainFont);
-        jp.add(score);
-        
-        JButton gameOps = new JButton("GameOptions");
-        gameOps.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                JPanel menu = new JPanel();
-                menu.setLayout(new GridLayout(2,1));
-                
-                JButton closeMenu = new JButton("Close Menu");
-                closeMenu.addActionListener(new ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e){
-                        //player coins decrease and display on screen on south panel named inventory
-                        remove(menu);
-                    }
-                });
-                menu.add(closeMenu);
-                
-                JButton saveAndQuit = new JButton("Save and Quit");
-                saveAndQuit.addActionListener(new ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e){
-                        //quit and show high score
-                        //gc.endGame();
-                    }
-                });
-                menu.add(saveAndQuit);
-                add(menu, BorderLayout.CENTER);
-            }
-        });
-        jp.add(gameOps);
-        return jp;
-    }
-    
 
     public void displayInventory(Player p){
         
