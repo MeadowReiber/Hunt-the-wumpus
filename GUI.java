@@ -92,16 +92,16 @@ public class GUI extends JFrame{
     
         this.room = new JPanel();
         add(room, BorderLayout.CENTER);
-        displayRoom(room);
+        displayRoom();
         
         this.actions = new JPanel();
         add(initializePanel(actions), BorderLayout.EAST);
-        displayActions(actions);
+        displayActions();
         
         this.textPanel = new JPanel();
         this.textPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
         add(initializePanel(textPanel), BorderLayout.NORTH);
-        showMessage("Hint example : a wumpus is near", this.textPanel);
+        showMessage("Hint example : a wumpus is near");
         
         this.inventory = new JPanel();
         add(initializePanel(inventory), BorderLayout.SOUTH);
@@ -130,7 +130,12 @@ public class GUI extends JFrame{
     }
     
     //---------METHODS
-    
+    public void shotWumpus(){
+
+    }
+    public void gameOver(){
+
+    }
     public void initializeFrame(String t){
         setTitle(t);
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -328,7 +333,8 @@ public class GUI extends JFrame{
     }
 
     public int displayScore(){
-        HighScorePanel highscores = new HighScorePanel();
+       // HighScorePanel highscores = new HighScorePanel();
+       return 1;
     }
     
     public static void main(String[] args){
