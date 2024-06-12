@@ -6,13 +6,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import javax.imageio.ImageIO;
 
 public class GamePanel extends JPanel implements KeyListener {
     private Image backgroundImage;
     private Image caveBackgroundImage;
+    private Image bottomlessPitImage;
+    private Image batsImage;
+    private Image wumpusImage;
+    private Image endGameImage;
+    private Image batHazardImage;
+    private Image pitHazardImage;
+    private Image wumpusHazardImage;
     private BufferedImage playerFrontImage;
     private BufferedImage playerBackImage;
     private BufferedImage playerLeftImage;
@@ -21,6 +30,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private BufferedImage objectImage;
     private BufferedImage platformImage;
     private BufferedImage coinImage;
+    private BufferedImage wonGameImage;
     private int playerX;
     private int playerY;
     private int initialPlayerY;
@@ -32,7 +42,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private final int objectHeight = 50;
     private final int playerStep = 10;
     private final int backgroundStep = 20;
-    private final int verticalStep = 5; // New step size for vertical movement in cave background
+    private final int verticalStep = 5;
     private final int jumpHeight = 120;
     private List<int[]> objectPositions;
     private List<int[]> platformPositions;
@@ -45,7 +55,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private int jumpStartY;
     private int jumpSpeed = 7;
     private boolean isFalling = false;
-    private int fallSpeed = 2;
+    private int fallSpeed = 1;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
     private Timer jumpTimer;
@@ -58,11 +68,25 @@ public class GamePanel extends JPanel implements KeyListener {
     private JButton arrowButton;
     private JButton shootArrowButton;
     private JButton coinsButton;
-    private int arrowCount = 3;
+    private int arrowCount = 1;
     private int coinCount = 0;
-    private int enteredRoomNumber = -1; // Variable to store the entered room number
-    private boolean canEnterRoomInCave = false; // Variable to track if the user can enter a room in the cave
+    private int enteredRoomNumber = -1;
+    private boolean canEnterRoomInCave = false;
     private int triviaCorrectAnswers = 0;
+    private Set<Integer> bottomlessPits;
+    private Set<Integer> superBats;
+    private int wumpusRoom;
+    private boolean showPitMessage = false;
+    private boolean showBatMessage = false;
+    private boolean showWumpusMessage = false;
+    private boolean showEndGame = false;
+    private boolean batEncounter = false;
+    private JPanel imagePanel;
+    private List<Integer> enteredRoomNumbers; // List to store entered room numbers
+    private boolean isBlankScreen = false;
+    private boolean isTransitioningFromHazard = false;
+    private String hazardType = "";
+    private boolean isTriviaForArrows = false; // Flag to check if trivia is for purchasing arrows
 
     public GamePanel() {
         cave = new Cave();
@@ -75,6 +99,7 @@ public class GamePanel extends JPanel implements KeyListener {
             objectPositions = new ArrayList<>();
             platformPositions = new ArrayList<>();
             coinCounts = new ArrayList<>();
+            enteredRoomNumbers = new ArrayList<>(); // Initialize the list
 
             initializeObjectPositions();
             initializePlatforms();
@@ -83,6 +108,8 @@ public class GamePanel extends JPanel implements KeyListener {
             platformBaseY = platformPositions.get(movingPlatformIndex)[1];
 
             startPlatformTimer();
+
+            initializeHazards();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,13 +131,16 @@ public class GamePanel extends JPanel implements KeyListener {
         chatbox.setVisible(false);
         add(chatbox);
 
-        arrowButton = new JButton("Arrows: " + arrowCount);
+        arrowButton = new JButton("Shoot an Arrow: " + arrowCount);
         styleButton(arrowButton);
         arrowButton.setVisible(false);
         arrowButton.addActionListener(e -> {
             if (arrowCount > 0) {
-                arrowCount--;
-                arrowButton.setText("Arrows: " + arrowCount);
+                arrowCount--; // Decrease arrow count when shooting
+                arrowButton.setText("Shoot an Arrow: " + arrowCount);
+                showArrowInputDialog();
+            } else {
+                JOptionPane.showMessageDialog(this, "No arrows left!");
             }
             requestFocusInWindow(); // Return focus to the game panel
         });
@@ -120,16 +150,17 @@ public class GamePanel extends JPanel implements KeyListener {
         styleButton(shootArrowButton);
         shootArrowButton.setVisible(false);
         shootArrowButton.addActionListener(e -> {
-            if (arrowCount > 0 && coinCount >= 12) {
+            if (coinCount >= 12) {
                 coinCount -= 12;  // Deduct 12 coins
                 coinsButton.setText("Coins: " + coinCount);  // Update the button label
+                isTriviaForArrows = true; // Set the flag to true when purchasing arrows
                 // Open the Trivia GUI
                 SwingUtilities.invokeLater(() -> {
                     TriviaGUI triviaGUI = new TriviaGUI("trivia_questions.txt", this);
                     triviaGUI.setVisible(true);
                 });
             } else {
-                JOptionPane.showMessageDialog(this, "You need at least 12 coins to shoot an arrow!");
+                JOptionPane.showMessageDialog(this, "You need at least 12 coins to purchase arrows!");
             }
             requestFocusInWindow(); // Return focus to the game panel
         });
@@ -158,6 +189,14 @@ public class GamePanel extends JPanel implements KeyListener {
     private void loadImages() throws IOException {
         backgroundImage = ImageIO.read(new File("image1.png"));
         caveBackgroundImage = ImageIO.read(new File("cave.png"));
+        bottomlessPitImage = ImageIO.read(new File("bottomlesspit.png"));
+        batsImage = ImageIO.read(new File("bats.png"));
+        wumpusImage = ImageIO.read(new File("wumpus.png"));
+        endGameImage = ImageIO.read(new File("endgame.png"));
+        wonGameImage = ImageIO.read(new File("wongame.png"));
+        batHazardImage = ImageIO.read(new File("bat_hazard.png"));
+        pitHazardImage = ImageIO.read(new File("pit_hazard.png"));
+        wumpusHazardImage = ImageIO.read(new File("wumpus_hazard.png"));
         playerFrontImage = ImageIO.read(new File("playerfrontside.png"));
         playerBackImage = ImageIO.read(new File("playerbackside.png"));
         playerLeftImage = ImageIO.read(new File("playerleftside.png"));
@@ -232,22 +271,22 @@ public class GamePanel extends JPanel implements KeyListener {
         platformPositions.clear();
         coinCounts.clear();
 
-        platformPositions.add(new int[]{900 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200)-400)});
+        platformPositions.add(new int[]{900 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200) - 400)});
         coinCounts.add(random.nextInt(2) + 1);
 
-        platformPositions.add(new int[]{1000 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200)-400)});
+        platformPositions.add(new int[]{1000 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200) - 400)});
         coinCounts.add(random.nextInt(2) + 1);
 
-        platformPositions.add(new int[]{500 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200)-400)});
+        platformPositions.add(new int[]{500 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200) - 400)});
         coinCounts.add(random.nextInt(2) + 1);
 
-        platformPositions.add(new int[]{200 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200)-400)});
+        platformPositions.add(new int[]{200 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200) - 400)});
         coinCounts.add(random.nextInt(2) + 1);
 
-        platformPositions.add(new int[]{300 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200)-400)});
+        platformPositions.add(new int[]{300 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200) - 400)});
         coinCounts.add(random.nextInt(2) + 1);
 
-        platformPositions.add(new int[]{700 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200)-400)});
+        platformPositions.add(new int[]{700 + (int)(Math.random() * 400), platformBaseY - ((int)(Math.random() * 200) - 400)});
         coinCounts.add(random.nextInt(2) + 1);
 
         objectPositions.add(new int[]{1600, 1280});
@@ -278,9 +317,9 @@ public class GamePanel extends JPanel implements KeyListener {
             int platformWidth = 80;
             int platformHeight = 80;
             if (playerX + playerWidth > platformX &&
-                playerX < platformX + platformWidth &&
-                playerY + playerHeight >= platformY &&
-                playerY + playerHeight <= platformY + platformHeight) {
+                    playerX < platformX + platformWidth &&
+                    playerY + playerHeight >= platformY &&
+                    playerY + playerHeight <= platformY + platformHeight) {
                 return true;
             }
         }
@@ -297,7 +336,7 @@ public class GamePanel extends JPanel implements KeyListener {
                     if (playerY >= initialPlayerY) {
                         playerY = initialPlayerY;
                         isFalling = false;
-                        ((Timer)e.getSource()).stop();
+                        ((Timer) e.getSource()).stop();
                     }
                 }
                 repaint();
@@ -310,18 +349,57 @@ public class GamePanel extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         updateChatboxBounds();
-        drawBackground(g);
-        drawPlatforms(g);
-        drawObjects(g);
-        drawPlayer(g);
-        if (isCaveBackground) {
-            updateButtonPositions();
-            drawCaveObject(g);  // Draw the object in the cave background
+
+        if (isBlankScreen) {
+            if ("bat".equals(hazardType)) {
+                g.drawImage(batHazardImage, 0, 0, getWidth(), getHeight(), this);
+                if (!isTransitioningFromHazard) {
+                    isTransitioningFromHazard = true;
+                    chatbox.setVisible(true);
+                    chatbox.showMessage("Bats Ahead!");
+                }
+            } else if ("pit".equals(hazardType)) {
+                g.drawImage(pitHazardImage, 0, 0, getWidth(), getHeight(), this);
+                if (!isTransitioningFromHazard) {
+                    isTransitioningFromHazard = true;
+                    chatbox.setVisible(true);
+                    chatbox.showMessage("Bottomless Pit Ahead!");
+                }
+            } else if ("wumpus".equals(hazardType)) {
+                g.drawImage(wumpusHazardImage, 0, 0, getWidth(), getHeight(), this);
+                if (!isTransitioningFromHazard) {
+                    isTransitioningFromHazard = true;
+                    chatbox.setVisible(true);
+                    chatbox.showMessage("I smell a Wumpus!");
+                }
+            } else {
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+        } else {
+            drawBackground(g);
+            drawPlatforms(g);
+            drawObjects(g);
+            drawPlayer(g);
+            drawEnteredRoomNumbers(g); // Draw the entered room numbers on the screen
+            if (isCaveBackground) {
+                updateButtonPositions();
+                drawCaveObject(g);  // Draw the object in the cave background
+            }
         }
     }
 
     private void drawBackground(Graphics g) {
         Image bgImage = isCaveBackground ? caveBackgroundImage : backgroundImage;
+        if (showPitMessage) {
+            bgImage = bottomlessPitImage;
+        } else if (showBatMessage) {
+            bgImage = batsImage;
+        } else if (showWumpusMessage) {
+            bgImage = wumpusImage;
+        } else if (showEndGame) {
+            bgImage = endGameImage;
+        }
         int bgWidth = isCaveBackground ? caveBackgroundImage.getWidth(this) * 4 : backgroundImage.getWidth(this);
         int bgHeight = isCaveBackground ? caveBackgroundImage.getHeight(this) * 4 : backgroundImage.getHeight(this);
         g.drawImage(bgImage, -offsetX, -offsetY, bgWidth, bgHeight, this);
@@ -380,6 +458,13 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
+    private void drawEnteredRoomNumbers(Graphics g) {
+        g.setFont(new Font("Arial", Font.BOLD, 18));
+        g.setColor(Color.WHITE);
+        String roomNumbersStr = String.join(", ", enteredRoomNumbers.stream().map(String::valueOf).toArray(String[]::new));
+        g.drawString("Entered Rooms: " + roomNumbersStr, 10, 20);
+    }
+
     private void updateButtonPositions() {
         int buttonX = getWidth() - 170;
         int buttonY = 20;
@@ -395,13 +480,56 @@ public class GamePanel extends JPanel implements KeyListener {
             return;
         }
 
-        //note: errors happened so I switched "->" to ":" which fixed the errors
+        if (showPitMessage || showBatMessage || showWumpusMessage || showEndGame) {
+            if (key == KeyEvent.VK_ENTER) {
+                if (showPitMessage) {
+                    showPitMessage = false;
+                    hideChatbox();
+                    remove(imagePanel);
+                    revalidate();
+                    repaint();
+                    isTriviaForArrows = false; // Ensure the flag is false when encountering a pit
+                    openTriviaGUI();
+                } else if (showBatMessage) {
+                    showBatMessage = false;
+                    hideChatbox();
+                    remove(imagePanel);
+                    revalidate();
+                    repaint();
+                    handleBatMessage();
+                } else if (showWumpusMessage) {
+                    showWumpusMessage = false;
+                    hideChatbox();
+                    remove(imagePanel);
+                    revalidate();
+                    repaint();
+                    moveWumpus();
+                } else if (showEndGame) {
+                    System.exit(0);  // Close the game or restart
+                }
+            }
+            return;
+        }
+
+        if (isTransitioningFromHazard) {
+            if (key == KeyEvent.VK_ENTER) {
+                isTransitioningFromHazard = false;
+                isBlankScreen = false;
+                remove(imagePanel);
+                revalidate();
+                repaint();
+                chatbox.setVisible(false);  // Hide the chatbox after the transition
+                transitionToCave();
+            }
+            return;
+        }
+
         switch (key) {
-            case KeyEvent.VK_UP: handleUpKey();
-            case KeyEvent.VK_DOWN: movePlayerDown();
-            case KeyEvent.VK_LEFT: movePlayerLeft();
-            case KeyEvent.VK_RIGHT: movePlayerRight();
-            case KeyEvent.VK_ENTER: handleEnter();
+            case KeyEvent.VK_UP -> handleUpKey();
+            case KeyEvent.VK_DOWN -> movePlayerDown();
+            case KeyEvent.VK_LEFT -> movePlayerLeft();
+            case KeyEvent.VK_RIGHT -> movePlayerRight();
+            case KeyEvent.VK_ENTER -> handleEnter();
         }
 
         if (!isCaveBackground) {
@@ -495,6 +623,13 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
+    private void openTriviaGUI() {
+        SwingUtilities.invokeLater(() -> {
+            TriviaGUI triviaGUI = new TriviaGUI("trivia_questions.txt", this);
+            triviaGUI.setVisible(true);
+        });
+    }
+
     private void movePlayerDown() {
         currentPlayerImage = playerFrontImage;
         if (playerY < getHeight() / 2 - playerHeight / 2) {
@@ -553,6 +688,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 try {
                     int roomNumber = Integer.parseInt(input);
                     enteredRoomNumber = roomNumber;  // Store the entered room number
+                    enteredRoomNumbers.add(roomNumber); // Add the entered room number to the list
                     repaint();  // Repaint to show the room number on the image2.png in the cave background
                     // Get connected rooms from the cave
                     ArrayList<Integer> connectedRooms = cave.getAdjacentRooms(roomNumber);
@@ -567,16 +703,137 @@ public class GamePanel extends JPanel implements KeyListener {
                     chatbox.showMessage(message.toString());
                     canEnterRoomInCave = true; // Allow entering the room in the cave
                     isDialogShowing = false;  // Set to false after processing input
+
+                    checkForAdjacentHazards(connectedRooms); // Check for adjacent hazards
+
                 } catch (NumberFormatException e) {
                     // Handle invalid input
                     JOptionPane.showMessageDialog(this, "Please enter a valid number.");
                 }
             }
         } else if (canEnterRoomInCave) {
-            // User can enter the room in the cave
-            showBlackScreenAndReturnToCave();
+            if (bottomlessPits.contains(enteredRoomNumber)) {
+                showPitMessage = true;
+                showImage(bottomlessPitImage);
+                chatbox.setVisible(true);
+                chatbox.showMessage("You've encountered a pit. You must answer trivia questions to save yourself.");
+            } else if (superBats.contains(enteredRoomNumber)) {
+                showBatMessage = true;
+                showImage(batsImage);
+                chatbox.setVisible(true);
+                chatbox.showMessage("Bats! You move to a new room.");
+            } else if (wumpusRoom == enteredRoomNumber) {
+                showWumpusMessage = true;
+                showImage(wumpusImage);
+                chatbox.setVisible(true);
+                chatbox.showMessage("You've encountered the Wumpus!");
+            } else {
+                showBlackScreenAndReturnToCave();
+            }
             canEnterRoomInCave = false; // Reset the flag
         }
+    }
+
+    private void checkForAdjacentHazards(ArrayList<Integer> connectedRooms) {
+        for (int connectedRoom : connectedRooms) {
+            if (bottomlessPits.contains(connectedRoom)) {
+                hazardType = "pit";
+                isBlankScreen = true;
+                isTransitioningFromHazard = true;
+                repaint();
+                break;
+            } else if (superBats.contains(connectedRoom)) {
+                hazardType = "bat";
+                isBlankScreen = true;
+                isTransitioningFromHazard = true;
+                repaint();
+                break;
+            } else if (wumpusRoom == connectedRoom) {
+                hazardType = "wumpus";
+                isBlankScreen = true;
+                isTransitioningFromHazard = true;
+                repaint();
+                break;
+            }
+        }
+    }
+
+    private void showBlankScreenAndTransition() {
+        // Determine the type of hazard
+        hazardType = "";
+        ArrayList<Integer> adjacentRooms = cave.getAdjacentRooms(enteredRoomNumber);
+        for (int adjacentRoom : adjacentRooms) {
+            if (bottomlessPits.contains(adjacentRoom)) {
+                hazardType = "pit";
+                break;
+            } else if (superBats.contains(adjacentRoom)) {
+                hazardType = "bat";
+                break;
+            } else if (wumpusRoom == adjacentRoom) {
+                hazardType = "wumpus";
+                break;
+            }
+        }
+
+        isBlankScreen = true;
+        isTransitioningFromHazard = true;
+        repaint();
+    }
+
+    private void showImage(Image image) {
+        // Show the specified image
+        imagePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        imagePanel.setBounds(0, 0, getWidth(), getHeight());
+        add(imagePanel);
+        revalidate();
+        repaint();
+    }
+
+    private void transitionToCave() {
+        isCaveBackground = true;
+        objectPositions.clear();
+        initializePlatforms(); // Reinitialize platforms and coins
+        playerX = getWidth() / 2 - playerWidth / 2;
+        playerY = getHeight() / 2 - playerHeight / 2;
+        initialPlayerY = playerY;
+        offsetX = 0; // Reset offsetX to show bottom left corner
+        offsetY = caveBackgroundImage.getHeight(this) * 4 - getHeight(); // Set offsetY to bottom left corner
+        arrowButton.setVisible(true);
+        shootArrowButton.setVisible(true);
+        coinsButton.setVisible(true);
+        updateButtonPositions();
+        repaint();
+    }
+
+    public void returnFromTrivia(int correctAnswers) {
+        triviaCorrectAnswers = correctAnswers;
+        continueGameFromTrivia();
+    }
+
+    private void continueGameFromTrivia() {
+        if (isTriviaForArrows && triviaCorrectAnswers >= 2) {
+            arrowCount += 2;  // Increase arrow count by 2
+            arrowButton.setText("Shoot an Arrow: " + arrowCount);  // Update the button text
+        }
+
+        if (triviaCorrectAnswers < 2 && !isTriviaForArrows) {
+            showEndGame = true;
+            showImage(endGameImage);
+            chatbox.setVisible(true);
+            chatbox.showMessage("Game over. Press Enter to exit.");
+        } else {
+            showBlackScreenAndReturnToCave();
+        }
+
+        isTriviaForArrows = false; // Reset the flag after processing
+        requestFocusInWindow(); // Return focus to the game panel
+        repaint();
     }
 
     private void showBlackScreenAndReturnToCave() {
@@ -587,7 +844,7 @@ public class GamePanel extends JPanel implements KeyListener {
         add(blackScreen);
         revalidate();
         repaint();
-        
+
         Timer timer = new Timer(1000, e -> {
             remove(blackScreen);
             revalidate();
@@ -608,12 +865,67 @@ public class GamePanel extends JPanel implements KeyListener {
         initialPlayerY = playerY;
         offsetX = 0; // Reset offsetX to show bottom left corner
         offsetY = caveBackgroundImage.getHeight(this) * 4 - getHeight(); // Set offsetY to bottom left corner
-        hideChatbox();
         arrowButton.setVisible(true);
         shootArrowButton.setVisible(true);
         coinsButton.setVisible(true);
         updateButtonPositions();
         repaint();
+        if (batEncounter) {
+            showConnectedRoomsDialog(); // Show the connected rooms dialog after bats encounter
+            batEncounter = false; // Reset batEncounter flag
+        }
+    }
+
+    private void handleBatMessage() {
+        // Change the room number on the object image to a random one
+        int newRoomNumber = new Random().nextInt(30) + 1;
+        while (newRoomNumber == enteredRoomNumber) {
+            newRoomNumber = new Random().nextInt(30) + 1;
+        }
+
+        // Add both the current room number and the new room number to the list
+        enteredRoomNumbers.add(enteredRoomNumber);
+        enteredRoomNumbers.add(newRoomNumber);
+
+        enteredRoomNumber = newRoomNumber;
+
+        // Also change the bats room number to another random one
+        int newBatsRoomNumber = new Random().nextInt(30) + 1;
+        while (newBatsRoomNumber == enteredRoomNumber || superBats.contains(newBatsRoomNumber)) {
+            newBatsRoomNumber = new Random().nextInt(30) + 1;
+        }
+        superBats.remove(enteredRoomNumber); // Remove the previous bats room number
+        superBats.add(newBatsRoomNumber); // Add the new bats room number
+
+        batEncounter = true; // Set the batEncounter flag
+        showBlackScreenAndReturnToCave();
+    }
+
+    private void showConnectedRoomsDialog() {
+        ArrayList<Integer> adjacentRooms = cave.getAdjacentRooms(enteredRoomNumber);
+        StringBuilder message = new StringBuilder("This room number is connected to room numbers ");
+        for (int i = 0; i < adjacentRooms.size(); i++) {
+            message.append(adjacentRooms.get(i));
+            if (i < adjacentRooms.size() - 1) {
+                message.append(", ");
+            }
+        }
+        message.append(".");
+        chatbox.setVisible(true);
+        chatbox.showMessage(message.toString());
+    }
+
+    private void moveWumpus() {
+        int playerRoom = enteredRoomNumber;
+        Random random = new Random();
+        int newWumpusRoom;
+        do {
+            int roomsToMove = random.nextInt(3) + 2;
+            newWumpusRoom = playerRoom + (random.nextBoolean() ? roomsToMove : -roomsToMove);
+        } while (newWumpusRoom <= 0 || newWumpusRoom > 30 || newWumpusRoom == playerRoom);
+
+        wumpusRoom = newWumpusRoom;
+        showBlackScreenAndReturnToCave();
     }
 
     @Override
@@ -666,7 +978,9 @@ public class GamePanel extends JPanel implements KeyListener {
                 foundNearbyObject = true;
                 if (nearbyObjectIndex != i) {
                     nearbyObjectIndex = i;
-                    showCaveDialog();
+                    if (!batEncounter) {
+                        showCaveDialog();
+                    }
                 }
                 break;
             }
@@ -685,7 +999,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 int coinX = pos[0] + 40 * j - offsetX;
                 int coinY = pos[1] - 40 - offsetY;
                 if (playerX + playerWidth > coinX && playerX < coinX + 40 &&
-                    playerY + playerHeight > coinY && playerY < coinY + 40) {
+                        playerY + playerHeight > coinY && playerY < coinY + 40) {
                     coinCounts.set(i, coinCounts.get(i) - 1);
                     coinCount++;  // Increase the coin count when a coin is collected
                     coinsButton.setText("Coins: " + coinCount);  // Update the button label
@@ -718,6 +1032,8 @@ public class GamePanel extends JPanel implements KeyListener {
     private void hideChatbox() {
         chatbox.setVisible(false);
         isDialogShowing = false;
+        revalidate();
+        repaint();
     }
 
     private boolean checkPlatformCollision() {
@@ -728,9 +1044,9 @@ public class GamePanel extends JPanel implements KeyListener {
             int platformWidth = 80;
             int platformHeight = 80;
             if (playerX + playerWidth > platformX &&
-                playerX < platformX + platformWidth &&
-                playerY + playerHeight >= platformY &&
-                playerY + playerHeight <= platformY + platformHeight) {
+                    playerX < platformX + platformWidth &&
+                    playerY + playerHeight >= platformY &&
+                    playerY + playerHeight <= platformY + platformHeight) {
                 if (playerX + playerWidth > platformX && playerX < platformX + platformWidth / 2) {
                     playerY = platformY - playerHeight;
                     onPlatform = true;
@@ -761,22 +1077,43 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
-    public void returnFromTrivia(int correctAnswers) {
-        triviaCorrectAnswers = correctAnswers;
-        continueGameFromTrivia();
+    private void initializeHazards() {
+        Random random = new Random();
+        bottomlessPits = new HashSet<>();
+        superBats = new HashSet<>();
+
+        while (bottomlessPits.size() < 2) {
+            int pitRoom = random.nextInt(30) + 1;
+            bottomlessPits.add(pitRoom);
+        }
+
+        while (superBats.size() < 2) {
+            int batRoom = random.nextInt(30) + 1;
+            if (!bottomlessPits.contains(batRoom)) {
+                superBats.add(batRoom);
+            }
+        }
+
+        wumpusRoom = random.nextInt(30) + 1;
     }
 
-    private void continueGameFromTrivia() {
-        if (triviaCorrectAnswers >= 2) {
-            arrowCount += 2;  // Increase arrow count by 2
+    private void showArrowInputDialog() {
+        String input = JOptionPane.showInputDialog(this, "Choose which Room to shoot an Arrow into:");
+        if (input != null && !input.isEmpty()) {
+            try {
+                int roomNumber = Integer.parseInt(input);
+                if (roomNumber == wumpusRoom) {
+                    showEndGame = true;
+                    showImage(wonGameImage);
+                    chatbox.setVisible(true);
+                    chatbox.showMessage("You hit the Wumpus! You won! Press Enter to exit.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "The Wumpus isn't in that room.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid room number.");
+            }
         }
-        arrowButton.setText("Arrows: " + arrowCount);  // Update the button text
-        arrowButton.setVisible(true);
-        shootArrowButton.setVisible(true);
-        coinsButton.setVisible(true);
-        updateButtonPositions();
-        requestFocusInWindow(); // Return focus to the game panel
-        repaint();
     }
 }
 
