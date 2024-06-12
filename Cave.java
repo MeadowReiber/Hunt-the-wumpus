@@ -9,7 +9,7 @@ public class Cave {
 
     public Cave() {
         roomConnections = new HashMap<>();
-      
+
         // This initializes connections for all 30 rooms with empty sets
         for (int i = 1; i <= 30; i++) {
             roomConnections.put(i, new ArrayList<>());
@@ -40,16 +40,7 @@ public class Cave {
         }
     }
 
-    public boolean isConnected(int roomA, int roomB) {
-        if (roomConnections.containsKey(roomA)) {
-            return roomConnections.get(roomA).contains(roomB);
-        }
-        return false;
-    }
-
-
     public ArrayList<Integer> getAdjacentRooms(int room) {
         return roomConnections.getOrDefault(room, new ArrayList<>());
     }
 }
-
